@@ -1,39 +1,29 @@
 //
-// Created by arno on 10/25/23.
+// Created by arno on 2/12/23.
 //
 
 #ifndef PC_WINKLE_INVOICE_H
 #define PC_WINKLE_INVOICE_H
 #include <vector>
-#include <memory>
+#include "Components/ComponentBase.h"
 #include "Customer.h"
-#include "Component.h"
 
 class Invoice {
 public:
-    using ComponentList = std::vector<std::shared_ptr<Component>>;
+    Invoice(unsigned int invoiceID, Customer* customer, const std::vector<ComponentBase*>& components);
 
-    Invoice();
+    [[nodiscard]] inline unsigned int getInvoiceID() const { return my_invoiceID; }
+    [[nodiscard]] inline const Customer* getCustomer() const { return my_customer; }
+    [[nodiscard]] inline const std::vector<ComponentBase*>& getComponents() const { return my_components; }
 
-    [[nodiscard]] inline int getInvoiceID() const {return my_invoiceID;}
-    inline void setInvoiceID(int invoiceID) {my_invoiceID = invoiceID;}
-
-    [[nodiscard]] inline Customer& getCustomerD() const {return my_customer;}
-    inline void setCustomer(Customer& customer) {my_customer = customer;}
-
-    [[nodiscard]] inline Customer& getComponents() const {return my_customer;}
-    void addComponent(Component component);
-
-    [[nodiscard]] inline float getTotalPrice() const {return totalPrice;}
+    inline void setInvoiceID(unsigned int invoiceID) { my_invoiceID = invoiceID; }
+    inline void setCustomer(Customer* customer) { my_customer = customer; }
+    inline void setComponents(const std::vector<ComponentBase*>& components) { my_components = components; }
 
 private:
-    void calculateTotalPrice();
-
-    int my_invoiceID;
-    Customer& my_customer;
-    ComponentList components;
-    float totalPrice;
+    unsigned int my_invoiceID;
+    Customer* my_customer;
+    std::vector<ComponentBase*> my_components;
 };
-
 
 #endif //PC_WINKLE_INVOICE_H
