@@ -11,3 +11,7 @@ Storage::Storage(std::string manufacturer, std::string name, float price, unsign
                  my_speed(speed), my_size(size), my_slot(std::move(slot)) {
 
 }
+
+std::shared_ptr<Storage> Storage::Create(unsigned int componentID) {
+    return std::shared_ptr<Storage>();
+}

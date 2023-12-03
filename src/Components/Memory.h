@@ -5,6 +5,7 @@
 #ifndef PC_WINKLE_MEMORY_H
 #define PC_WINKLE_MEMORY_H
 #include "ComponentBase.h"
+#include <memory>
 
 class Memory : public ComponentBase {
 public:
@@ -23,6 +24,9 @@ public:
 
     inline void setSize(unsigned int size) { this->my_size = size; }
     inline void setClockSpeed(float clockSpeed) { this->my_clockSpeed = clockSpeed; }
+
+    static std::shared_ptr<Memory> Create(unsigned int componentID);
+
 private:
     unsigned int my_size;
     float my_clockSpeed;

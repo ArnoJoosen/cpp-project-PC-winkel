@@ -6,6 +6,7 @@
 #define PC_WINKLE_STORAGE_H
 #include <string>
 #include <utility>
+#include <memory>
 #include "ComponentBase.h"
 
 class Storage : public ComponentBase {
@@ -30,6 +31,7 @@ public:
     inline void setSize(unsigned int size) { my_size = size; }
     inline void setSlot(std::string slot) { my_slot = std::move(slot); }
 
+    static std::shared_ptr<Storage> Create(unsigned int componentID);
 private:
     float my_speed;
     unsigned int my_size;

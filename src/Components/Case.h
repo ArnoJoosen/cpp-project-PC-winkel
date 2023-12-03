@@ -7,6 +7,7 @@
 #include <string>
 #include <utility>
 #include "ComponentBase.h"
+#include <memory>
 
 class Case : public ComponentBase {
 public:
@@ -29,6 +30,10 @@ public:
     inline void set_color(std::string color) { my_color = std::move(color); }
     inline void set_MotherboardSize(std::string size) { MotherboardSize = std::move(size); }
     inline void set_material(std::string material) { my_material = std::move(material); }
+
+    void print() const final;
+
+    static std::shared_ptr<Case> Create(unsigned int componentID);
 
 private:
     std::string my_color;

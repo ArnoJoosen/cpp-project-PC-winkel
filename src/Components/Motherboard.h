@@ -5,6 +5,7 @@
 #ifndef PC_WINKLE_MOTHERBOARD_H
 #define PC_WINKLE_MOTHERBOARD_H
 #include <string>
+#include <memory>
 #include "ComponentBase.h"
 
 class Motherboard : public ComponentBase {
@@ -27,6 +28,8 @@ public:
     inline void setSocket(std::string socket) { this->my_socket = std::move(socket); }
     inline void setFormFactor(std::string formFactor) { this->my_formFactor = std::move(formFactor); }
     inline void setMaxMemorySlots(unsigned int maxMemorySlots) { this->my_maxMemorySlots = maxMemorySlots; }
+
+    static std::shared_ptr<Motherboard> Create(unsigned int componentID);
 
 private:
     std::string my_socket;

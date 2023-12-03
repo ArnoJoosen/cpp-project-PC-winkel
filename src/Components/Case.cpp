@@ -11,3 +11,11 @@ Case::Case(std::string manufacturer, std::string name, float price, unsigned int
                                    MotherboardSize(std::move(MotherboardSize)), my_material(std::move(material)) {
 
 }
+
+void Case::print() const {
+    ComponentBase::print();
+}
+
+std::shared_ptr<Case> Case::Create(unsigned int componentID) {
+    return std::shared_ptr<Case>();
+}

@@ -11,3 +11,7 @@ PowerSupply::PowerSupply(std::string manufacturer, std::string name, float price
                                                       my_power(power), my_certification(std::move(certification)) {
 
 }
+
+std::shared_ptr<PowerSupply> PowerSupply::Create(unsigned int componentID) {
+    return std::shared_ptr<PowerSupply>();
+}

@@ -12,3 +12,7 @@ GPU::GPU(std::string manufacturer, std::string name, float price, unsigned int s
          my_power(power), my_busSpeed(busSpeed) {
 
 }
+
+std::shared_ptr<GPU> GPU::Create(unsigned int componentID) {
+    return std::shared_ptr<GPU>();
+}

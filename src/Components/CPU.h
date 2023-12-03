@@ -5,6 +5,7 @@
 #ifndef PC_WINKLE_CPU_H
 #define PC_WINKLE_CPU_H
 #include <string>
+#include <memory>
 #include "ComponentBase.h"
 
 class CPU : public ComponentBase {
@@ -27,6 +28,8 @@ public:
     inline void setClockSpeed(float clockSpeed) { this->my_clockSpeed = clockSpeed; }
     inline void setCoreCount(int coreCount) { this->my_coreCount = coreCount; }
     inline void setSocket(std::string socket) { this->my_socket = std::move(socket); }
+
+    static std::shared_ptr<CPU> Create(unsigned int componentID);
 
 private:
     float my_clockSpeed;

@@ -10,3 +10,7 @@ CPU::CPU(std::string manufacturer, std::string name, float price, unsigned int s
         my_clockSpeed(clockSpeed), my_coreCount(coreCount), my_socket(std::move(socket)){
 
 }
+
+std::shared_ptr<CPU> CPU::Create(unsigned int componentID) {
+    return std::shared_ptr<CPU>();
+}

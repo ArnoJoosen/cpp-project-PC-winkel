@@ -5,6 +5,7 @@
 #ifndef PC_WINKLE_COMPANY_H
 #define PC_WINKLE_COMPANY_H
 #include "Customer.h"
+#include <memory>
 
 class Company : public Customer {
 public:
@@ -18,6 +19,8 @@ public:
     inline void setVat(float vat) { my_vat = vat; }
     inline void setDiscount(float discount) { my_discount = discount; }
     inline void setYearlyBuy(unsigned int yearlyBuy) { my_yearlyBuy = yearlyBuy; }
+
+    static std::shared_ptr<Company> create(unsigned int customerID);
 
 private:
     float my_vat;

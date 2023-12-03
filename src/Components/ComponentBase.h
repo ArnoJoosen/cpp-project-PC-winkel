@@ -6,23 +6,10 @@
 #define PC_WINKLE_COMPONENTBASE_H
 #include <string>
 #include <utility>
-
-enum class ComponentType_t {
-    CPU = 1,
-    GPU = 2,
-    MOTHERBOARD = 3,
-    RAM = 4,
-    STORAGE = 5,
-    PSU = 6,
-    CASE = 7,
-    UNKNOWN = 0
-};
-
-enum class ComputerType_t {
-    DESKTOP = 1,
-    LAPTOP = 2,
-    UNKNOWN = 0
-};
+#include "ComponentProperties.h"
+#include "CapString.hpp"
+#define MAX_MANUFACTURER_LENGTH 30
+#define MAX_NAME_LENGTH 30
 
 class ComponentBase {
 public:
@@ -34,25 +21,27 @@ public:
                   ComputerType_t computerType,
                   unsigned int componentID);
 
-    [[nodiscard]] inline std::string getManufacturer() const { return my_manufacturer; }
-    [[nodiscard]] inline std::string getName() const { return my_name; }
+    [[nodiscard]] inline CapString<MAX_MANUFACTURER_LENGTH> getManufacturer() const { return my_manufacturer; }
+    [[nodiscard]] inline CapString<MAX_MANUFACTURER_LENGTH> getName() const { return my_name; }
     [[nodiscard]] inline float getPrice() const { return my_price; }
     [[nodiscard]] inline unsigned int getStock() const { return my_stock; }
     [[nodiscard]] inline ComponentType_t getType() const { return my_type; }
     [[nodiscard]] inline ComputerType_t getComputerType() const { return my_computerType; }
     [[nodiscard]] inline unsigned int getComponentID() const { return my_componentID; }
 
-    inline void setManufacturer(std::string manufacturer) { my_manufacturer = std::move(manufacturer); }
-    inline void setName(std::string name) { my_name = std::move(name); }
+    inline void setManufacturer(const std::string& manufacturer) { my_manufacturer = manufacturer; }
+    inline void setName(const std::string& name) { my_name = name; }
     inline void setPrice(float price) { my_price = price; }
     inline void setStock(unsigned int stock) { my_stock = stock; }
     inline void setType(ComponentType_t type) { my_type = type; }
     inline void setComputerType(ComputerType_t computerType) { my_computerType = computerType; }
     inline void setComponentID(unsigned int componentID) { my_componentID = componentID; }
 
-private:
-    std::string my_manufacturer;
-    std::string my_name;
+    virtual void print() const;
+
+protected:
+    CapString<MAX_MANUFACTURER_LENGTH> my_manufacturer;
+    CapString<MAX_NAME_LENGTH> my_name;
     float my_price;
     unsigned int my_stock;
     ComponentType_t my_type;

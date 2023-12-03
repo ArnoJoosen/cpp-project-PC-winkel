@@ -5,6 +5,7 @@
 #ifndef PC_WINKLE_GPU_H
 #define PC_WINKLE_GPU_H
 #include "ComponentBase.h"
+#include <memory>
 
 class GPU : public ComponentBase {
 public:
@@ -23,6 +24,8 @@ public:
 
     inline void setPower(float power) { my_power = power; }
     inline void setBusSpeed(float busSpeed) { my_busSpeed = busSpeed; }
+
+    static std::shared_ptr<GPU> Create(unsigned int componentID);
 
 private:
     float my_power;

@@ -10,3 +10,7 @@ Memory::Memory(std::string manufacturer, std::string name, float price, unsigned
                my_size(size), my_clockSpeed(clockSpeed) {
 
 }
+
+std::shared_ptr<Memory> Memory::Create(unsigned int componentID) {
+    return std::shared_ptr<Memory>();
+}

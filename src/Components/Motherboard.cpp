@@ -11,3 +11,7 @@ Motherboard::Motherboard(std::string manufacturer, std::string name, float price
                          my_socket(std::move(socket)), my_formFactor(std::move(formFactor)), my_maxMemorySlots(maxMemorySlots){
 
 }
+
+std::shared_ptr<Motherboard> Motherboard::Create(unsigned int componentID) {
+    return std::shared_ptr<Motherboard>();
+}
