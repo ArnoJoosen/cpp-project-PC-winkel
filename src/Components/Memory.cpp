@@ -14,3 +14,11 @@ Memory::Memory(std::string manufacturer, std::string name, float price, unsigned
 std::shared_ptr<Memory> Memory::Create(unsigned int componentID) {
     return std::shared_ptr<Memory>();
 }
+
+void Memory::print() const {
+    ComponentBase::print();
+}
+
+void Memory::update() {
+    ComponentBase::update();
+}

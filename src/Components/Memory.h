@@ -25,6 +25,9 @@ public:
     inline void setSize(unsigned int size) { this->my_size = size; }
     inline void setClockSpeed(float clockSpeed) { this->my_clockSpeed = clockSpeed; }
 
+    void print() const final;
+    void update() final;
+
     static std::shared_ptr<Memory> Create(unsigned int componentID);
 
 private:

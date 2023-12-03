@@ -29,6 +29,9 @@ public:
     inline void setFormFactor(std::string formFactor) { this->my_formFactor = std::move(formFactor); }
     inline void setMaxMemorySlots(unsigned int maxMemorySlots) { this->my_maxMemorySlots = maxMemorySlots; }
 
+    void print() const final;
+    void update() final;
+
     static std::shared_ptr<Motherboard> Create(unsigned int componentID);
 
 private:

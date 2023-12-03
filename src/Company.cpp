@@ -12,6 +12,16 @@ Company::Company(Name_t name, Address_t address, unsigned int customerID, float 
 
 }
 
+void Company::print() const {
+    Customer::print();
+}
+
+void Company::update() {
+    Customer::update();
+    std::cout << "Enter vat and discount: ";
+    std::cin >> my_vat >> my_discount;
+}
+
 std::shared_ptr<Company> Company::create(unsigned int customerID) {
     Name_t name;
     Address_t address;

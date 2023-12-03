@@ -3,10 +3,11 @@
 //
 
 #include "Case.h"
+#include <iostream>
 
-Case::Case(std::string manufacturer, std::string name, float price, unsigned int stock, ComponentType_t type,
-           ComputerType_t computerType, unsigned int componentID, std::string color, std::string MotherboardSize,
-           std::string material) : ComponentBase(std::move(manufacturer), std::move(name), price, stock, type,
+Case::Case(std::string manufacturer, std::string name, float price, unsigned int stock, ComputerType_t computerType,
+           unsigned int componentID, std::string color, std::string MotherboardSize,
+           std::string material) : ComponentBase(std::move(manufacturer), std::move(name), price, stock, ComponentType_t::CASE,
                                                  computerType, componentID), my_color(std::move(color)),
                                    MotherboardSize(std::move(MotherboardSize)), my_material(std::move(material)) {
 
@@ -16,6 +17,35 @@ void Case::print() const {
     ComponentBase::print();
 }
 
+void Case::update() {
+    ComponentBase::update();
+}
+
 std::shared_ptr<Case> Case::Create(unsigned int componentID) {
-    return std::shared_ptr<Case>();
+    std::string manufacturer;
+    std::string name;
+    float price;
+    unsigned int stock;
+    ComputerType_t type;
+    std::string color;
+    std::string MotherboardSize;
+    std::string material;
+
+    std::cout << "Enter manufacturer: ";
+    std::cin >> manufacturer;
+    std::cout << "Enter name: ";
+    std::cin >> name;
+    std::cout << "Enter price: ";
+    std::cin >> price;
+    std::cout << "Enter stock: ";
+    std::cin >> stock;
+    std::cout << "Enter color: ";
+    std::cin >> color;
+    std::cout << "Enter MotherboardSize: ";
+    std::cin >> MotherboardSize;
+    std::cout << "Enter material: ";
+    std::cin >> material;
+    type = selectComputerType();
+
+    return std::make_shared<Case>(manufacturer, name, price, stock, type, componentID, color, MotherboardSize, material);
 }

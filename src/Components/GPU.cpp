@@ -16,3 +16,11 @@ GPU::GPU(std::string manufacturer, std::string name, float price, unsigned int s
 std::shared_ptr<GPU> GPU::Create(unsigned int componentID) {
     return std::shared_ptr<GPU>();
 }
+
+void GPU::print() const {
+    ComponentBase::print();
+}
+
+void GPU::update() {
+    ComponentBase::update();
+}

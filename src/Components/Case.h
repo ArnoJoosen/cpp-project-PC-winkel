@@ -16,7 +16,6 @@ public:
          std::string name,
          float price,
          unsigned int stock,
-         ComponentType_t type,
          ComputerType_t computerType,
          unsigned int componentID,
          std::string color,
@@ -32,6 +31,7 @@ public:
     inline void set_material(std::string material) { my_material = std::move(material); }
 
     void print() const final;
+    void update() final;
 
     static std::shared_ptr<Case> Create(unsigned int componentID);
 

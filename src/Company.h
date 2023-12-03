@@ -20,6 +20,9 @@ public:
     inline void setDiscount(float discount) { my_discount = discount; }
     inline void setYearlyBuy(unsigned int yearlyBuy) { my_yearlyBuy = yearlyBuy; }
 
+    void print() const final;
+    void update() final;
+
     static std::shared_ptr<Company> create(unsigned int customerID);
 
 private:

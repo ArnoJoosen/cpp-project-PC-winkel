@@ -31,6 +31,9 @@ public:
     inline void setSize(unsigned int size) { my_size = size; }
     inline void setSlot(std::string slot) { my_slot = std::move(slot); }
 
+    void print() const final;
+    void update() final;
+
     static std::shared_ptr<Storage> Create(unsigned int componentID);
 private:
     float my_speed;

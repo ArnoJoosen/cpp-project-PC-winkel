@@ -25,6 +25,9 @@ public:
     inline void setPower(float power) { my_power = power; }
     inline void setBusSpeed(float busSpeed) { my_busSpeed = busSpeed; }
 
+    void print() const final;
+    void update() final;
+
     static std::shared_ptr<GPU> Create(unsigned int componentID);
 
 private:

@@ -54,13 +54,7 @@ void ComputerShop::createCustomer() {
 }
 
 void ComputerShop::createComponent() {
-    ComponentType_t choice = ComponentType_t::UNKNOWN;
-    do {
-        std::cout << "Choose component type: \n\t1. Case\n\t2. CPU\n\t3. GPU\n\t4. HDD\n\t5. Motherboard\n\t6. PSU\n\t7. RAM\n";
-        int input;
-        std::cin >> input;
-        choice = static_cast<ComponentType_t>(input);
-    } while (!(choice >= ComponentType_t::CPU && choice <= ComponentType_t::CASE));
+    ComponentType_t choice = selectComponentType();
 
     switch (choice) {
         case ComponentType_t::CASE:
@@ -97,10 +91,10 @@ std::shared_ptr<ComponentBase> ComputerShop::searchComponent() {
     return nullptr;
 }
 
-void ComputerShop::updateCustomer(unsigned int customerID) {
-    // TODO update customer from console input
+void ComputerShop::removeCustomer() {
+    // TODO remove customer from console input
 }
 
-void ComputerShop::updateComponent(unsigned int componentID) {
-    // TODO update component from console input
+void ComputerShop::removeComponent() {
+    // TODO remove component from console input
 }

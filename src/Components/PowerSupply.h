@@ -27,6 +27,9 @@ public:
     inline void set_power(float power) { my_power = power; }
     inline void set_certification(std::string certification) { my_certification = std::move(certification); }
 
+    void print() const final;
+    void update() final;
+
     static std::shared_ptr<PowerSupply> Create(unsigned int componentID);
 
 private:

@@ -27,16 +27,14 @@ public:
 
     void addComponent(const std::shared_ptr<ComponentBase>& component);
     void addCustomer(const std::shared_ptr<Customer>& customer);
-    void removeComponent(unsigned int componentID);
-    void removeCustomer(unsigned int customerID);
 
     // console input
     void createCustomer();
     void createComponent();
     std::shared_ptr<Customer> searchCustomer();
     std::shared_ptr<ComponentBase> searchComponent();
-    void updateCustomer(unsigned int customerID);
-    void updateComponent(unsigned int componentID);
+    void removeCustomer();
+    void removeComponent();
 
 private:
     CapString<MAX_SHOP_NAME_LENGTH> my_name;

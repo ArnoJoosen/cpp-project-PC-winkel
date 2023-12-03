@@ -38,6 +38,7 @@ public:
     inline void setComponentID(unsigned int componentID) { my_componentID = componentID; }
 
     virtual void print() const;
+    virtual void update();
 
 protected:
     CapString<MAX_MANUFACTURER_LENGTH> my_manufacturer;

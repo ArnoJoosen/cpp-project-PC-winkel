@@ -14,3 +14,11 @@ CPU::CPU(std::string manufacturer, std::string name, float price, unsigned int s
 std::shared_ptr<CPU> CPU::Create(unsigned int componentID) {
     return std::shared_ptr<CPU>();
 }
+
+void CPU::print() const {
+    ComponentBase::print();
+}
+
+void CPU::update() {
+    ComponentBase::update();
+}

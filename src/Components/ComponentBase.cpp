@@ -13,3 +13,7 @@ ComponentBase::ComponentBase(std::string manufacturer, std::string name, float p
 void ComponentBase::print() const {
     // TODO implement
 }
+
+void ComponentBase::update() {
+    // TODO implement
+}

@@ -29,6 +29,9 @@ public:
     inline void setCoreCount(int coreCount) { this->my_coreCount = coreCount; }
     inline void setSocket(std::string socket) { this->my_socket = std::move(socket); }
 
+    void print() const final;
+    void update() final;
+
     static std::shared_ptr<CPU> Create(unsigned int componentID);
 
 private:

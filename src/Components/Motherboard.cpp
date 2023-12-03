@@ -15,3 +15,11 @@ Motherboard::Motherboard(std::string manufacturer, std::string name, float price
 std::shared_ptr<Motherboard> Motherboard::Create(unsigned int componentID) {
     return std::shared_ptr<Motherboard>();
 }
+
+void Motherboard::print() const {
+    ComponentBase::print();
+}
+
+void Motherboard::update() {
+    ComponentBase::update();
+}

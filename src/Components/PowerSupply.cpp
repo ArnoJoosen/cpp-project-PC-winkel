@@ -15,3 +15,11 @@ PowerSupply::PowerSupply(std::string manufacturer, std::string name, float price
 std::shared_ptr<PowerSupply> PowerSupply::Create(unsigned int componentID) {
     return std::shared_ptr<PowerSupply>();
 }
+
+void PowerSupply::print() const {
+    ComponentBase::print();
+}
+
+void PowerSupply::update() {
+    ComponentBase::update();
+}

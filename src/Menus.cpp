@@ -68,24 +68,24 @@ Action_t chooseAction(AccessLevel_t accessLevel) {
                 return Action_t::RemoveComponent;
             else {
                 std::cout << "Invalid action" << std::endl;
-                return chooseAction(accessLevel);
+                return chooseAction(accessLevel); // risk for stack overflow
             }
         case 8:
             if(accessLevel == AccessLevel_t::Owner)
                 return Action_t::UpdateComponent;
             else {
                 std::cout << "Invalid action" << std::endl;
-                return chooseAction(accessLevel);
+                return chooseAction(accessLevel); // risk for stack overflow
             }
         case 9:
             if(accessLevel == AccessLevel_t::Owner)
                 return Action_t::Exit;
             else {
                 std::cout << "Invalid action" << std::endl;
-                return chooseAction(accessLevel);
+                return chooseAction(accessLevel); // risk for stack overflow
             }
         default:
             std::cout << "Invalid action" << std::endl;
-            return chooseAction(accessLevel);
+            return chooseAction(accessLevel); // risk for stack overflow
     }
 }

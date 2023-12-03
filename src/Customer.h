@@ -22,6 +22,9 @@ public:
     inline void setCustomerID(unsigned int customerID) { my_customerID = customerID; }
     inline void setType(CustomerType_t type) { my_type = type; }
 
+    virtual void print() const;
+    virtual void update();
+
     static std::shared_ptr<Customer> create(unsigned int customerID);
 
 protected:

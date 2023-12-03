@@ -7,12 +7,7 @@ file(GLOB_RECURSE SRC
         src/*.cpp
 )
 
-add_executable(PC_Winkle ${SRC}
-        src/ComponentView.cpp
-        src/Components/ComponentProperties.h
-        src/CustomerView.cpp
-        src/CustomerView.h
-        src/CustomerProperties.h)
+add_executable(PC_Winkle ${SRC})
 target_include_directories(PC_Winkle PRIVATE src)
 
 # test

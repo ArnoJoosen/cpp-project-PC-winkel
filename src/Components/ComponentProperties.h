@@ -13,13 +13,17 @@ enum class ComponentType_t {
     STORAGE = 5,
     PSU = 6,
     CASE = 7,
-    UNKNOWN = 0
+    UNKNOWN = 0,
 };
+
+ComponentType_t selectComponentType();
 
 enum class ComputerType_t {
     DESKTOP = 1,
     LAPTOP = 2,
     UNKNOWN = 0
 };
+
+ComputerType_t selectComputerType();
 
 #endif //PC_WINKLE_COMPONENTPROPERTIES_H

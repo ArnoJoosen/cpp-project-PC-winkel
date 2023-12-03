@@ -15,3 +15,11 @@ Storage::Storage(std::string manufacturer, std::string name, float price, unsign
 std::shared_ptr<Storage> Storage::Create(unsigned int componentID) {
     return std::shared_ptr<Storage>();
 }
+
+void Storage::print() const {
+    ComponentBase::print();
+}
+
+void Storage::update() {
+    ComponentBase::update();
+}
