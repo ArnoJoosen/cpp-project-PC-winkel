@@ -26,14 +26,6 @@ void ComputerShop::addCustomer(const std::shared_ptr<Customer>& customer) {
     my_customers.push_back(customer);
 }
 
-void ComputerShop::removeComponent(unsigned int componentID) {
-    // TODO: implement
-}
-
-void ComputerShop::removeCustomer(unsigned int customerID) {
-    // TODO: implement
-}
-
 void ComputerShop::createCustomer() {
     CustomerType_t choice = UNKNOWN;
     do {
