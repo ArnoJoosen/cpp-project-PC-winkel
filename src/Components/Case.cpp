@@ -3,6 +3,7 @@
 //
 
 #include "Case.h"
+#include "Input.h"
 #include <iostream>
 
 Case::Case(std::string manufacturer, std::string name, float price, unsigned int stock, ComputerType_t computerType,
@@ -22,17 +23,17 @@ void Case::update() {
     std::cout << "Current color: " << my_color.c_str() << std::endl;
     if (changeQuestion("Change color? ")) {
         std::cout << "Enter new color: ";
-        std::cin >> my_color;
+        std::getline(std::cin, my_color);
     }
     std::cout << "Current MotherboardSize: " << MotherboardSize.c_str() << std::endl;
     if (changeQuestion("Change MotherboardSize? ")) {
         std::cout << "Enter new MotherboardSize: ";
-        std::cin >> MotherboardSize;
+        std::getline(std::cin, MotherboardSize);
     }
     std::cout << "Current material: " << my_material.c_str() << std::endl;
     if (changeQuestion("Change material? ")) {
         std::cout << "Enter new material: ";
-        std::cin >> my_material;
+        std::getline(std::cin, my_material);
     }
 }
 
@@ -47,19 +48,19 @@ std::shared_ptr<Case> Case::Create(unsigned int componentID) {
     std::string material;
 
     std::cout << "Enter manufacturer: ";
-    std::cin >> manufacturer;
+    std::getline(std::cin, manufacturer);
     std::cout << "Enter name: ";
-    std::cin >> name;
+    std::getline(std::cin, name);
     std::cout << "Enter price: ";
-    std::cin >> price;
+    price = input<float>();
     std::cout << "Enter stock: ";
-    std::cin >> stock;
+    stock = input<unsigned int>();
     std::cout << "Enter color: ";
-    std::cin >> color;
+    std::getline(std::cin, color);
     std::cout << "Enter MotherboardSize: ";
-    std::cin >> MotherboardSize;
+    std::getline(std::cin, MotherboardSize);
     std::cout << "Enter material: ";
-    std::cin >> material;
+    std::getline(std::cin, material);
     type = selectComputerType();
 
     return std::make_shared<Case>(manufacturer, name, price, stock, type, componentID, color, MotherboardSize, material);

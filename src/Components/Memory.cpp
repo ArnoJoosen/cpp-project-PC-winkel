@@ -4,6 +4,7 @@
 
 #include "Memory.h"
 #include <iostream>
+#include "Input.h"
 
 Memory::Memory(std::string manufacturer, std::string name, float price, unsigned int stock, ComponentType_t type,
                ComputerType_t computerType, unsigned int componentID, unsigned int size, float clockSpeed) :
@@ -22,19 +23,18 @@ std::shared_ptr<Memory> Memory::Create(unsigned int componentID) {
     float clockSpeed;
 
     std::cout << "Enter manufacturer: ";
-    std::cin >> manufacturer;
+    std::getline(std::cin, manufacturer);
     std::cout << "Enter name: ";
-    std::cin >> name;
+    std::getline(std::cin, name);
     std::cout << "Enter price: ";
-    std::cin >> price;
+    price = input<float>();
     std::cout << "Enter stock: ";
-    std::cin >> stock;
+    stock = input<unsigned int>();
     std::cout << "Enter size: ";
-    std::cin >> size;
+    size = input<unsigned int>();
     std::cout << "Enter clock speed: ";
-    std::cin >> clockSpeed;
+    clockSpeed = input<float>();
     type = selectComputerType();
-
 
     return std::make_shared<Memory>(manufacturer, name, price, stock, ComponentType_t::RAM, type, componentID, size, clockSpeed);
 }
@@ -48,11 +48,11 @@ void Memory::update() {
     std::cout << "Current size: " << my_size << std::endl;
     if (changeQuestion("Change size?")) {
         std::cout << "Enter new size: ";
-        std::cin >> my_size;
+        my_size = input<unsigned int>();
     }
     std::cout << "Current clock speed: " << my_clockSpeed << std::endl;
     if (changeQuestion("Change clock speed?")) {
         std::cout << "Enter new clock speed: ";
-        std::cin >> my_clockSpeed;
+        my_clockSpeed = input<float>();
     }
 }

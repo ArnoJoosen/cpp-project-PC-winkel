@@ -8,58 +8,41 @@
 #include "Input.h"
 
 AccessLevel_t login() {
-    int choice;
     std::cout   << "Choose your access level:" << "\n"
                 << "\t 1. Employee" << "\n"
                 << "\t 2. Owner" << std::endl;
-    while (true) {
-        std::cin >> choice;
-        if (inputInvalid()) {
-            std::cout << "Invalid choice" << std::endl;
-            continue;
-        }
-        switch (choice) {
-            case 1:
-                return AccessLevel_t::Employee;
-            case 2:
-                return AccessLevel_t::Owner;
-            default:
-                std::cout << "Invalid choice" << std::endl;
-                continue;
-        }
+    switch (inputRange(1, 2)) {
+        case 1:
+            return AccessLevel_t::Employee;
+        case 2:
+            return AccessLevel_t::Owner;
     }
 }
 
 Action_t chooseAction(AccessLevel_t accessLevel) {
-    int action;
+
     // collective actions
-    std::cout   << "Choose an action:" << "\n"
-                << "\t 1. Search customer" << "\n"
-                << "\t 2. Add customer" << "\n"
-                << "\t 3. Update customer" << "\n"
-                << "\t 4. Search invoice "<< std::endl;
+    std::cout << "Choose an action:" << "\n"
+    << "\t 1. Search customer" << "\n"
+    << "\t 2. Add customer" << "\n"
+    << "\t 3. Update customer" << "\n"
+    << "\t 4. Search invoice " << std::endl;
 
     // owner actions
-    if(accessLevel == AccessLevel_t::Owner)
-        std::cout   << "\t 5. Remove customer" << "\n"
-                    << "\t 6. Add component" << "\n"
-                    << "\t 7. Remove component" << "\n"
-                    << "\t 8. Update component" << "\n"
-                    << "\t 9. Exit" << std::endl;
+    if (accessLevel == AccessLevel_t::Owner)
+        std::cout << "\t 5. Remove customer" << "\n"
+        << "\t 6. Add component" << "\n"
+        << "\t 7. Remove component" << "\n"
+        << "\t 8. Update component" << "\n"
+        << "\t 9. Exit" << std::endl;
 
     // Employee actions
-    if(accessLevel == AccessLevel_t::Employee)
-        std::cout   << "\t 5. Build system" << "\n"
-                    << "\t 6. Exit" << std::endl;
+    if (accessLevel == AccessLevel_t::Employee)
+        std::cout << "\t 5. Build system" << "\n"
+        << "\t 6. Exit" << std::endl;
 
-    while(true) {
-        std::cin >> action;
-        if (inputInvalid()) {
-            std::cout << "Invalid action" << std::endl;
-            continue;
-        }
-
-        switch (action) {
+    while (true) {
+        switch (input<int>()) {
             case 1:
                 return Action_t::SearchCustomer;
             case 2:
@@ -97,7 +80,7 @@ Action_t chooseAction(AccessLevel_t accessLevel) {
                     return Action_t::Exit;
                 else {
                     std::cout << "Invalid action" << std::endl;
-                    return chooseAction(accessLevel); // risk for stack overflow
+                    continue;
                 }
             default:
                 std::cout << "Invalid action" << std::endl;

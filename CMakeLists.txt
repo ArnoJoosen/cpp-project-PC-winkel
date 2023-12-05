@@ -7,7 +7,8 @@ file(GLOB_RECURSE SRC
         src/*.cpp
 )
 
-add_executable(PC_Winkle ${SRC})
+add_executable(PC_Winkle ${SRC}
+        src/Input.cpp)
 target_include_directories(PC_Winkle PRIVATE src)
 
 # test

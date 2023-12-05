@@ -4,6 +4,7 @@
 
 #include "PowerSupply.h"
 #include <iostream>
+#include "Input.h"
 
 PowerSupply::PowerSupply(std::string manufacturer, std::string name, float price, unsigned int stock,
                          ComponentType_t type, ComputerType_t computerType, unsigned int componentID, float power,
@@ -23,17 +24,17 @@ std::shared_ptr<PowerSupply> PowerSupply::Create(unsigned int componentID) {
     std::string certification;
 
     std::cout << "Enter manufacturer: ";
-    std::cin >> manufacturer;
+    std::getline(std::cin, manufacturer);
     std::cout << "Enter name: ";
-    std::cin >> name;
+    std::getline(std::cin, name);
     std::cout << "Enter price: ";
-    std::cin >> price;
+    price = input<float>();
     std::cout << "Enter stock: ";
-    std::cin >> stock;
+    stock = input<unsigned int>();
     std::cout << "Enter power: ";
-    std::cin >> power;
+    power = input<float>();
     std::cout << "Enter certification: ";
-    std::cin >> certification;
+    std::getline(std::cin, certification);
     type = selectComputerType();
     return std::make_shared<PowerSupply>(manufacturer, name, price, stock, ComponentType_t::PSU, type,
                                          componentID, power, certification);
@@ -48,11 +49,11 @@ void PowerSupply::update() {
     std::cout << "current power: " << my_power << std::endl;
     if (changeQuestion("Change power?")) {
         std::cout << "Enter new power: ";
-        std::cin >> my_power;
+        my_power = input<float>();
     }
     std::cout << "current certification: " << my_certification << std::endl;
     if (changeQuestion("Change certification?")) {
         std::cout << "Enter new certification: ";
-        std::cin >> my_certification;
+        std::getline(std::cin, my_certification);
     }
 }

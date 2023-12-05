@@ -3,7 +3,7 @@
 //
 
 #include "GPU.h"
-
+#include "Input.h"
 #include <utility>
 #include <iostream>
 
@@ -24,17 +24,17 @@ std::shared_ptr<GPU> GPU::Create(unsigned int componentID) {
     float busSpeed;
 
     std::cout << "Enter manufacturer: ";
-    std::cin >> manufacturer;
+    std::getline(std::cin, manufacturer);
     std::cout << "Enter name: ";
-    std::cin >> name;
+    std::getline(std::cin, name);
     std::cout << "Enter price: ";
-    std::cin >> price;
+    price = input<float>();
     std::cout << "Enter stock: ";
-    std::cin >> stock;
+    stock = input<unsigned int>();
     std::cout << "Enter power: ";
-    std::cin >> power;
+    power = input<float>();
     std::cout << "Enter bus speed: ";
-    std::cin >> busSpeed;
+    busSpeed = input<float>();
     type = selectComputerType();
     return std::make_shared<GPU>(manufacturer, name, price, stock, ComponentType_t::GPU, type, componentID, power, busSpeed);
 }
@@ -48,11 +48,11 @@ void GPU::update() {
     std::cout << "Current power: " << my_power << std::endl;
     if (changeQuestion("Change power?")) {
         std::cout << "Enter new power: ";
-        std::cin >> my_power;
+        my_power = input<float>();
     }
     std::cout << "Current bus speed: " << my_busSpeed << std::endl;
     if (changeQuestion("Change bus speed?")) {
         std::cout << "Enter new bus speed: ";
-        std::cin >> my_busSpeed;
+        my_busSpeed = input<float>();
     }
 }

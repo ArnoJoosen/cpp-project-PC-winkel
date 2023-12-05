@@ -4,6 +4,7 @@
 
 #include "Storage.h"
 #include <iostream>
+#include "Input.h"
 
 Storage::Storage(std::string manufacturer, std::string name, float price, unsigned int stock, ComponentType_t type,
                  ComputerType_t computerType, unsigned int componentID, float speed, unsigned int size,
@@ -24,19 +25,19 @@ std::shared_ptr<Storage> Storage::Create(unsigned int componentID) {
     std::string slot;
 
     std::cout << "Enter manufacturer: ";
-    std::cin >> manufacturer;
+    std::getline(std::cin, manufacturer);
     std::cout << "Enter name: ";
-    std::cin >> name;
+    std::getline(std::cin, name);
     std::cout << "Enter price: ";
-    std::cin >> price;
+    price = input<float>();
     std::cout << "Enter stock: ";
-    std::cin >> stock;
+    stock = input<unsigned int>();
     std::cout << "Enter speed: ";
-    std::cin >> speed;
+    speed = input<float>();
     std::cout << "Enter size: ";
-    std::cin >> size;
+    size = input<unsigned int>();
     std::cout << "Enter slot: ";
-    std::cin >> slot;
+    std::getline(std::cin, slot);
     type = selectComputerType();
     return std::make_shared<Storage>(manufacturer, name, price, stock, ComponentType_t::STORAGE, type, componentID,
                                      speed, size, slot);
@@ -51,16 +52,16 @@ void Storage::update() {
     std::cout << "current speed: " << my_speed << std::endl;
     if (changeQuestion("Change speed?")) {
         std::cout << "Enter new speed: ";
-        std::cin >> my_speed;
+        my_speed = input<float>();
     }
     std::cout << "current size: " << my_size << std::endl;
     if (changeQuestion("Change size?")) {
         std::cout << "Enter new size: ";
-        std::cin >> my_size;
+        my_size = input<unsigned int>();
     }
     std::cout << "current slot: " << my_slot << std::endl;
     if (changeQuestion("Change slot?")) {
         std::cout << "Enter new slot: ";
-        std::cin >> my_slot;
+        std::getline(std::cin, my_slot);
     }
 }

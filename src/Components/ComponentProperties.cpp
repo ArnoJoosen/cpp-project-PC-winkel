@@ -3,6 +3,7 @@
 //
 #include "ComponentProperties.h"
 #include <iostream>
+#include "Input.h"
 
 const char* componentTypeToString(ComponentType_t type) {
     switch (type) {
@@ -36,9 +37,7 @@ ComponentType_t selectComponentType(){
               << "\t7. Case\n" << std::endl;
     do {
         std::cout << "Enter choice: ";
-        int choice;
-        std::cin >> choice;
-        switch (choice) {
+        switch (inputRange(1, 7)) {
             case 1:
                 return ComponentType_t::CPU;
             case 2:
