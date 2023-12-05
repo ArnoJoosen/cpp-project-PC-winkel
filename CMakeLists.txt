@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 project(PC_Winkle)
 
+# TODO set c++ version to 17
+
 file(GLOB_RECURSE SRC
         src/*.h
         src/*.hpp
@@ -8,7 +10,9 @@ file(GLOB_RECURSE SRC
 )
 
 add_executable(PC_Winkle ${SRC}
-        src/Input.cpp)
+        src/Input.cpp
+        src/CustomerProperties.cpp
+        src/Enumerate.hpp)
 target_include_directories(PC_Winkle PRIVATE src)
 
 # test

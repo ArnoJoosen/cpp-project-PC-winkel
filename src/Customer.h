@@ -10,7 +10,7 @@
 
 class Customer {
 public:
-    Customer(Name_t name, Address_t address, unsigned int customerID);
+    Customer(Name_t name, Address_t address, unsigned int customerID, CustomerType_t type);
 
     [[nodiscard]] inline Name_t getName() const { return my_name; }
     [[nodiscard]] inline Address_t getAddress() const { return my_address; }
@@ -22,12 +22,23 @@ public:
     inline void setCustomerID(unsigned int customerID) { my_customerID = customerID; }
     inline void setType(CustomerType_t type) { my_type = type; }
 
-    virtual void print() const;
+    static void printTopRow(bool indexed = false);
+    virtual void printRow(int index = -1) const;
     virtual void update();
 
     static std::shared_ptr<Customer> create(unsigned int customerID);
 
+    static void selectFilter(class CustomerView& view);
+
 protected:
+
+    static void filterFirstName(class CustomerView& view);
+    static void filterLastName(class CustomerView& view);
+    static void filterCity(class CustomerView& view);
+    static void filterStreet(class CustomerView& view);
+    static void filterHouseNumber(class CustomerView& view);
+    static void filterPostcode(class CustomerView& view);
+
     Name_t my_name;
     Address_t my_address;
     unsigned int my_customerID;

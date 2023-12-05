@@ -6,15 +6,16 @@
 #define PC_WINKLE_CUSTOMERVIEW_H
 #include <vector>
 #include <functional>
+#include <memory>
 #include "CustomerProperties.h"
 
 class CustomerView {
 public:
-    using ViewIderator = std::vector<class Customer*>::iterator;
+    using ViewIderator = std::vector<std::shared_ptr<class Customer>>::iterator;
 
-    CustomerView(const std::vector<class Customer*>& customers, CustomerType_t type = CustomerType_t::UNKNOWN);
+    CustomerView(const std::vector<std::shared_ptr<class Customer>>& customers, CustomerType_t type = CustomerType_t::UNKNOWN);
 
-    void filter(const std::function<bool(class Customer*)>& filter);
+    void filter(const std::function<bool(const std::shared_ptr<class Customer>&)> &filter);
     void setType(CustomerType_t type);
 
     inline ViewIderator begin() { return my_customers.begin(); }
@@ -25,7 +26,7 @@ public:
     inline CustomerType_t getType() { return my_type; }
 
 private:
-    std::vector<class Customer*> my_customers;
+    std::vector<std::shared_ptr<class Customer>> my_customers;
     CustomerType_t my_type;
 };
 

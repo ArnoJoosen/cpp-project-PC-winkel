@@ -9,6 +9,7 @@
 #include <iostream>
 #include "ComponentProperties.h"
 #include "CapString.hpp"
+#include "CustomerView.h"
 #define MAX_MANUFACTURER_LENGTH 30
 #define MAX_NAME_LENGTH 30
 
@@ -40,6 +41,8 @@ public:
 
     virtual void print() const;
     virtual void update();
+
+    static void selectFilter(CustomerView& view);
 
 protected:
 

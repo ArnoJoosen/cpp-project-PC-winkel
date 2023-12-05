@@ -4,6 +4,7 @@
 
 #include "ComputerShop.h"
 #include <iostream>
+#include "Input.h"
 #include "Company.h"
 #include "Components/CPU.h"
 #include "Components/GPU.h"
@@ -12,9 +13,10 @@
 #include "Components/Storage.h"
 #include "Components/PowerSupply.h"
 #include "Components/Case.h"
+#include "Enumerate.hpp"
 
 
-ComputerShop::ComputerShop(std::string name, Address_t address) : my_name(std::move(name)), my_address(address) {
+ComputerShop::ComputerShop(std::string name, Address_t address) : my_name(name), my_address(address) {
 
 }
 
@@ -27,15 +29,7 @@ void ComputerShop::addCustomer(const std::shared_ptr<Customer>& customer) {
 }
 
 void ComputerShop::createCustomer() {
-    CustomerType_t choice = UNKNOWN;
-    do {
-        std::cout << "Choose customer type: \n\t1. Particulier\n\t2. Bedrijf\n";
-        int input;
-        std::cin >> input;
-        choice = static_cast<CustomerType_t>(input);
-    } while (choice != PARTICULIER && choice != BEDRIJF);
-
-    switch (choice) {
+    switch (selectCustomerType()) {
         case PARTICULIER:
             my_customers.push_back(Customer::create(lastCustomerID++));
             break;
@@ -46,9 +40,7 @@ void ComputerShop::createCustomer() {
 }
 
 void ComputerShop::createComponent() {
-    ComponentType_t choice = selectComponentType();
-
-    switch (choice) {
+    switch (selectComponentType()) {
         case ComponentType_t::CASE:
             my_components.push_back(std::static_pointer_cast<ComponentBase>(Case::Create(lastComponentID++)));
             break;
@@ -74,7 +66,42 @@ void ComputerShop::createComponent() {
 }
 
 std::shared_ptr<Customer> ComputerShop::searchCustomer() {
-    // TODO search customer from console input
+    CustomerView view(my_customers);
+    if (view.getType() == CustomerType_t::UNKNOWN) {
+        Customer::printTopRow(true);
+        for (auto [i, customer] : Enumerate(my_customers)) {
+            customer->printRow((int)i);
+            std::cout << std::endl;
+        }
+        std::cout << "Add filter (a), reset filter (r), select customer (index of customer): ";
+        std::string input;
+        std::getline(std::cin, input);
+        if (input == "a") {
+            Customer::selectFilter(view);
+        } else if (input == "r") {
+            // TODO reset filter
+        } else {
+            return my_customers[std::stoi(input)]; // TODO error handling if input is not a number
+        }
+    } else if (view.getType() == CustomerType_t::PARTICULIER) {
+        Company::printTopRow(true);
+        for (auto [i, customer] : Enumerate(my_customers)) {
+            std::static_pointer_cast<Company>(customer)->printRow((int)i);
+            std::cout << std::endl;
+        }
+        std::cout << "Add filter (a), reset filter (r), select customer (index of customer): ";
+        std::string input;
+        std::getline(std::cin, input);
+        if (input == "a") {
+            Company::selectFilter(view);
+        } else if (input == "r") {
+            // TODO reset filter
+        } else {
+            return my_customers[std::stoi(input)]; // TODO error handling if input is not a number
+        }
+    } else
+        throw std::runtime_error("Unknown customer type");
+
     return nullptr;
 }
 

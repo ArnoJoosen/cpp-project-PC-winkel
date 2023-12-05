@@ -56,3 +56,7 @@ bool ComponentBase::changeQuestion(const char *question) const {
     }
     return false;
 }
+
+void ComponentBase::selectFilter(CustomerView &view) {
+
+}

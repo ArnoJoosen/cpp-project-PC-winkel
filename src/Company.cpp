@@ -5,15 +5,41 @@
 #include "Company.h"
 #include <iostream>
 #include <string>
+#include <iomanip>
+#include "Input.h"
 
 Company::Company(Name_t name, Address_t address, unsigned int customerID, float vat, float discount,
-                 unsigned int yearlyBuy) : Customer(std::move(name), std::move(address), customerID),
+                 unsigned int yearlyBuy) : Customer(std::move(name), std::move(address), customerID, CustomerType_t::BEDRIJF),
                                            my_vat(vat), my_discount(discount), my_yearlyBuy(yearlyBuy) {
 
 }
 
-void Company::print() const {
-    Customer::print();
+void Company::printTopRow(bool indexed) {
+    if (indexed)
+        std::cout << std::setw(5) << "index" << " | ";
+    std::cout << std::left
+              << std::setw(5) << "ID" << " | "
+              << std::setw(MAX_NAME_LENGTH) << "First name" << " | "
+              << std::setw(MAX_LAST_NAME_LENGTH) << "Last name" << " | "
+              << std::setw(MAX_CITY_NAME_LENGTH) << "City" << " | "
+              << std::setw(MAX_STREET_NAME_LENGTH) << "Street" << " | "
+              << std::setw(10) << "House num" << " | "
+              << std::setw(10) << "Postcode" <<  " | "
+              << std::setw(11) << "Type" << " | "
+              << std::setw(3) << "VAT"
+              << std::setw(3) << "DIS"
+              << std::setw(4) << "YEAR" << std::endl;
+    if (indexed)
+        std::cout << std::string(5+MAX_NAME_LENGTH+MAX_LAST_NAME_LENGTH+MAX_CITY_NAME_LENGTH+MAX_STREET_NAME_LENGTH+10+10+11+24, '-') << std::endl;
+    else
+        std::cout << std::string(5+MAX_NAME_LENGTH+MAX_LAST_NAME_LENGTH+MAX_CITY_NAME_LENGTH+MAX_STREET_NAME_LENGTH+10+10+11+24, '-') << std::endl;
+}
+
+void Company::printRow(int index) const {
+    Customer::printRow(index);
+    std::cout << std::setw(3) << my_vat << " | "
+              << std::setw(3) << my_discount << " | "
+              << std::setw(4) << my_yearlyBuy << " | " << std::endl;
 }
 
 void Company::update() {
@@ -25,13 +51,28 @@ void Company::update() {
 std::shared_ptr<Company> Company::create(unsigned int customerID) {
     Name_t name;
     Address_t address;
-    int vat, discount;
-    std::cout << "Enter first name and last name: ";
-    std::cin >> name.firstName >> name.lastName;
-    std::cout << "Enter city, street num and street postcode: ";
-    std::cin >> address.city >> address.street >> address.street >> address.postcode;
-    std::cout << "Enter vat and discount: ";
-    std::cin >> vat >> discount;
+    float vat, discount;
+    std::string strTemp;
+    std::cout << "Enter first name";
+    std::getline(std::cin, strTemp);
+    name.firstName = strTemp;
+    std::cout << "Enter last name";
+    std::getline(std::cin, strTemp);
+    name.lastName = strTemp;
+    std::cout << "Enter city";
+    std::getline(std::cin, strTemp);
+    address.city = strTemp;
+    std::cout << "Enter street";
+    std::getline(std::cin, strTemp);
+    address.street = strTemp;
+    std::cout << "Enter house number";
+    address.houseNumber = input<unsigned int>();
+    std::cout << "Enter postcode";
+    address.postcode = input<unsigned int>();
+    std::cout << "Enter var";
+    vat = input<float>();
+    std::cout << "Enter discount";
+    discount = input<float>();
 
     return std::make_shared<Company>(name, address, customerID, vat, discount, 0);
 }
