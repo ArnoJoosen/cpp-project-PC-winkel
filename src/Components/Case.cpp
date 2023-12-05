@@ -19,6 +19,21 @@ void Case::print() const {
 
 void Case::update() {
     ComponentBase::update();
+    std::cout << "Current color: " << my_color.c_str() << std::endl;
+    if (changeQuestion("Change color? ")) {
+        std::cout << "Enter new color: ";
+        std::cin >> my_color;
+    }
+    std::cout << "Current MotherboardSize: " << MotherboardSize.c_str() << std::endl;
+    if (changeQuestion("Change MotherboardSize? ")) {
+        std::cout << "Enter new MotherboardSize: ";
+        std::cin >> MotherboardSize;
+    }
+    std::cout << "Current material: " << my_material.c_str() << std::endl;
+    if (changeQuestion("Change material? ")) {
+        std::cout << "Enter new material: ";
+        std::cin >> my_material;
+    }
 }
 
 std::shared_ptr<Case> Case::Create(unsigned int componentID) {

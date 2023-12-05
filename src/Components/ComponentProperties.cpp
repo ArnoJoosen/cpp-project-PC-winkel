@@ -4,6 +4,27 @@
 #include "ComponentProperties.h"
 #include <iostream>
 
+const char* componentTypeToString(ComponentType_t type) {
+    switch (type) {
+        case ComponentType_t::CPU:
+            return "CPU";
+        case ComponentType_t::MOTHERBOARD:
+            return "Motherboard";
+        case ComponentType_t::RAM:
+            return "Memory";
+        case ComponentType_t::GPU:
+            return "GPU";
+        case ComponentType_t::STORAGE:
+            return "Storage";
+        case ComponentType_t::PSU:
+            return "PowerSupply";
+        case ComponentType_t::CASE:
+            return "Case";
+        case ComponentType_t::UNKNOWN:
+            return "Unknown";
+    }
+}
+
 ComponentType_t selectComponentType(){
     std::cout << "Select component type: \n"
               << "\t1. CPU\n"
@@ -36,6 +57,17 @@ ComponentType_t selectComponentType(){
     } while (true);
 }
 
+const char* componentTypeToString(ComputerType_t type) {
+    switch (type) {
+        case ComputerType_t::DESKTOP:
+            return "Desktop";
+        case ComputerType_t::LAPTOP:
+            return "Laptop";
+        case ComputerType_t::UNKNOWN:
+            return "Unknown";
+    }
+}
+
 ComputerType_t selectComputerType(){
     std::cout << "Select computer type:\n"
               << "\t1. Desktop\n"
@@ -44,6 +76,7 @@ ComputerType_t selectComputerType(){
         std::cout << "Enter choice: ";
         int choice;
         std::cin >> choice;
+        std::cin.clear();
         switch (choice) {
             case 1:
                 return ComputerType_t::DESKTOP;

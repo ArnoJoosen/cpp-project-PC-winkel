@@ -6,6 +6,7 @@
 #define PC_WINKLE_COMPONENTBASE_H
 #include <string>
 #include <utility>
+#include <iostream>
 #include "ComponentProperties.h"
 #include "CapString.hpp"
 #define MAX_MANUFACTURER_LENGTH 30
@@ -41,6 +42,9 @@ public:
     virtual void update();
 
 protected:
+
+    bool changeQuestion(const char* question) const;
+
     CapString<MAX_MANUFACTURER_LENGTH> my_manufacturer;
     CapString<MAX_NAME_LENGTH> my_name;
     float my_price;

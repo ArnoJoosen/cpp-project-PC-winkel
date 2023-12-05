@@ -3,21 +3,30 @@
 //
 #include "Menus.h"
 #include <iostream>
+#include <cstdio>
+#include <limits>
+#include "Input.h"
 
 AccessLevel_t login() {
     int choice;
     std::cout   << "Choose your access level:" << "\n"
                 << "\t 1. Employee" << "\n"
                 << "\t 2. Owner" << std::endl;
-    std::cin >> choice;
-    switch (choice) {
-        case 1:
-            return AccessLevel_t::Employee;
-        case 2:
-            return AccessLevel_t::Owner;
-        default:
+    while (true) {
+        std::cin >> choice;
+        if (inputInvalid()) {
             std::cout << "Invalid choice" << std::endl;
-            return login();
+            continue;
+        }
+        switch (choice) {
+            case 1:
+                return AccessLevel_t::Employee;
+            case 2:
+                return AccessLevel_t::Owner;
+            default:
+                std::cout << "Invalid choice" << std::endl;
+                continue;
+        }
     }
 }
 
@@ -43,49 +52,56 @@ Action_t chooseAction(AccessLevel_t accessLevel) {
         std::cout   << "\t 5. Build system" << "\n"
                     << "\t 6. Exit" << std::endl;
 
-    std::cin >> action;
-    switch (action) {
-        case 1:
-            return Action_t::SearchCustomer;
-        case 2:
-            return Action_t::AddCustomer;
-        case 3:
-            return Action_t::UpdateCustomer;
-        case 4:
-            return Action_t::SearchInvoice;
-        case 5:
-            if(accessLevel == AccessLevel_t::Owner)
-                return Action_t::RemoveCustomer;
-            else
-                return Action_t::BuildSystem;
-        case 6:
-            if(accessLevel == AccessLevel_t::Owner)
-                return Action_t::AddComponent;
-            else
-                return Action_t::Exit;
-        case 7:
-            if(accessLevel == AccessLevel_t::Owner)
-                return Action_t::RemoveComponent;
-            else {
-                std::cout << "Invalid action" << std::endl;
-                return chooseAction(accessLevel); // risk for stack overflow
-            }
-        case 8:
-            if(accessLevel == AccessLevel_t::Owner)
-                return Action_t::UpdateComponent;
-            else {
-                std::cout << "Invalid action" << std::endl;
-                return chooseAction(accessLevel); // risk for stack overflow
-            }
-        case 9:
-            if(accessLevel == AccessLevel_t::Owner)
-                return Action_t::Exit;
-            else {
-                std::cout << "Invalid action" << std::endl;
-                return chooseAction(accessLevel); // risk for stack overflow
-            }
-        default:
+    while(true) {
+        std::cin >> action;
+        if (inputInvalid()) {
             std::cout << "Invalid action" << std::endl;
-            return chooseAction(accessLevel); // risk for stack overflow
+            continue;
+        }
+
+        switch (action) {
+            case 1:
+                return Action_t::SearchCustomer;
+            case 2:
+                return Action_t::AddCustomer;
+            case 3:
+                return Action_t::UpdateCustomer;
+            case 4:
+                return Action_t::SearchInvoice;
+            case 5:
+                if (accessLevel == AccessLevel_t::Owner)
+                    return Action_t::RemoveCustomer;
+                else
+                    return Action_t::BuildSystem;
+            case 6:
+                if (accessLevel == AccessLevel_t::Owner)
+                    return Action_t::AddComponent;
+                else
+                    return Action_t::Exit;
+            case 7:
+                if (accessLevel == AccessLevel_t::Owner)
+                    return Action_t::RemoveComponent;
+                else {
+                    std::cout << "Invalid action" << std::endl;
+                    continue;
+                }
+            case 8:
+                if (accessLevel == AccessLevel_t::Owner)
+                    return Action_t::UpdateComponent;
+                else {
+                    std::cout << "Invalid action" << std::endl;
+                    continue;
+                }
+            case 9:
+                if (accessLevel == AccessLevel_t::Owner)
+                    return Action_t::Exit;
+                else {
+                    std::cout << "Invalid action" << std::endl;
+                    return chooseAction(accessLevel); // risk for stack overflow
+                }
+            default:
+                std::cout << "Invalid action" << std::endl;
+                continue;
+        }
     }
 }
