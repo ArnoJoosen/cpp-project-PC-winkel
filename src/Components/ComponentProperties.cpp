@@ -24,6 +24,7 @@ const char* componentTypeToString(ComponentType_t type) {
         case ComponentType_t::UNKNOWN:
             return "Unknown";
     }
+    throw std::runtime_error("Unknown component type");
 }
 
 ComponentType_t selectComponentType(){
@@ -65,6 +66,7 @@ const char* componentTypeToString(ComputerType_t type) {
         case ComputerType_t::UNKNOWN:
             return "Unknown";
     }
+    throw std::runtime_error("Unknown computer type");
 }
 
 ComputerType_t selectComputerType(){
