@@ -11,15 +11,16 @@
 
 class ComponentView {
 public:
-    using ViewIderator = std::vector<std::shared_ptr<class ComponentBase>>::iterator;
+    using iterator = std::vector<std::shared_ptr<class ComponentBase>>::iterator;
+    using const_iterator = std::vector<std::shared_ptr<class ComponentBase>>::const_iterator;
 
     ComponentView(const std::vector<std::shared_ptr<class ComponentBase>>& components, ComponentType_t type = ComponentType_t::UNKNOWN);
 
     void filter(const std::function<bool(const std::shared_ptr<class ComponentBase>&)>& filter);
     void setType(ComponentType_t type);
 
-    inline ViewIderator begin() { return my_components.begin(); }
-    inline ViewIderator end() { return my_components.end();}
+    inline const_iterator begin() const { return my_components.begin(); }
+    inline const_iterator end() const { return my_components.end(); }
 
     inline size_t size() { return my_components.size(); }
     inline bool empty() { return my_components.empty(); }

@@ -84,7 +84,7 @@ void Customer::selectFilter(CustomerView &view) {
                 << "\n\t4. Street"
                 << "\n\t5. Street number"
                 << "\n\t6. postcode"
-                << "\n\t7. Customer type";
+                << "\n\t7. Customer type\n";
     switch (inputRange(1, 7)) {
         case 1:
             filterFirstName(view);
@@ -115,7 +115,7 @@ void Customer::filterFirstName(CustomerView &view) {
     std::string firstName;
     std::getline(std::cin, firstName);
     view.filter([firstName](const std::shared_ptr<class Customer>& customer) {
-        return customer->getName().firstName == firstName;
+        return customer->getName().firstName != firstName;
     });
 }
 
@@ -124,7 +124,7 @@ void Customer::filterLastName(CustomerView &view) {
     std::string lastName;
     std::getline(std::cin, lastName);
     view.filter([lastName](const std::shared_ptr<class Customer>& customer) {
-        return customer->getName().lastName == lastName;
+        return customer->getName().lastName != lastName;
     });
 }
 
@@ -133,7 +133,7 @@ void Customer::filterCity(CustomerView &view) {
     std::string city;
     std::getline(std::cin, city);
     view.filter([city](const std::shared_ptr<class Customer>& customer) {
-        return customer->getAddress().city == city;
+        return customer->getAddress().city != city;
     });
 }
 
@@ -142,7 +142,7 @@ void Customer::filterStreet(CustomerView &view) {
     std::string street;
     std::getline(std::cin, street);
     view.filter([street](const std::shared_ptr<class Customer>& customer) {
-        return customer->getAddress().street == street;
+        return customer->getAddress().street != street;
     });
 }
 
@@ -150,7 +150,7 @@ void Customer::filterHouseNumber(CustomerView &view) {
     std::cout << "Enter house number: ";
     unsigned int houseNumber = input<unsigned int>();
     view.filter([houseNumber](const std::shared_ptr<class Customer>& customer) {
-        return customer->getAddress().houseNumber == houseNumber;
+        return customer->getAddress().houseNumber != houseNumber;
     });
 }
 
@@ -158,6 +158,6 @@ void Customer::filterPostcode(CustomerView &view) {
     std::cout << "Enter postcode: ";
     unsigned int postcode = input<unsigned int>();
     view.filter([postcode](const std::shared_ptr<class Customer>& customer) {
-        return customer->getAddress().postcode == postcode;
+        return customer->getAddress().postcode != postcode;
     });
 }

@@ -14,7 +14,8 @@ CustomerView::CustomerView(const std::vector<std::shared_ptr<class Customer>> &c
 }
 
 void CustomerView::filter(const std::function<bool(const std::shared_ptr<class Customer>&)> &filter) {
-    my_customers.erase(std::remove_if(my_customers.begin(), my_customers.end(), filter), my_customers.end());
+    auto its = std::remove_if(my_customers.begin(), my_customers.end(), filter);
+    my_customers.erase(its, my_customers.end());
 }
 
 void CustomerView::setType(CustomerType_t type) {

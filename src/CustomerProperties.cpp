@@ -3,6 +3,7 @@
 //
 #include "CustomerProperties.h"
 #include <iostream>
+#include "Input.h"
 
 std::string customerTypeToString(CustomerType_t type){
     switch (type)  {
@@ -21,10 +22,7 @@ CustomerType_t selectCustomerType(){
                 << "\t2. Bedrijf\n";
     do {
         std::cout << "Enter choice: ";
-        int choice;
-        std::cin >> choice;
-        std::cin.clear();
-        switch (choice) {
+        switch (inputRange(1, 2)) {
             case 1:
                 return CustomerType_t::PARTICULIER;
             case 2:

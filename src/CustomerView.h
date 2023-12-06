@@ -11,19 +11,23 @@
 
 class CustomerView {
 public:
-    using ViewIderator = std::vector<std::shared_ptr<class Customer>>::iterator;
+    using value_type = std::shared_ptr<class Customer>;
+    using iterator = std::vector<std::shared_ptr<class Customer>>::iterator;
+    using const_iterator = std::vector<std::shared_ptr<class Customer>>::const_iterator;
 
     CustomerView(const std::vector<std::shared_ptr<class Customer>>& customers, CustomerType_t type = CustomerType_t::UNKNOWN);
 
     void filter(const std::function<bool(const std::shared_ptr<class Customer>&)> &filter);
     void setType(CustomerType_t type);
 
-    inline ViewIderator begin() { return my_customers.begin(); }
-    inline ViewIderator end() { return my_customers.end();}
+    inline const_iterator begin() const { return my_customers.begin(); }
+    inline const_iterator end() const { return my_customers.end(); }
 
-    inline size_t size() { return my_customers.size(); }
+    [[nodiscard]] inline size_t size() const { return my_customers.size(); }
     inline bool empty() { return my_customers.empty(); }
     inline CustomerType_t getType() { return my_type; }
+
+    inline std::shared_ptr<Customer> operator[](int index) { return my_customers[index]; }
 
 private:
     std::vector<std::shared_ptr<class Customer>> my_customers;
