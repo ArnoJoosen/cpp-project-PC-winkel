@@ -11,7 +11,7 @@
 #include "CapString.hpp"
 #include "CustomerView.h"
 #define MAX_MANUFACTURER_LENGTH 30
-#define MAX_NAME_LENGTH 30
+#define MAX_COMPONENT_NAME_LENGTH 30
 
 class ComponentBase {
 public:
@@ -24,7 +24,7 @@ public:
                   unsigned int componentID);
 
     [[nodiscard]] inline CapString<MAX_MANUFACTURER_LENGTH> getManufacturer() const { return my_manufacturer; }
-    [[nodiscard]] inline CapString<MAX_MANUFACTURER_LENGTH> getName() const { return my_name; }
+    [[nodiscard]] inline CapString<MAX_COMPONENT_NAME_LENGTH> getName() const { return my_name; }
     [[nodiscard]] inline float getPrice() const { return my_price; }
     [[nodiscard]] inline unsigned int getStock() const { return my_stock; }
     [[nodiscard]] inline ComponentType_t getType() const { return my_type; }
@@ -49,7 +49,7 @@ protected:
     bool changeQuestion(const char* question) const;
 
     CapString<MAX_MANUFACTURER_LENGTH> my_manufacturer;
-    CapString<MAX_NAME_LENGTH> my_name;
+    CapString<MAX_COMPONENT_NAME_LENGTH> my_name;
     float my_price;
     unsigned int my_stock;
     ComponentType_t my_type;

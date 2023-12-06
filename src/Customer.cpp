@@ -16,8 +16,9 @@ my_customerID(customerID),
 my_type(type){}
 
 void Customer::printTopRow(bool indexed) {
-    if (indexed)
+    if (indexed) // true means print index column
         std::cout << std::setw(5) << "index" << " | ";
+    // print column names
     std::cout << std::left
               << std::setw(5) << "ID" << " | "
               << std::setw(MAX_NAME_LENGTH) << "First name" << " | "
@@ -27,6 +28,7 @@ void Customer::printTopRow(bool indexed) {
               << std::setw(10) << "House num" << " | "
               << std::setw(10) << "Postcode" <<  " | "
               << std::setw(11) << "Type" << " | " << std::endl;
+    // print horizontal line
     if (indexed)
         std::cout << std::string(5+MAX_NAME_LENGTH+MAX_LAST_NAME_LENGTH+MAX_CITY_NAME_LENGTH+MAX_STREET_NAME_LENGTH+10+10+11+24, '-') << std::endl;
     else
@@ -34,45 +36,96 @@ void Customer::printTopRow(bool indexed) {
 }
 
 void Customer::printRow(int index) const {
-    if (index != -1)
+    if (index != -1) // -1 means no index column
         std::cout << std::setw(5) << index << " | ";
-    std::cout << std::setw(5) << my_customerID << '|'
-              << std::setw(MAX_NAME_LENGTH) << my_name.firstName.c_str() << '|'
-              << std::setw(MAX_LAST_NAME_LENGTH) << my_name.lastName.c_str() << '|'
-              << std::setw(MAX_CITY_NAME_LENGTH) << my_address.city.c_str() << '|'
-              << std::setw(MAX_CITY_NAME_LENGTH) << my_address.street.c_str() << '|'
-              << std::setw(10) << my_address.houseNumber << '|'
-              << std::setw(10) << my_address.postcode << '|'
-              << std::setw(11) << customerTypeToString(my_type) << '|';
+    // print customer data
+    std::cout << std::setw(5) << my_customerID << " | "
+              << std::setw(MAX_NAME_LENGTH) << my_name.firstName.c_str() << " | "
+              << std::setw(MAX_LAST_NAME_LENGTH) << my_name.lastName.c_str() << " | "
+              << std::setw(MAX_CITY_NAME_LENGTH) << my_address.city.c_str() << " | "
+              << std::setw(MAX_CITY_NAME_LENGTH) << my_address.street.c_str() << " | "
+              << std::setw(10) << my_address.houseNumber << " | "
+              << std::setw(10) << my_address.postcode << " | "
+              << std::setw(11) << customerTypeToString(my_type) << " | ";
 }
 
 void Customer::update() {
-    std::cout << "Enter first name and last name: ";
-    std::cin >> my_name.firstName >> my_name.lastName;
-    std::cout << "Enter city, street num and street postcode: ";
-    std::cin >> my_address.city >> my_address.street >> my_address.street >> my_address.postcode;
+    std::string temp;
+    // ask for changes first name and change if needed
+    std::cout << "Current first name: " << my_name.firstName.c_str() << std::endl;
+    if (changeQuestion("Change first name? ")) {
+        std::cout << "Enter first name: ";
+        std::getline(std::cin, temp);
+        my_name.firstName = temp;
+    }
+    // ask for changes last name and change if needed
+    std::cout << "Current last name: " << my_name.lastName.c_str() << std::endl;
+    if (changeQuestion("Change last name? ")) {
+        std::cout << "Enter last name: ";
+        std::getline(std::cin, temp);
+        my_name.lastName = temp;
+    }
+    // ask for changes city and change if needed
+    std::cout << "Current city: " << my_address.city.c_str() << std::endl;
+    if (changeQuestion("Change city? ")) {
+        std::cout << "Enter city: ";
+        std::getline(std::cin, temp);
+        my_address.city = temp;
+    }
+    // ask for changes street and change if needed
+    std::cout << "Current street: " << my_address.street.c_str() << std::endl;
+    if (changeQuestion("Change street? ")) {
+        std::cout << "Enter street: ";
+        std::getline(std::cin, temp);
+        my_address.street = temp;
+    }
+    // ask for changes house number and change if needed
+    std::cout << "Current house number: " << my_address.houseNumber << std::endl;
+    if (changeQuestion("Change house number? ")) {
+        std::cout << "Enter house number: ";
+        my_address.houseNumber = input<unsigned int>();
+    }
+    // ask for changes postcode and change if needed
+    std::cout << "Current postcode: " << my_address.postcode << std::endl;
+    if (changeQuestion("Change postcode? ")) {
+        std::cout << "Enter postcode: ";
+        my_address.postcode = input<unsigned int>();
+    }
 }
 
 std::shared_ptr<Customer> Customer::create(unsigned int customerID) {
     Name_t name;
     Address_t address;
     std::string strTemp;
+
+    // ask for first name
     std::cout << "Enter first name: ";
     std::getline(std::cin, strTemp);
     name.firstName = strTemp;
+
+    // ask for last name
     std::cout << "Enter last name: ";
     std::getline(std::cin, strTemp);
     name.lastName = strTemp;
+
+    // ask for city
     std::cout << "Enter city: ";
     std::getline(std::cin, strTemp);
     address.city = strTemp;
+
+    // ask for street
     std::cout << "Enter street: ";
     std::getline(std::cin, strTemp);
     address.street = strTemp;
+
+    // ask for house number
     std::cout << "Enter house number: ";
     address.houseNumber = input<unsigned int>();
-    std::cout << "Enter postcode: ";
+
+    // ask for postcode
+    std::cout << "Enter zip code: ";
     address.postcode = input<unsigned int>();
+
     return std::make_shared<Customer>(name, address, customerID, CustomerType_t::PARTICULIER);
 }
 
@@ -82,8 +135,8 @@ void Customer::selectFilter(CustomerView &view) {
                 << "\n\t2. Last name"
                 << "\n\t3. City"
                 << "\n\t4. Street"
-                << "\n\t5. Street number"
-                << "\n\t6. postcode"
+                << "\n\t5. House number"
+                << "\n\t6. Zip code"
                 << "\n\t7. Customer type\n";
     switch (inputRange(1, 7)) {
         case 1:
@@ -160,4 +213,15 @@ void Customer::filterPostcode(CustomerView &view) {
     view.filter([postcode](const std::shared_ptr<class Customer>& customer) {
         return customer->getAddress().postcode != postcode;
     });
+}
+
+bool Customer::changeQuestion(const char *question) const  {
+    std::cout << question << "yes or no: " << std::endl;
+    std::string input;
+    std::getline(std::cin, input);
+    if (input == "y") {
+        std::cout << "Enter new value: ";
+        return true;
+    }
+    return false;
 }

@@ -17,6 +17,7 @@ AccessLevel_t login() {
         case 2:
             return AccessLevel_t::Owner;
     }
+    throw std::runtime_error("Invalid access level");
 }
 
 Action_t chooseAction(AccessLevel_t accessLevel) {

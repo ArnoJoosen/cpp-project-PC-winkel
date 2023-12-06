@@ -21,7 +21,7 @@ int main(int argc, char** argv){
                 shop.searchCustomer()->update();
                 break;
             case Action_t::RemoveCustomer:
-                shop.removeCustomer();
+                shop.removeCustomer(shop.searchCustomer());
                 break;
             case Action_t::BuildSystem:
                 // TODO: implement
@@ -30,13 +30,16 @@ int main(int argc, char** argv){
                 shop.createComponent();
                 break;
             case Action_t::RemoveComponent:
-                shop.removeComponent();
+                shop.removeComponent(shop.searchComponent());
                 break;
             case Action_t::UpdateComponent:
                 shop.searchComponent()->update();
                 break;
             case Action_t::SearchInvoice:
                 // TODO: implement
+                break;
+            case Action_t::Exit:
+                std::cout << "Exiting..." << std::endl;
                 break;
         }
     } while (action != Action_t::Exit);

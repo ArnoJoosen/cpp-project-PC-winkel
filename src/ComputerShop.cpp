@@ -36,6 +36,8 @@ void ComputerShop::createCustomer() {
         case BEDRIJF:
             my_customers.push_back(std::static_pointer_cast<Customer>(Company::create(lastComponentID++)));
             break;
+        case UNKNOWN: // should never happen
+            throw std::runtime_error("Unknown customer type");
     }
 }
 
@@ -62,50 +64,45 @@ void ComputerShop::createComponent() {
         case ComponentType_t::RAM:
             my_components.push_back(std::static_pointer_cast<ComponentBase>(Memory::Create(lastComponentID++)));
             break;
+        case ComponentType_t::UNKNOWN: // should never happen
+            throw std::runtime_error("Unknown component type");
     }
 }
 
 std::shared_ptr<Customer> ComputerShop::searchCustomer() {
     CustomerView view(my_customers);
     bool found = false;
+    int index;
     std::shared_ptr<Customer> customer = nullptr;
+
+    // filter customers until one is selected
     while (!found) {
-        if (view.getType() == CustomerType_t::UNKNOWN) {
-            Customer::printTopRow(true);
-            for (auto [i, customer]: Enumerate(view)) {
-                customer->printRow((int) i);
-                std::cout << std::endl;
+        Company::printTopRow(true);
+        for (auto [i, c]: Enumerate(view)) {
+            c->printRow((int) i);
+            std::cout << std::endl;
+        }
+        std::cout << "Add filter (a), reset filter (r), select customer (index of customer): ";
+        std::string input;
+        std::getline(std::cin, input);
+        if (view.getType() == CustomerType_t::PARTICULIER && input == "a") // add filter for particulier
+            Customer::selectFilter(view);
+        else if (view.getType() == CustomerType_t::BEDRIJF && input == "a") // add filter for bedrijf
+            Company::selectFilter(view);
+        else if (input == "r") { // reset filter
+            view = CustomerView(my_customers);
+        } else { // check if input is valid index for customer
+            try {
+                index = std::stoi(input);
+                if (index < view.size()) { // valid index
+                    customer = view[index];
+                    found = true;
+                } else // unknown index
+                    std::cout << "Invalid input" << std::endl;
+            } catch (std::exception& e) { // not a number
+                std::cout << "Invalid input" << std::endl;
             }
-            std::cout << "Add filter (a), reset filter (r), select customer (index of customer): ";
-            std::string input;
-            std::getline(std::cin, input);
-            if (input == "a") {
-                Customer::selectFilter(view);
-            } else if (input == "r") {
-                view = CustomerView(my_customers);
-            } else {
-                customer = view[std::stoi(input)]; // TODO error handling if input is not a number
-                found = true;
-            }
-        } else if (view.getType() == CustomerType_t::PARTICULIER) {
-            Company::printTopRow(true);
-            for (auto [i, customer]: Enumerate(view)) {
-                std::static_pointer_cast<Company>(customer)->printRow((int) i);
-                std::cout << std::endl;
-            }
-            std::cout << "Add filter (a), reset filter (r), select customer (index of customer): ";
-            std::string input;
-            std::getline(std::cin, input);
-            if (input == "a") {
-                Company::selectFilter(view);
-            } else if (input == "r") {
-                view = CustomerView(my_customers);
-            } else {
-                customer = view[std::stoi(input)]; // TODO error handling if input is not a number
-                found = true;
-            }
-        } else
-            throw std::runtime_error("Unknown customer type");
+        }
     }
     return customer;
 }
@@ -115,10 +112,10 @@ std::shared_ptr<ComponentBase> ComputerShop::searchComponent() {
     return nullptr;
 }
 
-void ComputerShop::removeCustomer() {
-    // TODO remove customer from console input
+void ComputerShop::removeCustomer(const std::shared_ptr<Customer>& customer) {
+    my_customers.erase(std::remove(my_customers.begin(), my_customers.end(), customer), my_customers.end());
 }
 
-void ComputerShop::removeComponent() {
-    // TODO remove component from console input
+void ComputerShop::removeComponent(const std::shared_ptr<ComponentBase>& component) {
+    my_components.erase(std::remove(my_components.begin(), my_components.end(), component), my_components.end());
 }

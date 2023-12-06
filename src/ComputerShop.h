@@ -33,8 +33,8 @@ public:
     void createComponent();
     std::shared_ptr<Customer> searchCustomer();
     std::shared_ptr<ComponentBase> searchComponent();
-    void removeCustomer();
-    void removeComponent();
+    void removeCustomer(const std::shared_ptr<Customer>& customer);
+    void removeComponent(const std::shared_ptr<ComponentBase>& component);
 
 private:
     CapString<MAX_SHOP_NAME_LENGTH> my_name;

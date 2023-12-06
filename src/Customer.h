@@ -39,6 +39,8 @@ protected:
     static void filterHouseNumber(class CustomerView& view);
     static void filterPostcode(class CustomerView& view);
 
+    bool changeQuestion(const char *question) const;
+
     Name_t my_name;
     Address_t my_address;
     unsigned int my_customerID;
