@@ -36,7 +36,13 @@ public:
     void update() final;
 
     static std::shared_ptr<Storage> Create(unsigned int componentID);
+    static void selectFilter(ComponentView &view);
 private:
+
+    static void filterSpeed(ComponentView &view);
+    static void filterSize(ComponentView &view);
+    static void filterSlot(ComponentView &view);
+
     float my_speed;
     unsigned int my_size;
     std::string my_slot;

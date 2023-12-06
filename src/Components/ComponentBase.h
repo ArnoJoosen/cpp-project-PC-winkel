@@ -44,11 +44,19 @@ public:
     virtual void printRow(int index = -1) const = 0;
     virtual void update();
 
-    static void selectFilter(ComponentView& view);
+    static void selectFilter(class ComponentView& view);
 
 protected:
 
     bool changeQuestion(const char* question) const;
+
+    static void filterManufacturer(class ComponentView& view);
+    static void filterName(class ComponentView& view);
+    static void filterPrice(class ComponentView& view);
+    static void filterPriceHigher(class ComponentView& view);
+    static void filterPriceLower(class ComponentView& view);
+    static void filterStock(class ComponentView& view);
+    static void filterComputerType(class ComponentView& view);
 
     CapString<MAX_MANUFACTURER_LENGTH> my_manufacturer;
     CapString<MAX_COMPONENT_NAME_LENGTH> my_name;

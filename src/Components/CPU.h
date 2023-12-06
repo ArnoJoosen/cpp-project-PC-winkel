@@ -36,7 +36,14 @@ public:
 
     static std::shared_ptr<CPU> Create(unsigned int componentID);
 
+    static void selectFilter(ComponentView &view);
+
 private:
+
+    static void filterClockSpeed(ComponentView &view);
+    static void filterCoreCount(ComponentView &view);
+    static void filterSocket(ComponentView &view);
+
     float my_clockSpeed;
     int my_coreCount;
     CapString<MAX_SOCKET_LENGTH> my_socket;

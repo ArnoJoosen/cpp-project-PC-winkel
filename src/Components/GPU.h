@@ -30,8 +30,13 @@ public:
     void update() final;
 
     static std::shared_ptr<GPU> Create(unsigned int componentID);
+    static void selectFilter(ComponentView &view);
 
 private:
+
+    static void filterPower(ComponentView &view);
+    static void filterBusSpeed(ComponentView &view);
+
     float my_power;
     float my_busSpeed;
 };

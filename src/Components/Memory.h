@@ -30,8 +30,13 @@ public:
     void update() final;
 
     static std::shared_ptr<Memory> Create(unsigned int componentID);
+    static void selectFilter(ComponentView &view);
 
 private:
+
+    static void filterSize(ComponentView &view);
+    static void filterClockSpeed(ComponentView &view);
+
     unsigned int my_size;
     float my_clockSpeed;
 };

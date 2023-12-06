@@ -35,7 +35,14 @@ public:
 
     static std::shared_ptr<Case> Create(unsigned int componentID);
 
+    static void selectFilter(class ComponentView& view);
+
 private:
+
+    static void filterColor(class ComponentView& view);
+    static void filterMotherboardSize(class ComponentView& view);
+    static void filterMaterial(class ComponentView& view);
+
     std::string my_color;
     std::string MotherboardSize;
     std::string my_material;

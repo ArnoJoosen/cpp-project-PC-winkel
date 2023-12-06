@@ -95,3 +95,77 @@ void Motherboard::update() {
         my_maxMemorySlots = input<unsigned int>();
     }
 }
+
+void Motherboard::selectFilter(ComponentView &view) {
+    std::cout   << "Select filter:"
+                << "\n\t1. Manufacturer"
+                << "\n\t2. Name"
+                << "\n\t3. Price"
+                << "\n\t4. Price higher than"
+                << "\n\t5. Price lower than"
+                << "\n\t6. Stock"
+                << "\n\t7. Computer Type"
+                << "\n\t8. Socket"
+                << "\n\t9. Form Factor"
+                << "\n\t10. Max Memory Slots" << std::endl;
+
+    switch (inputRange(1, 10)) {
+        case 1:
+            ComponentBase::filterManufacturer(view);
+            break;
+        case 2:
+            ComponentBase::filterName(view);
+            break;
+        case 3:
+            ComponentBase::filterPrice(view);
+            break;
+        case 4:
+            ComponentBase::filterPriceHigher(view);
+            break;
+        case 5:
+            ComponentBase::filterPriceLower(view);
+            break;
+        case 6:
+            ComponentBase::filterStock(view);
+            break;
+        case 7:
+            ComponentBase::filterComputerType(view);
+            break;
+        case 8:
+            filterSocket(view);
+            break;
+        case 9:
+            filterFormFactor(view);
+            break;
+        case 10:
+            filterMaxMemorySlots(view);
+            break;
+    }
+}
+
+void Motherboard::filterSocket(ComponentView &view) {
+    std::string socket;
+    std::cout << "Enter socket: ";
+    std::getline(std::cin, socket);
+    view.filter([&socket](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Motherboard>(component)->my_socket != socket;
+    });
+}
+
+void Motherboard::filterFormFactor(ComponentView &view) {
+    std::string formFactor;
+    std::cout << "Enter form factor: ";
+    std::getline(std::cin, formFactor);
+    view.filter([&formFactor](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Motherboard>(component)->my_formFactor != formFactor;
+    });
+}
+
+void Motherboard::filterMaxMemorySlots(ComponentView &view) {
+    unsigned int maxMemorySlots;
+    std::cout << "Enter max memory slots: ";
+    maxMemorySlots = input<unsigned int>();
+    view.filter([&maxMemorySlots](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Motherboard>(component)->my_maxMemorySlots != maxMemorySlots;
+    });
+}

@@ -95,3 +95,75 @@ void CPU::update() {
         my_socket = temp;
     }
 }
+
+void CPU::selectFilter(ComponentView &view) {
+    std::cout   << "Select filter:"
+                << "\n\t1. Manufacturer"
+                << "\n\t2. Name"
+                << "\n\t3. Price"
+                << "\n\t4. Price higher than"
+                << "\n\t5. Price lower than"
+                << "\n\t6. Stock"
+                << "\n\t7. Computer Type"
+                << "\n\t8. Clock Speed"
+                << "\n\t9. Core Count"
+                << "\n\t10. Socket" << std::endl;
+
+    switch (inputRange(1, 10)) {
+        case 1:
+            ComponentBase::filterManufacturer(view);
+            break;
+        case 2:
+            ComponentBase::filterName(view);
+            break;
+        case 3:
+            ComponentBase::filterPrice(view);
+            break;
+        case 4:
+            ComponentBase::filterPriceHigher(view);
+            break;
+        case 5:
+            ComponentBase::filterPriceLower(view);
+            break;
+        case 6:
+            ComponentBase::filterStock(view);
+            break;
+        case 7:
+            ComponentBase::filterComputerType(view);
+            break;
+        case 8:
+            filterClockSpeed(view);
+            break;
+        case 9:
+            filterCoreCount(view);
+            break;
+        case 10:
+            filterSocket(view);
+            break;
+    }
+}
+
+void CPU::filterClockSpeed(ComponentView &view) {
+    std::cout << "Enter clock speed: ";
+    float clockSpeed = input<float>();
+    view.filter([&clockSpeed](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<CPU>(component)->my_clockSpeed != clockSpeed;
+    });
+}
+
+void CPU::filterCoreCount(ComponentView &view) {
+    std::cout << "Enter core count: ";
+    int coreCount = input<int>();
+    view.filter([&coreCount](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<CPU>(component)->my_coreCount != coreCount;
+    });
+}
+
+void CPU::filterSocket(ComponentView &view) {
+    std::cout << "Enter socket: ";
+    std::string socket;
+    std::getline(std::cin, socket);
+    view.filter([&socket](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<CPU>(component)->my_socket != socket;
+    });
+}

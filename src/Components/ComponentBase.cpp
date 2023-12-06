@@ -98,6 +98,104 @@ bool ComponentBase::changeQuestion(const char *question) const {
     return false;
 }
 
-void ComponentBase::selectFilter(ComponentView& view) {
+void ComponentBase::selectFilter(ComponentView &view) {
+    std::cout   << "Select filter:"
+                << "\n\t1. Manufacturer"
+                << "\n\t2. Name"
+                << "\n\t3. Price"
+                << "\n\t4. Price higher than"
+                << "\n\t5. Price lower than"
+                << "\n\t6. Stock"
+                << "\n\t7. Component Type"
+                << "\n\t8. Computer Type" << std::endl;
+    switch (inputRange(1, 6)) {
+        case 1:
+            filterManufacturer(view);
+            break;
+        case 2:
+            filterName(view);
+            break;
+        case 3:
+            filterPrice(view);
+            break;
+        case 4:
+            filterPriceHigher(view);
+            break;
+        case 5:
+            filterPriceLower(view);
+            break;
+        case 6:
+            filterStock(view);
+            break;
+        case 7:
+            view.setType(selectComponentType());
+            break;
+        case 8:
+            filterComputerType(view);
+            break;
+    }
+}
 
+void ComponentBase::filterManufacturer(ComponentView &view) {
+    std::cout << "Enter manufacturer: ";
+    std::string manufacturer;
+    std::getline(std::cin, manufacturer);
+    view.filter([&manufacturer](const std::shared_ptr<ComponentBase>& component) {
+        return component->my_manufacturer != manufacturer;
+    });
+}
+
+void ComponentBase::filterName(ComponentView &view) {
+    std::cout << "Enter name: ";
+    std::string name;
+    std::getline(std::cin, name);
+    view.filter([&name](const std::shared_ptr<ComponentBase>& component) {
+        return component->my_name != name;
+    });
+}
+
+
+void ComponentBase::filterPrice(ComponentView &view) {
+    float price;
+    std::cout << "Enter price: ";
+    price = input<float>();
+    view.filter([&price](const std::shared_ptr<ComponentBase>& component) {
+        return component->my_price != price;
+    });
+}
+
+void ComponentBase::filterPriceHigher(ComponentView &view) {
+    float price;
+    std::cout << "Enter price: ";
+    price = input<float>();
+    view.filter([&price](const std::shared_ptr<ComponentBase>& component) {
+        return component->my_price <= price;
+    });
+}
+
+void ComponentBase::filterPriceLower(ComponentView &view) {
+    float price;
+    std::cout << "Enter price: ";
+    price = input<float>();
+    view.filter([&price](const std::shared_ptr<ComponentBase>& component) {
+        return component->my_price >= price;
+    });
+}
+
+
+void ComponentBase::filterStock(ComponentView &view) {
+    unsigned int stock;
+    std::cout << "Enter stock: ";
+    stock = input<unsigned int>();
+    view.filter([&stock](const std::shared_ptr<ComponentBase>& component) {
+        return component->my_stock != stock;
+    });
+}
+
+void ComponentBase::filterComputerType(ComponentView &view) {
+    std::cout << "Enter computer type: ";
+    ComputerType_t computerType = selectComputerType();
+    view.filter([&computerType](const std::shared_ptr<ComponentBase>& component) {
+        return component->my_computerType != computerType;
+    });
 }

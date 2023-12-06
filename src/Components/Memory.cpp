@@ -82,3 +82,62 @@ void Memory::update() {
         my_clockSpeed = input<float>();
     }
 }
+
+void Memory::selectFilter(ComponentView &view) {
+    std::cout   << "Select filter:"
+                << "\n\t1. Manufacturer"
+                << "\n\t2. Name"
+                << "\n\t3. Price"
+                << "\n\t4. Price higher than"
+                << "\n\t5. Price lower than"
+                << "\n\t6. Stock"
+                << "\n\t7. Computer Type"
+                << "\n\t8. Size"
+                << "\n\t9. Clock Speed" << std::endl;
+
+    switch (inputRange(1, 9)) {
+        case 1:
+            ComponentBase::filterManufacturer(view);
+            break;
+        case 2:
+            ComponentBase::filterName(view);
+            break;
+        case 3:
+            ComponentBase::filterPrice(view);
+            break;
+        case 4:
+            ComponentBase::filterPriceHigher(view);
+            break;
+        case 5:
+            ComponentBase::filterPriceLower(view);
+            break;
+        case 6:
+            ComponentBase::filterStock(view);
+            break;
+        case 7:
+            ComponentBase::filterComputerType(view);
+            break;
+        case 8:
+            filterSize(view);
+            break;
+        case 9:
+            filterClockSpeed(view);
+            break;
+    }
+}
+
+void Memory::filterSize(ComponentView &view) {
+    std::cout << "Enter size: ";
+    unsigned int size = input<unsigned int>();
+    view.filter([&size](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Memory>(component)->my_size != size;
+    });
+}
+
+void Memory::filterClockSpeed(ComponentView &view) {
+    std::cout << "Enter clock speed: ";
+    float clockSpeed = input<float>();
+    view.filter([&clockSpeed](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Memory>(component)->my_clockSpeed != clockSpeed;
+    });
+}

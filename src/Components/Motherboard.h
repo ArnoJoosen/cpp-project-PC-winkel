@@ -36,8 +36,14 @@ public:
     void update() final;
 
     static std::shared_ptr<Motherboard> Create(unsigned int componentID);
+    static void selectFilter(ComponentView &view);
 
 private:
+
+    static void filterSocket(ComponentView &view);
+    static void filterFormFactor(ComponentView &view);
+    static void filterMaxMemorySlots(ComponentView &view);
+
     CapString<MAX_SOCKET_LENGTH> my_socket;
     CapString<MAX_SOCKET_LENGTH> my_formFactor;
     unsigned int my_maxMemorySlots;

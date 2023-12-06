@@ -6,6 +6,7 @@
 #include "Input.h"
 #include <iostream>
 #include <iomanip>
+#include "ComponentView.h"
 
 Case::Case(std::string manufacturer, std::string name, float price, unsigned int stock, ComputerType_t computerType,
            unsigned int componentID, std::string color, std::string MotherboardSize,
@@ -68,4 +69,78 @@ std::shared_ptr<Case> Case::Create(unsigned int componentID) {
     type = selectComputerType();
 
     return std::make_shared<Case>(manufacturer, name, price, stock, type, componentID, color, MotherboardSize, material);
+}
+
+void Case::selectFilter(ComponentView &view) {
+    std::cout   << "Select filter:"
+                << "\n\t1. Manufacturer"
+                << "\n\t2. Name"
+                << "\n\t3. Price"
+                << "\n\t4. Price higher than"
+                << "\n\t5. Price lower than"
+                << "\n\t6. Stock"
+                << "\n\t7. Computer Type"
+                << "\n\t8. Color"
+                << "\n\t9. MotherboardSize"
+                << "\n\t10. Material" << std::endl;
+
+    switch (inputRange(1, 10)) {
+        case 1:
+            ComponentBase::filterManufacturer(view);
+            break;
+        case 2:
+            ComponentBase::filterName(view);
+            break;
+        case 3:
+            ComponentBase::filterPrice(view);
+            break;
+        case 4:
+            ComponentBase::filterPriceHigher(view);
+            break;
+        case 5:
+            ComponentBase::filterPriceLower(view);
+            break;
+        case 6:
+            ComponentBase::filterStock(view);
+            break;
+        case 7:
+            ComponentBase::filterComputerType(view);
+            break;
+        case 8:
+            filterColor(view);
+            break;
+        case 9:
+            filterMotherboardSize(view);
+            break;
+        case 10:
+            filterMaterial(view);
+            break;
+    }
+}
+
+void Case::filterColor(ComponentView &view) {
+    std::string color;
+    std::cout << "Enter color: ";
+    std::getline(std::cin, color);
+    view.filter([&color](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Case>(component)->my_color != color;
+    });
+}
+
+void Case::filterMotherboardSize(ComponentView &view) {
+    std::string MotherboardSize;
+    std::cout << "Enter MotherboardSize: ";
+    std::getline(std::cin, MotherboardSize);
+    view.filter([&MotherboardSize](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Case>(component)->MotherboardSize != MotherboardSize;
+    });
+}
+
+void Case::filterMaterial(ComponentView &view) {
+    std::string material;
+    std::cout << "Enter material: ";
+    std::getline(std::cin, material);
+    view.filter([&material](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Case>(component)->my_material != material;
+    });
 }

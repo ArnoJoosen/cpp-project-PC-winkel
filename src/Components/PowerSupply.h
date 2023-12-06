@@ -33,8 +33,13 @@ public:
     void update() final;
 
     static std::shared_ptr<PowerSupply> Create(unsigned int componentID);
+    static void selectFilter(ComponentView &view);
 
 private:
+
+    static void filterPower(ComponentView &view);
+    static void filterCertification(ComponentView &view);
+
     float my_power;
     CapString<MAX_CERTIFICATION_LENGTH> my_certification;
 };

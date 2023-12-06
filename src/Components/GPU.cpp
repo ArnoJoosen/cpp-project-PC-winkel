@@ -83,3 +83,62 @@ void GPU::update() {
         my_busSpeed = input<float>();
     }
 }
+
+void GPU::selectFilter(ComponentView &view) {
+    std::cout   << "Select filter:"
+                << "\n\t1. Manufacturer"
+                << "\n\t2. Name"
+                << "\n\t3. Price"
+                << "\n\t4. Price higher than"
+                << "\n\t5. Price lower than"
+                << "\n\t6. Stock"
+                << "\n\t7. Computer Type"
+                << "\n\t8. Power"
+                << "\n\t9. Bus Speed" << std::endl;
+
+    switch (inputRange(1, 9)) {
+        case 1:
+            ComponentBase::filterManufacturer(view);
+            break;
+        case 2:
+            ComponentBase::filterName(view);
+            break;
+        case 3:
+            ComponentBase::filterPrice(view);
+            break;
+        case 4:
+            ComponentBase::filterPriceHigher(view);
+            break;
+        case 5:
+            ComponentBase::filterPriceLower(view);
+            break;
+        case 6:
+            ComponentBase::filterStock(view);
+            break;
+        case 7:
+            ComponentBase::filterComputerType(view);
+            break;
+        case 8:
+            filterPower(view);
+            break;
+        case 9:
+            filterBusSpeed(view);
+            break;
+    }
+}
+
+void GPU::filterPower(ComponentView &view) {
+    std::cout << "Enter power: ";
+    float power = input<float>();
+    view.filter([&power](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<GPU>(component)->my_power != power;
+    });
+}
+
+void GPU::filterBusSpeed(ComponentView &view) {
+    std::cout << "Enter bus speed: ";
+    float busSpeed = input<float>();
+    view.filter([&busSpeed](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<GPU>(component)->my_busSpeed != busSpeed;
+    });
+}

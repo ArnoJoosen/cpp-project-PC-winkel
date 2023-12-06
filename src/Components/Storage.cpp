@@ -94,3 +94,75 @@ void Storage::update() {
         std::getline(std::cin, my_slot);
     }
 }
+
+void Storage::selectFilter(ComponentView &view) {
+    std::cout   << "Select filter:"
+                << "\n\t1. Manufacturer"
+                << "\n\t2. Name"
+                << "\n\t3. Price"
+                << "\n\t4. Price higher than"
+                << "\n\t5. Price lower than"
+                << "\n\t6. Stock"
+                << "\n\t7. Computer Type"
+                << "\n\t8. Speed"
+                << "\n\t9. Size"
+                << "\n\t10. Slot" << std::endl;
+
+    switch (inputRange(1, 10)) {
+        case 1:
+            ComponentBase::filterManufacturer(view);
+            break;
+        case 2:
+            ComponentBase::filterName(view);
+            break;
+        case 3:
+            ComponentBase::filterPrice(view);
+            break;
+        case 4:
+            ComponentBase::filterPriceHigher(view);
+            break;
+        case 5:
+            ComponentBase::filterPriceLower(view);
+            break;
+        case 6:
+            ComponentBase::filterStock(view);
+            break;
+        case 7:
+            ComponentBase::filterComputerType(view);
+            break;
+        case 8:
+            filterSpeed(view);
+            break;
+        case 9:
+            filterSize(view);
+            break;
+        case 10:
+            filterSlot(view);
+            break;
+    }
+}
+
+void Storage::filterSpeed(ComponentView &view) {
+    std::cout << "Enter speed: ";
+    float speed = input<float>();
+    view.filter([&speed](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Storage>(component)->my_speed != speed;
+    });
+}
+
+void Storage::filterSize(ComponentView &view) {
+    std::cout << "Enter size: ";
+    unsigned int size = input<unsigned int>();
+    view.filter([&size](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Storage>(component)->my_size != size;
+    });
+}
+
+void Storage::filterSlot(ComponentView &view) {
+    std::cout << "Enter slot: ";
+    std::string slot;
+    std::getline(std::cin, slot);
+    view.filter([&slot](const std::shared_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Storage>(component)->my_slot != slot;
+    });
+}
