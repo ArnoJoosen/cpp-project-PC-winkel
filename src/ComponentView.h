@@ -11,7 +11,7 @@
 
 class ComponentView {
 public:
-    using iterator = std::vector<std::shared_ptr<class ComponentBase>>::iterator;
+    using value_type = std::shared_ptr<class ComponentBase>;
     using const_iterator = std::vector<std::shared_ptr<class ComponentBase>>::const_iterator;
 
     ComponentView(const std::vector<std::shared_ptr<class ComponentBase>>& components, ComponentType_t type = ComponentType_t::UNKNOWN);
@@ -19,12 +19,14 @@ public:
     void filter(const std::function<bool(const std::shared_ptr<class ComponentBase>&)>& filter);
     void setType(ComponentType_t type);
 
-    inline const_iterator begin() const { return my_components.begin(); }
-    inline const_iterator end() const { return my_components.end(); }
+    [[nodiscard]] inline const_iterator begin() const { return my_components.begin(); }
+    [[nodiscard]] inline const_iterator end() const { return my_components.end(); }
 
-    inline size_t size() { return my_components.size(); }
-    inline bool empty() { return my_components.empty(); }
+    [[nodiscard]] inline size_t size() const { return my_components.size(); }
+    [[nodiscard]] inline bool empty() const { return my_components.empty(); }
     inline ComponentType_t getType() { return my_type; }
+
+    inline std::shared_ptr<ComponentBase> operator[](int index) { return my_components[index]; }
 
 private:
 

@@ -31,7 +31,8 @@ public:
     inline void setSize(unsigned int size) { my_size = size; }
     inline void setSlot(std::string slot) { my_slot = std::move(slot); }
 
-    void print() const final;
+    static void printHeader(bool indexed = false);
+    void printRow(int index) const final;
     void update() final;
 
     static std::shared_ptr<Storage> Create(unsigned int componentID);

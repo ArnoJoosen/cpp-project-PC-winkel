@@ -30,7 +30,7 @@ public:
     inline void set_MotherboardSize(std::string size) { MotherboardSize = std::move(size); }
     inline void set_material(std::string material) { my_material = std::move(material); }
 
-    void print() const final;
+    void printRow(int index) const final;
     void update() final;
 
     static std::shared_ptr<Case> Create(unsigned int componentID);

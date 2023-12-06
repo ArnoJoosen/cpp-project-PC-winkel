@@ -57,7 +57,7 @@ ComponentType_t selectComponentType(){
     } while (true);
 }
 
-const char* componentTypeToString(ComputerType_t type) {
+const char* computerTypeToString(ComputerType_t type) {
     switch (type) {
         case ComputerType_t::DESKTOP:
             return "Desktop";

@@ -25,7 +25,8 @@ public:
     inline void setSize(unsigned int size) { this->my_size = size; }
     inline void setClockSpeed(float clockSpeed) { this->my_clockSpeed = clockSpeed; }
 
-    void print() const final;
+    static void printHeader(bool indexed = false);
+    void printRow(int index) const final;
     void update() final;
 
     static std::shared_ptr<Memory> Create(unsigned int componentID);

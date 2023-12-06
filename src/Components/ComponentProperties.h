@@ -25,7 +25,7 @@ enum class ComputerType_t {
     UNKNOWN = 0
 };
 
-const char* componentTypeToString(ComputerType_t type);
+const char* computerTypeToString(ComputerType_t type);
 ComputerType_t selectComputerType();
 
 #endif //PC_WINKLE_COMPONENTPROPERTIES_H

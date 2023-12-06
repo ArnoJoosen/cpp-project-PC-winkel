@@ -218,10 +218,14 @@ void Customer::filterPostcode(CustomerView &view) {
 bool Customer::changeQuestion(const char *question) const  {
     std::cout << question << "yes or no: " << std::endl;
     std::string input;
-    std::getline(std::cin, input);
-    if (input == "y") {
-        std::cout << "Enter new value: ";
-        return true;
-    }
+    do {
+        std::getline(std::cin, input);
+        if (input == "y")
+            return true;
+        else if (input == "n")
+            return false;
+        else
+            std::cout << "Invalid input. Try again: ";
+    } while (input != "n");
     return false;
 }

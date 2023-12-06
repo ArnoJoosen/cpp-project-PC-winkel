@@ -4,6 +4,7 @@
 
 #include "Storage.h"
 #include <iostream>
+#include <iomanip>
 #include "Input.h"
 
 Storage::Storage(std::string manufacturer, std::string name, float price, unsigned int stock, ComponentType_t type,
@@ -43,8 +44,36 @@ std::shared_ptr<Storage> Storage::Create(unsigned int componentID) {
                                      speed, size, slot);
 }
 
-void Storage::print() const {
-    ComponentBase::print();
+
+void Storage::printHeader(bool indexed) {
+    // Print index column
+    if (indexed)
+        std::cout << std::setw(5) << "Index" << " | ";
+
+    // Print header columns
+    std::cout   << std::setw(10) << "ID" << " | "
+                << std::setw(MAX_MANUFACTURER_LENGTH) << "Manufacturer" << " | "
+                << std::setw(MAX_COMPONENT_NAME_LENGTH) << "Name" << " | "
+                << std::setw(10) << "Price" << " | "
+                << std::setw(10) << "Stock" << " | "
+                << std::setw(11) << "Type" << " | "
+                << std::setw(15) << "Computer Type" << " | "
+                << std::setw(10) << "Speed" << " | "
+                << std::setw(10) << "Size" << " | "
+                << std::setw(15) << "Slot" << " | " << std::endl;
+
+    // Print horizontal line
+    if (indexed)
+        std::cout << std::string(5+10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15, '-') << std::endl; // TODO add speed, size and slot
+    else
+        std::cout << std::string(10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15, '-') << std::endl; // TODO add speed, size and slot
+}
+
+void Storage::printRow(int index) const {
+    ComponentBase::printBase(index);
+    std::cout   << std::setw(10) << my_speed << " | "
+                << std::setw(10) << my_size << " | "
+                << std::setw(15) << my_slot << " | " << std::endl;
 }
 
 void Storage::update() {

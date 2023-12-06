@@ -7,6 +7,7 @@
 #include <string>
 #include <iomanip>
 #include "Input.h"
+#include "CustomerView.h"
 
 Company::Company(Name_t name, Address_t address, unsigned int customerID, float vat, float discount,
                  unsigned int yearlyBuy) : Customer(std::move(name), std::move(address), customerID, CustomerType_t::BEDRIJF),
@@ -107,4 +108,61 @@ std::shared_ptr<Company> Company::create(unsigned int customerID) {
     discount = input<float>();
 
     return std::make_shared<Company>(name, address, customerID, vat, discount, 0);
+}
+
+void Company::selectFilter(CustomerView &view) {
+    std::cout   << "Select filter:"
+               << "\n\t1. First name"
+               << "\n\t2. Last name"
+               << "\n\t3. City"
+               << "\n\t4. Street"
+               << "\n\t5. House number"
+               << "\n\t6. Zip code"
+               << "\n\t7. Vat"
+               << "\n\t8. Discount" << std::endl;
+
+    switch (inputRange(1, 7)) {
+        case 1:
+            Customer::filterFirstName(view);
+            break;
+        case 2:
+            Customer::filterLastName(view);
+            break;
+        case 3:
+            Customer::filterCity(view);
+            break;
+        case 4:
+            Customer::filterStreet(view);
+            break;
+        case 5:
+            Customer::filterHouseNumber(view);
+            break;
+        case 6:
+            Customer::filterPostcode(view);
+            break;
+        case 7:
+            filterVat(view);
+            break;
+        case 8:
+            filterDiscount(view);
+            break;
+    }
+}
+
+void Company::filterVat(CustomerView &view) {
+    float vat;
+    std::cout << "Enter vat: ";
+    vat = input<float>();
+    view.filter([vat](const std::shared_ptr<class Customer>& customer) {
+        return std::static_pointer_cast<Company>(customer)->getVat() != vat;
+    });
+}
+
+void Company::filterDiscount(CustomerView &view) {
+    float discount;
+    std::cout << "Enter discount: ";
+    discount = input<float>();
+    view.filter([discount](const std::shared_ptr<class Customer>& customer) {
+        return std::static_pointer_cast<Company>(customer)->getDiscount() != discount;
+    });
 }

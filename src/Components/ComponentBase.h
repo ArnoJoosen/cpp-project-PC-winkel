@@ -9,7 +9,7 @@
 #include <iostream>
 #include "ComponentProperties.h"
 #include "CapString.hpp"
-#include "CustomerView.h"
+#include "ComponentView.h"
 #define MAX_MANUFACTURER_LENGTH 30
 #define MAX_COMPONENT_NAME_LENGTH 30
 
@@ -39,10 +39,12 @@ public:
     inline void setComputerType(ComputerType_t computerType) { my_computerType = computerType; }
     inline void setComponentID(unsigned int componentID) { my_componentID = componentID; }
 
-    virtual void print() const;
+    static void printHeader(bool indexed = false);
+    void printBase(int index = -1) const;
+    virtual void printRow(int index = -1) const = 0;
     virtual void update();
 
-    static void selectFilter(CustomerView& view);
+    static void selectFilter(ComponentView& view);
 
 protected:
 

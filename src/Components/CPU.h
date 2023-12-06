@@ -7,6 +7,7 @@
 #include <string>
 #include <memory>
 #include "ComponentBase.h"
+#define MAX_SOCKET_LENGTH 20
 
 class CPU : public ComponentBase {
 public:
@@ -23,13 +24,14 @@ public:
 
     [[nodiscard]] inline float getClockSpeed() const { return my_clockSpeed; }
     [[nodiscard]] inline int getCoreCount() const { return my_coreCount; }
-    [[nodiscard]] inline std::string getSocket() const { return my_socket; }
+    [[nodiscard]] inline CapString<MAX_SOCKET_LENGTH> getSocket() const { return my_socket; }
 
     inline void setClockSpeed(float clockSpeed) { this->my_clockSpeed = clockSpeed; }
     inline void setCoreCount(int coreCount) { this->my_coreCount = coreCount; }
     inline void setSocket(std::string socket) { this->my_socket = std::move(socket); }
 
-    void print() const final;
+    static void printHeader(bool indexed = false);
+    void printRow(int index) const final;
     void update() final;
 
     static std::shared_ptr<CPU> Create(unsigned int componentID);
@@ -37,7 +39,7 @@ public:
 private:
     float my_clockSpeed;
     int my_coreCount;
-    std::string my_socket;
+    CapString<MAX_SOCKET_LENGTH> my_socket;
 };
 
 #endif //PC_WINKLE_CPU_H

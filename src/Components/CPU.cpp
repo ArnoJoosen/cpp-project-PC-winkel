@@ -4,6 +4,7 @@
 
 #include "CPU.h"
 #include <iostream>
+#include <iomanip>
 #include "Input.h"
 
 CPU::CPU(std::string manufacturer, std::string name, float price, unsigned int stock, ComponentType_t type,
@@ -41,13 +42,42 @@ std::shared_ptr<CPU> CPU::Create(unsigned int componentID) {
     return std::make_shared<CPU>(manufacturer, name, price, stock, ComponentType_t::CPU, type, componentID, clockSpeed, coreCount, socket);
 }
 
-void CPU::print() const {
-    ComponentBase::print();
+void CPU::printHeader(bool indexed) {
+    // Print index column
+    if (indexed)
+        std::cout << std::setw(5) << "Index" << " | ";
+
+    // Print header columns
+    std::cout   << std::setw(10) << "ID" << " | "
+                << std::setw(MAX_MANUFACTURER_LENGTH) << "Manufacturer" << " | "
+                << std::setw(MAX_COMPONENT_NAME_LENGTH) << "Name" << " | "
+                << std::setw(10) << "Price" << " | "
+                << std::setw(10) << "Stock" << " | "
+                << std::setw(11) << "Type" << " | "
+                << std::setw(15) << "Computer Type" << " | "
+                << std::setw(10) << "Clock Speed" << " | "
+                << std::setw(5) << "Core Count" << " | "
+                << std::setw(MAX_SOCKET_LENGTH) << "Socket" << " | " << std::endl;
+
+    // Print horizontal line
+    if (indexed)
+        std::cout << std::string(5+10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15+24, '-') << std::endl; // TODO add clock speed and core count
+    else
+        std::cout << std::string(10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15+21, '-') << std::endl; // TODO add clock speed and core count
+}
+
+
+void CPU::printRow(int index) const {
+    ComponentBase::printBase(index);
+    std::cout   << std::setw(10) << my_clockSpeed << " | "
+                << std::setw(5) << my_coreCount << " | "
+                << std::setw(MAX_SOCKET_LENGTH) << my_socket.c_str() << " | " << std::endl;
 }
 
 void CPU::update() {
     ComponentBase::update();
     ComponentBase::update();
+    std::string temp;
     std::cout << "Current clock speed: " << my_clockSpeed << std::endl;
     if (changeQuestion("Change clock speed? ")) {
         std::cout << "Enter new clock speed: ";
@@ -61,6 +91,7 @@ void CPU::update() {
     std::cout << "Current socket: " << my_socket.c_str() << std::endl;
     if (changeQuestion("Change socket? ")) {
         std::cout << "Enter new socket: ";
-        std::getline(std::cin, my_socket);
+        std::getline(std::cin, temp);
+        my_socket = temp;
     }
 }

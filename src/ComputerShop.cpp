@@ -4,7 +4,6 @@
 
 #include "ComputerShop.h"
 #include <iostream>
-#include "Input.h"
 #include "Company.h"
 #include "Components/CPU.h"
 #include "Components/GPU.h"
@@ -13,6 +12,8 @@
 #include "Components/Storage.h"
 #include "Components/PowerSupply.h"
 #include "Components/Case.h"
+#include "CustomerView.h"
+#include "ComponentView.h"
 #include "Enumerate.hpp"
 
 
@@ -85,7 +86,7 @@ std::shared_ptr<Customer> ComputerShop::searchCustomer() {
         std::cout << "Add filter (a), reset filter (r), select customer (index of customer): ";
         std::string input;
         std::getline(std::cin, input);
-        if (view.getType() == CustomerType_t::PARTICULIER && input == "a") // add filter for particulier
+        if ((view.getType() == CustomerType_t::PARTICULIER ||  view.getType() == CustomerType_t::UNKNOWN) && input == "a") // add filter for particulier
             Customer::selectFilter(view);
         else if (view.getType() == CustomerType_t::BEDRIJF && input == "a") // add filter for bedrijf
             Company::selectFilter(view);
@@ -108,7 +109,36 @@ std::shared_ptr<Customer> ComputerShop::searchCustomer() {
 }
 
 std::shared_ptr<ComponentBase> ComputerShop::searchComponent() {
-    // TODO search component from console input
+    ComponentView view(my_components);
+    bool found = false;
+    int index;
+    std::shared_ptr<ComponentBase> component = nullptr;
+    while(!found) {
+        Company::printTopRow(true);
+        for (auto [i, c]: Enumerate(view)) {
+            c->printRow((int) i);
+            std::cout << std::endl;
+        }
+        std::cout << "Add filter (a), reset filter (r), select component (index of component): ";
+        std::string input;
+        std::getline(std::cin, input);
+        if (input == "a") // add filter
+            ComponentBase::selectFilter(view);
+        else if (input == "r") // reset filter
+            view = ComponentView(my_components);
+        else { // check if input is valid index for component
+            try {
+                index = std::stoi(input);
+                if (index < view.size()) { // valid index
+                    component = view[index];
+                    found = true;
+                } else // unknown index
+                    std::cout << "Invalid input" << std::endl;
+            } catch (std::exception& e) { // not a number
+                std::cout << "Invalid input" << std::endl;
+            }
+        }
+    }
     return nullptr;
 }
 

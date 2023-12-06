@@ -21,12 +21,18 @@ public:
     inline void setYearlyBuy(unsigned int yearlyBuy) { my_yearlyBuy = yearlyBuy; }
 
     static void printTopRow(bool indexed = false);
-    void printRow(int index = -1) const final;
+    void printRow(int index) const final;
     void update() final;
 
     static std::shared_ptr<Company> create(unsigned int customerID);
 
+    static void selectFilter(class CustomerView& view);
+
 private:
+
+    static void filterVat(class CustomerView& view);
+    static void filterDiscount(class CustomerView& view);
+
     float my_vat;
     float my_discount;
     unsigned int my_yearlyBuy;

@@ -5,6 +5,7 @@
 #include "Case.h"
 #include "Input.h"
 #include <iostream>
+#include <iomanip>
 
 Case::Case(std::string manufacturer, std::string name, float price, unsigned int stock, ComputerType_t computerType,
            unsigned int componentID, std::string color, std::string MotherboardSize,
@@ -14,8 +15,11 @@ Case::Case(std::string manufacturer, std::string name, float price, unsigned int
 
 }
 
-void Case::print() const {
-    ComponentBase::print();
+void Case::printRow(int index) const {
+    ComponentBase::printBase(index);
+    std::cout   << std::setw(10) << my_color << " | "
+                << std::setw(15) << MotherboardSize << " | "
+                << std::setw(15) << my_material << " | " << std::endl;
 }
 
 void Case::update() {

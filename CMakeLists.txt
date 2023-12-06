@@ -1,7 +1,10 @@
 cmake_minimum_required(VERSION 3.22)
 project(PC_Winkle)
 
-# TODO set c++ version to 17
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 99)
+
+option(ENABLE_TEST "Enable test" OFF)
 
 file(GLOB_RECURSE SRC
         src/*.h
@@ -16,10 +19,12 @@ add_executable(PC_Winkle ${SRC}
 target_include_directories(PC_Winkle PRIVATE src)
 
 # test
-set(test_SRCS
-        src/CapString.hpp
-        )
-find_package(GTest REQUIRED)
-add_executable(test test/test.cpp ${test_SRCS})
-target_include_directories(test PRIVATE test src)
-target_link_libraries(test GTest::GTest GTest::Main)
+if (ENABLE_TEST)
+        set(test_SRCS
+                src/CapString.hpp
+                )
+        find_package(GTest REQUIRED)
+        add_executable(test test/test.cpp ${test_SRCS})
+        target_include_directories(test PRIVATE test src)
+        target_link_libraries(test GTest::GTest GTest::Main)
+endif ()
