@@ -90,7 +90,7 @@ public:
     bool operator==(const char* other) const {
         if (strSize != strlen(other))
             return false;
-        return memcmp(data, other, strSize) == 0;
+        return memcmp(data, other, strSize) == 0; // TODO chge to strncmp
     }
 
     bool operator==(std::string other) const {

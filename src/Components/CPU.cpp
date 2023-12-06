@@ -78,6 +78,7 @@ void CPU::update() {
     ComponentBase::update();
     ComponentBase::update();
     std::string temp;
+
     std::cout << "Current clock speed: " << my_clockSpeed << std::endl;
     if (changeQuestion("Change clock speed? ")) {
         std::cout << "Enter new clock speed: ";
