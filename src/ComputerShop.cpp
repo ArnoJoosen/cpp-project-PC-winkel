@@ -190,10 +190,13 @@ std::shared_ptr<Invoice> ComputerShop::buildSystem(const std::shared_ptr<Custome
     invoice->addComponents(std::static_pointer_cast<Case>(searchComponent(ComponentType_t::CASE, systemType)));
 
     // additional components
-    while (yesNoQuestion("Do you want to add additional components?")) {
+    while (yesNoQuestion("Do you want to add additional components?"))
         invoice->addComponents(searchComponent(ComponentType_t::UNKNOWN, systemType));
-    }
 
+
+    // TODO calculate price bast on components and customer type
+    // TODO update stock
+    // TODO if business customer: update yearlybuy
     // print invoice
     invoice->print();
 }
