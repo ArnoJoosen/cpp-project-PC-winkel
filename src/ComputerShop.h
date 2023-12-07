@@ -11,6 +11,7 @@
 #include "Customer.h"
 #include "types.h"
 #include <memory>
+#include "Invoice.h"
 #define MAX_SHOP_NAME_LENGTH 50
 
 class ComputerShop {
@@ -32,9 +33,10 @@ public:
     void createCustomer();
     void createComponent();
     std::shared_ptr<Customer> searchCustomer();
-    std::shared_ptr<ComponentBase> searchComponent();
+    std::shared_ptr<ComponentBase> searchComponent(ComponentType_t type = ComponentType_t::UNKNOWN, ComputerType_t computerType = ComputerType_t::UNKNOWN);
     void removeCustomer(const std::shared_ptr<Customer>& customer);
     void removeComponent(const std::shared_ptr<ComponentBase>& component);
+    std::shared_ptr<Invoice> buildSystem(const std::shared_ptr<Customer>& customer);
 
 private:
     CapString<MAX_SHOP_NAME_LENGTH> my_name;

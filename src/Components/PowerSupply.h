@@ -8,6 +8,7 @@
 #include <utility>
 #include <memory>
 #include "ComponentBase.h"
+#include "ComponentView.h"
 #define MAX_CERTIFICATION_LENGTH 10
 
 class PowerSupply : public ComponentBase {
@@ -26,7 +27,7 @@ public:
     [[nodiscard]] inline CapString<MAX_CERTIFICATION_LENGTH> get_certification() const { return my_certification; }
 
     inline void set_power(float power) { my_power = power; }
-    inline void set_certification(std::string certification) { my_certification = certification; }
+    inline void set_certification(const std::string& certification) { my_certification = certification; }
 
     static void printHeader(bool indexed = false);
     void printRow(int index) const final;

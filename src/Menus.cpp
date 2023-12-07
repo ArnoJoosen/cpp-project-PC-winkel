@@ -36,15 +36,17 @@ Action_t chooseAction(AccessLevel_t accessLevel) {
         << "\t 7. Add component" << "\n"
         << "\t 8. Remove component" << "\n"
         << "\t 9. Update component" << "\n"
-        << "\t 10. Exit" << std::endl;
+        << "\t 10. Exit" << "\n"
+        << "\t 11. Logout" << std::endl;
 
     // Employee actions
     if (accessLevel == AccessLevel_t::Employee)
         std::cout << "\t 5. Build system" << "\n"
-        << "\t 6. Exit" << std::endl;
+        << "\t 6. Exit" << "\n"
+        << "\t 7. Logout" << std::endl;
 
     while (true) {
-        switch (inputRange(1, 10)) {
+        switch (inputRange(1, 11)) {
             case 1:
                 return Action_t::SearchCustomer;
             case 2:
@@ -67,7 +69,7 @@ Action_t chooseAction(AccessLevel_t accessLevel) {
                 if (accessLevel == AccessLevel_t::Owner)
                     return Action_t::AddComponent;
                 else {
-                    std::cout << "Invalid action" << std::endl;
+                    return Action_t::Logout;
                     continue;
                 }
             case 8:
@@ -88,6 +90,13 @@ Action_t chooseAction(AccessLevel_t accessLevel) {
             case 10:
                 if (accessLevel == AccessLevel_t::Owner)
                     return Action_t::Exit;
+                else {
+                    std::cout << "Invalid action" << std::endl;
+                    continue;
+                }
+            case 11:
+                if (accessLevel == AccessLevel_t::Owner)
+                    return Action_t::Logout;
                 else {
                     std::cout << "Invalid action" << std::endl;
                     continue;

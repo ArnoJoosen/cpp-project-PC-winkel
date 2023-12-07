@@ -24,7 +24,7 @@ int main(int argc, char** argv){
                 shop.removeCustomer(shop.searchCustomer());
                 break;
             case Action_t::BuildSystem:
-                // TODO: implement
+                shop.buildSystem(shop.searchCustomer());
                 break;
             case Action_t::SearchComponent:
                 shop.searchComponent();
@@ -40,6 +40,10 @@ int main(int argc, char** argv){
                 break;
             case Action_t::SearchInvoice:
                 // TODO: implement
+                break;
+            case Action_t::Logout:
+                std::cout << "Logging out..." << std::endl;
+                accessLevel = login();
                 break;
             case Action_t::Exit:
                 std::cout << "Exiting..." << std::endl;

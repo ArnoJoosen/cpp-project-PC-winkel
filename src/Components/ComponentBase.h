@@ -9,7 +9,6 @@
 #include <iostream>
 #include "ComponentProperties.h"
 #include "CapString.hpp"
-#include "ComponentView.h"
 #define MAX_MANUFACTURER_LENGTH 30
 #define MAX_COMPONENT_NAME_LENGTH 30
 

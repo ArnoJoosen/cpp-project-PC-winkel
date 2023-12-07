@@ -10,20 +10,22 @@
 
 class Invoice {
 public:
-    Invoice(unsigned int invoiceID, Customer* customer, const std::vector<ComponentBase*>& components);
+    Invoice(unsigned int invoiceID, const std::shared_ptr<Customer>& customer);
 
     [[nodiscard]] inline unsigned int getInvoiceID() const { return my_invoiceID; }
-    [[nodiscard]] inline const Customer* getCustomer() const { return my_customer; }
-    [[nodiscard]] inline const std::vector<ComponentBase*>& getComponents() const { return my_components; }
+    [[nodiscard]] inline std::shared_ptr<Customer> getCustomer() const { return my_customer; }
+    [[nodiscard]] inline const std::vector<std::shared_ptr<ComponentBase>>& getComponents() const { return my_components; }
 
     inline void setInvoiceID(unsigned int invoiceID) { my_invoiceID = invoiceID; }
-    inline void setCustomer(Customer* customer) { my_customer = customer; }
-    inline void setComponents(const std::vector<ComponentBase*>& components) { my_components = components; }
+    inline void setCustomer(const std::shared_ptr<Customer>& customer) { my_customer = customer; }
+    inline void addComponents(const std::shared_ptr<ComponentBase>& component) { my_components.push_back(component); }
+
+    void print() const;
 
 private:
     unsigned int my_invoiceID;
-    Customer* my_customer;
-    std::vector<ComponentBase*> my_components;
+    std::shared_ptr<Customer> my_customer;
+    std::vector<std::shared_ptr<ComponentBase>> my_components;
 };
 
 #endif //PC_WINKLE_INVOICE_H

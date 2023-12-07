@@ -8,6 +8,7 @@
 #include <utility>
 #include "ComponentBase.h"
 #include <memory>
+#include "ComponentView.h"
 
 #define MAX_COLOR_LENGTH 10
 #define MAX_MOTHERBOARD_SIZE_LENGTH 10

@@ -21,4 +21,6 @@ unsigned int input<unsigned int>();
 
 int inputRange(int min, int max);
 
+bool yesNoQuestion(const char* question);
+
 #endif //PC_WINKLE_INPUT_H

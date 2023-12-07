@@ -6,6 +6,7 @@
 #define PC_WINKLE_MEMORY_H
 #include "ComponentBase.h"
 #include <memory>
+#include "ComponentView.h"
 
 class Memory : public ComponentBase {
 public:

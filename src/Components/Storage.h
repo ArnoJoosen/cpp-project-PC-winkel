@@ -7,6 +7,7 @@
 #include <string>
 #include <utility>
 #include <memory>
+#include "ComponentView.h"
 #include "ComponentBase.h"
 
 class Storage : public ComponentBase {

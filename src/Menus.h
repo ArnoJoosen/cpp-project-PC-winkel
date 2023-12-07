@@ -25,6 +25,7 @@ enum class Action_t{
 
     SearchInvoice,
 
+    Logout,
     Exit
 };
 

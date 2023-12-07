@@ -7,6 +7,7 @@
 #include <string>
 #include <memory>
 #include "ComponentBase.h"
+#include "ComponentView.h"
 #define MAX_SOCKET_LENGTH 20
 
 class CPU : public ComponentBase {
@@ -28,7 +29,7 @@ public:
 
     inline void setClockSpeed(float clockSpeed) { this->my_clockSpeed = clockSpeed; }
     inline void setCoreCount(int coreCount) { this->my_coreCount = coreCount; }
-    inline void setSocket(std::string socket) { this->my_socket = std::move(socket); }
+    inline void setSocket(const std::string& socket) { this->my_socket = socket; }
 
     static void printHeader(bool indexed = false);
     void printRow(int index) const final;

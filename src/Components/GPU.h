@@ -6,6 +6,7 @@
 #define PC_WINKLE_GPU_H
 #include "ComponentBase.h"
 #include <memory>
+#include "ComponentView.h"
 
 class GPU : public ComponentBase {
 public:

@@ -6,6 +6,7 @@
 #define PC_WINKLE_MOTHERBOARD_H
 #include <string>
 #include <memory>
+#include "ComponentView.h"
 #include "ComponentBase.h"
 #define MAX_SOCKET_LENGTH 10
 #define MAX_FORM_FACTOR_LENGTH 15

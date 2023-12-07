@@ -4,7 +4,13 @@
 
 #include "Invoice.h"
 
-Invoice::Invoice(unsigned int invoiceID, Customer *customer, const std::vector<ComponentBase *> &components) :
-    my_invoiceID(invoiceID), my_customer(customer), my_components(components){
+Invoice::Invoice(unsigned int invoiceID, const std::shared_ptr<Customer>& customer) :
+    my_invoiceID(invoiceID), my_customer(customer), my_components({}){
+}
 
+void Invoice::print() const {
+    // print components
+    ComponentBase::printHeader();
+    for (const auto& component : my_components)
+        component->printBase();
 }

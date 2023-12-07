@@ -71,3 +71,18 @@ int inputRange(int min, int max) {
         return num;
     }
 }
+
+bool yesNoQuestion(const char* question) {
+    std::cout << question << " y or n: " << std::endl;
+    std::string input;
+    do {
+        std::getline(std::cin, input);
+        if (input == "y")
+            return true;
+        else if (input == "n")
+            return false;
+        else
+            std::cout << "Invalid input. Try again: ";
+    } while (input != "n");
+    return false;
+}

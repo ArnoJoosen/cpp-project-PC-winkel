@@ -12,10 +12,16 @@
 #include "Components/Storage.h"
 #include "Enumerate.hpp"
 
-ComponentView::ComponentView(const std::vector<std::shared_ptr<ComponentBase>> &components, ComponentType_t type) : my_components(components), my_type(type) {
+ComponentView::ComponentView(const std::vector<std::shared_ptr<ComponentBase>> &components,
+                             ComponentType_t type, ComputerType_t computerType) : my_components(components), my_type(type) {
     if (type != ComponentType_t::UNKNOWN) {
         filter([type](const std::shared_ptr<ComponentBase>& component) {
             return component->getType() != type;
+        });
+    }
+    if (computerType != ComputerType_t::UNKNOWN) {
+        filter([computerType](const std::shared_ptr<ComponentBase>& component) {
+            return component->getComputerType() != computerType;
         });
     }
 }

@@ -43,6 +43,7 @@ TEST(ChooseActionTest, ActionEmployee) {
             "4\n"
             "5\n"
             "6\n"
+            "7\n"
     );
     std::cin.rdbuf(simulatedInput.rdbuf());
 
@@ -52,6 +53,7 @@ TEST(ChooseActionTest, ActionEmployee) {
     EXPECT_EQ(chooseAction(AccessLevel_t::Employee), Action_t::SearchInvoice);
     EXPECT_EQ(chooseAction(AccessLevel_t::Employee), Action_t::BuildSystem);
     EXPECT_EQ(chooseAction(AccessLevel_t::Employee), Action_t::Exit);
+    EXPECT_EQ(chooseAction(AccessLevel_t::Employee), Action_t::Logout);
 
     std::cin.rdbuf(oldCinBuffer);
     std::cout.rdbuf(oldBuf);
@@ -75,6 +77,7 @@ TEST(ChooseActionTest, ActionOwener) {
             "8\n"
             "9\n"
             "10\n"
+            "11\n"
     );
     std::cin.rdbuf(simulatedInput.rdbuf());
 
@@ -88,6 +91,7 @@ TEST(ChooseActionTest, ActionOwener) {
     EXPECT_EQ(chooseAction(AccessLevel_t::Owner), Action_t::RemoveComponent);
     EXPECT_EQ(chooseAction(AccessLevel_t::Owner), Action_t::UpdateComponent);
     EXPECT_EQ(chooseAction(AccessLevel_t::Owner), Action_t::Exit);
+    EXPECT_EQ(chooseAction(AccessLevel_t::Owner), Action_t::Logout);
 
     std::cin.rdbuf(oldCinBuffer);
     std::cout.rdbuf(oldBuf);

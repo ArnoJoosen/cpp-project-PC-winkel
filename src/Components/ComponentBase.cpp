@@ -5,6 +5,7 @@
 #include <iomanip>
 #include "ComponentBase.h"
 #include "Input.h"
+#include "ComponentView.h"
 
 ComponentBase::ComponentBase(std::string manufacturer, std::string name, float price, unsigned int stock,
                              ComponentType_t type, ComputerType_t computerType, unsigned int componentID) :
