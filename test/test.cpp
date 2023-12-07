@@ -3,6 +3,7 @@
 //
 #include <gtest/gtest.h>
 #include "CapStringTest.h"
+#include "MenuTest.h"
 
 
 int main(int argc, char **argv) {

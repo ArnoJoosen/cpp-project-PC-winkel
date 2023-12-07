@@ -78,11 +78,14 @@ std::shared_ptr<Customer> ComputerShop::searchCustomer() {
 
     // filter customers until one is selected
     while (!found) {
+        // print customers in view
         Company::printTopRow(true);
         for (auto [i, c]: Enumerate(view)) {
             c->printRow((int) i);
             std::cout << std::endl;
         }
+
+        // add filter for customer type or select customer or reset filter
         std::cout << "Add filter (a), reset filter (r), select customer (index of customer): ";
         std::string input;
         std::getline(std::cin, input);
@@ -114,16 +117,29 @@ std::shared_ptr<ComponentBase> ComputerShop::searchComponent() {
     int index;
     std::shared_ptr<ComponentBase> component = nullptr;
     while(!found) {
-        Company::printTopRow(true);
-        for (auto [i, c]: Enumerate(view)) {
-            c->printRow((int) i);
-            std::cout << std::endl;
-        }
+        // print components in view
+        view.printView();
+
+        // add filter for component type or select component or reset filter
         std::cout << "Add filter (a), reset filter (r), select component (index of component): ";
         std::string input;
         std::getline(std::cin, input);
-        if (input == "a") // add filter
+        if (view.getType() == ComponentType_t::UNKNOWN && input == "a") // add filter for unknown
             ComponentBase::selectFilter(view);
+        else if (view.getType() != ComponentType_t::CASE && input == "a") // add filter for case
+            Case::selectFilter(view);
+        else if (view.getType() == ComponentType_t::CPU && input == "a") // add filter for CPU
+            CPU::selectFilter(view);
+        else if (view.getType() == ComponentType_t::GPU && input == "a") // add filter for GPU
+            GPU::selectFilter(view);
+        else if (view.getType() == ComponentType_t::RAM && input == "a") // add filter for RAM
+            Memory::selectFilter(view);
+        else if (view.getType() == ComponentType_t::MOTHERBOARD && input == "a") // add filter for motherboard
+            Motherboard::selectFilter(view);
+        else if (view.getType() == ComponentType_t::PSU && input == "a") // add filter for PSU
+            PowerSupply::selectFilter(view);
+        else if (view.getType() == ComponentType_t::STORAGE && input == "a") // add filter for storage
+            Storage::selectFilter(view);
         else if (input == "r") // reset filter
             view = ComponentView(my_components);
         else { // check if input is valid index for component
@@ -139,7 +155,7 @@ std::shared_ptr<ComponentBase> ComputerShop::searchComponent() {
             }
         }
     }
-    return nullptr;
+    return component;
 }
 
 void ComputerShop::removeCustomer(const std::shared_ptr<Customer>& customer) {

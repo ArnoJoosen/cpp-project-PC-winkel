@@ -18,6 +18,7 @@ enum class Action_t{
 
     BuildSystem,
 
+    SearchComponent,
     AddComponent,
     RemoveComponent,
     UpdateComponent,

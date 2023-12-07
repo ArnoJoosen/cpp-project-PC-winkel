@@ -66,7 +66,7 @@ void Memory::printHeader(bool indexed) {
 void Memory::printRow(int index) const {
     ComponentBase::printBase(index);
     std::cout   << std::setw(2) << my_size << " | "
-                << std::setw(5) << my_clockSpeed << " | " << std::endl;
+                << std::setw(5) << my_clockSpeed << " | ";
 }
 
 void Memory::update() {

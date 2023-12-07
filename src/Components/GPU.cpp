@@ -10,7 +10,7 @@
 
 GPU::GPU(std::string manufacturer, std::string name, float price, unsigned int stock, ComponentType_t type,
          ComputerType_t computerType, unsigned int componentID, float power, float busSpeed) :
-         ComponentBase(std::move(manufacturer), std::move(name), price, stock, type, computerType, componentID),
+         ComponentBase(manufacturer, name, price, stock, type, computerType, componentID),
          my_power(power), my_busSpeed(busSpeed) {
 
 }
@@ -67,7 +67,7 @@ void GPU::printHeader(bool indexed) {
 void GPU::printRow(int index) const {
     ComponentBase::printBase(index);
     std::cout   << std::setw(5) << my_power << " | "
-                << std::setw(5) << my_busSpeed << " | " << std::endl;
+                << std::setw(5) << my_busSpeed << " | ";
 }
 
 void GPU::update() {

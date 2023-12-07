@@ -26,6 +26,9 @@ int main(int argc, char** argv){
             case Action_t::BuildSystem:
                 // TODO: implement
                 break;
+            case Action_t::SearchComponent:
+                shop.searchComponent();
+                break;
             case Action_t::AddComponent:
                 shop.createComponent();
                 break;

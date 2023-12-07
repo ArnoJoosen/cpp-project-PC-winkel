@@ -71,7 +71,7 @@ void Motherboard::printRow(int index) const {
     ComponentBase::printBase(index);
     std::cout   << std::setw(10) << my_socket.c_str() << " | "
                 << std::setw(15) << my_formFactor.c_str() << " | "
-                << std::setw(15) << my_maxMemorySlots << " | " << std::endl;
+                << std::setw(15) << my_maxMemorySlots << " | ";
 }
 
 void Motherboard::update() {

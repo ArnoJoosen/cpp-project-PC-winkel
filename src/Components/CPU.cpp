@@ -56,7 +56,7 @@ void CPU::printHeader(bool indexed) {
                 << std::setw(11) << "Type" << " | "
                 << std::setw(15) << "Computer Type" << " | "
                 << std::setw(10) << "Clock Speed" << " | "
-                << std::setw(5) << "Core Count" << " | "
+                << std::setw(10) << "Core Count" << " | "
                 << std::setw(MAX_SOCKET_LENGTH) << "Socket" << " | " << std::endl;
 
     // Print horizontal line
@@ -70,8 +70,8 @@ void CPU::printHeader(bool indexed) {
 void CPU::printRow(int index) const {
     ComponentBase::printBase(index);
     std::cout   << std::setw(10) << my_clockSpeed << " | "
-                << std::setw(5) << my_coreCount << " | "
-                << std::setw(MAX_SOCKET_LENGTH) << my_socket.c_str() << " | " << std::endl;
+                << std::setw(10) << my_coreCount << " | "
+                << std::setw(MAX_SOCKET_LENGTH) << my_socket.c_str() << " | ";
 }
 
 void CPU::update() {

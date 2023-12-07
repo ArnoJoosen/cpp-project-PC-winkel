@@ -28,6 +28,8 @@ public:
 
     inline std::shared_ptr<ComponentBase> operator[](int index) { return my_components[index]; }
 
+    void printView();
+
 private:
 
     std::vector<std::shared_ptr<class ComponentBase>> my_components;

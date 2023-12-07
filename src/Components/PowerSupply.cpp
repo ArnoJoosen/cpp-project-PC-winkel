@@ -67,7 +67,7 @@ void PowerSupply::printHeader(bool indexed) {
 void PowerSupply::printRow(int index) const {
     ComponentBase::printBase(index);
     std::cout   << std::setw(5) << my_power << " | "
-                << std::setw(MAX_CERTIFICATION_LENGTH) << my_certification.c_str() << " | " << std::endl;
+                << std::setw(MAX_CERTIFICATION_LENGTH) << my_certification.c_str() << " | ";
 }
 
 void PowerSupply::update() {

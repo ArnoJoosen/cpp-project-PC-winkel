@@ -73,7 +73,7 @@ void Storage::printRow(int index) const {
     ComponentBase::printBase(index);
     std::cout   << std::setw(10) << my_speed << " | "
                 << std::setw(10) << my_size << " | "
-                << std::setw(15) << my_slot << " | " << std::endl;
+                << std::setw(15) << my_slot << " | ";
 }
 
 void Storage::update() {

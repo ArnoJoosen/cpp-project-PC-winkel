@@ -7,7 +7,9 @@
 #include "Input.h"
 
 ComponentBase::ComponentBase(std::string manufacturer, std::string name, float price, unsigned int stock,
-                             ComponentType_t type, ComputerType_t computerType, unsigned int componentID) {
+                             ComponentType_t type, ComputerType_t computerType, unsigned int componentID) :
+                             my_manufacturer(manufacturer), my_name(name), my_price(price),
+                             my_stock(stock), my_type(type), my_computerType(computerType), my_componentID(componentID) {
 
 }
 
@@ -38,12 +40,13 @@ void ComponentBase::printBase(int index) const {
         std::cout << std::setw(5) << index << " | ";
 
     // print base columns
-    std::cout   << std::setw(MAX_MANUFACTURER_LENGTH) << my_manufacturer.c_str() << " | "
+    std::cout   << std::setw(10) << my_componentID << " | "
+                << std::setw(MAX_MANUFACTURER_LENGTH) << my_manufacturer.c_str() << " | "
                 << std::setw(MAX_COMPONENT_NAME_LENGTH) << my_name.c_str() << " | "
                 << std::setw(10) << my_price << " | "
                 << std::setw(10) << my_stock << " | "
                 << std::setw(11) << componentTypeToString(my_type) << " | "
-                << std::setw(15) << computerTypeToString(my_computerType) << " | " << std::endl;
+                << std::setw(15) << computerTypeToString(my_computerType) << " | ";
 }
 
 void ComponentBase::update() {
@@ -79,22 +82,20 @@ void ComponentBase::update() {
         std::cout << "Enter new stock: ";
         my_stock = input<unsigned int>();
     }
-
-    std::cout << "Current component type: " << componentTypeToString(my_type) << std::endl;
-    if (changeQuestion("Change computer type? ")) {
-        std::cout << "Enter new type: ";
-        my_computerType = selectComputerType();
-    }
 }
 
 bool ComponentBase::changeQuestion(const char *question) const {
-    std::cout << question << "yes or no: " << std::endl;
+    std::cout << question << " y or n: " << std::endl;
     std::string input;
-    std::getline(std::cin, input);
-    if (strcasecmp(input.c_str(), "y") == 0) {
-        std::cout << "Enter new value: ";
-        return true;
-    }
+    do {
+        std::getline(std::cin, input);
+        if (input == "y")
+            return true;
+        else if (input == "n")
+            return false;
+        else
+            std::cout << "Invalid input. Try again: ";
+    } while (input != "n");
     return false;
 }
 
@@ -108,7 +109,7 @@ void ComponentBase::selectFilter(ComponentView &view) {
                 << "\n\t6. Stock"
                 << "\n\t7. Component Type"
                 << "\n\t8. Computer Type" << std::endl;
-    switch (inputRange(1, 6)) {
+    switch (inputRange(1, 8)) {
         case 1:
             filterManufacturer(view);
             break;

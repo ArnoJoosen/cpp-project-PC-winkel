@@ -216,7 +216,7 @@ void Customer::filterPostcode(CustomerView &view) {
 }
 
 bool Customer::changeQuestion(const char *question) const  {
-    std::cout << question << "yes or no: " << std::endl;
+    std::cout << question << "y or n: " << std::endl;
     std::string input;
     do {
         std::getline(std::cin, input);

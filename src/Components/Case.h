@@ -9,6 +9,10 @@
 #include "ComponentBase.h"
 #include <memory>
 
+#define MAX_COLOR_LENGTH 10
+#define MAX_MOTHERBOARD_SIZE_LENGTH 10
+#define MAX_MATERIAL_LENGTH 10
+
 class Case : public ComponentBase {
 public:
 
@@ -18,18 +22,19 @@ public:
          unsigned int stock,
          ComputerType_t computerType,
          unsigned int componentID,
-         std::string color,
-         std::string MotherboardSize,
-         std::string material);
+         const std::string& color,
+         const std::string& MotherboardSize,
+         const std::string& material);
 
-    [[nodiscard]] inline std::string get_color() const { return my_color; }
-    [[nodiscard]] inline std::string get_MotherboardSize() const { return MotherboardSize; }
-    [[nodiscard]] inline std::string get_material() const { return my_material; }
+    [[nodiscard]] inline CapString<MAX_COLOR_LENGTH> get_color() const { return my_color; }
+    [[nodiscard]] inline CapString<MAX_MOTHERBOARD_SIZE_LENGTH> get_MotherboardSize() const { return MotherboardSize; }
+    [[nodiscard]] inline CapString<MAX_MATERIAL_LENGTH> get_material() const { return my_material; }
 
-    inline void set_color(std::string color) { my_color = std::move(color); }
-    inline void set_MotherboardSize(std::string size) { MotherboardSize = std::move(size); }
-    inline void set_material(std::string material) { my_material = std::move(material); }
+    inline void set_color(const std::string& color) { my_color = color; }
+    inline void set_MotherboardSize(const std::string& size) { MotherboardSize = size; }
+    inline void set_material(const std::string& material) { my_material = material; }
 
+    static void printHeader(bool indexed = false);
     void printRow(int index) const final;
     void update() final;
 
@@ -43,9 +48,9 @@ private:
     static void filterMotherboardSize(class ComponentView& view);
     static void filterMaterial(class ComponentView& view);
 
-    std::string my_color;
-    std::string MotherboardSize;
-    std::string my_material;
+    CapString<MAX_COLOR_LENGTH> my_color;
+    CapString<MAX_MOTHERBOARD_SIZE_LENGTH> MotherboardSize;
+    CapString<MAX_MATERIAL_LENGTH> my_material;
 };
 
 
