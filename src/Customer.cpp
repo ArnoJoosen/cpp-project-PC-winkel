@@ -93,7 +93,7 @@ void Customer::update() {
     }
 }
 
-std::shared_ptr<Customer> Customer::create(unsigned int customerID) {
+std::shared_ptr<Customer> Customer::Create(unsigned int customerID) {
     Name_t name;
     Address_t address;
     std::string strTemp;
@@ -167,8 +167,8 @@ void Customer::filterFirstName(CustomerView &view) {
     std::cout << "Enter first name: ";
     std::string firstName;
     std::getline(std::cin, firstName);
-    view.filter([firstName](const std::shared_ptr<class Customer>& customer) {
-        return customer->getName().firstName != firstName;
+    view.filter([firstName](const std::weak_ptr<class Customer>& customer) {
+        return customer.lock()->getName().firstName != firstName;
     });
 }
 
@@ -176,8 +176,8 @@ void Customer::filterLastName(CustomerView &view) {
     std::cout << "Enter last name: ";
     std::string lastName;
     std::getline(std::cin, lastName);
-    view.filter([lastName](const std::shared_ptr<class Customer>& customer) {
-        return customer->getName().lastName != lastName;
+    view.filter([lastName](const std::weak_ptr<class Customer>& customer) {
+        return customer.lock()->getName().lastName != lastName;
     });
 }
 
@@ -185,8 +185,8 @@ void Customer::filterCity(CustomerView &view) {
     std::cout << "Enter city: ";
     std::string city;
     std::getline(std::cin, city);
-    view.filter([city](const std::shared_ptr<class Customer>& customer) {
-        return customer->getAddress().city != city;
+    view.filter([city](const std::weak_ptr<class Customer>& customer) {
+        return customer.lock()->getAddress().city != city;
     });
 }
 
@@ -194,24 +194,24 @@ void Customer::filterStreet(CustomerView &view) {
     std::cout << "Enter street: ";
     std::string street;
     std::getline(std::cin, street);
-    view.filter([street](const std::shared_ptr<class Customer>& customer) {
-        return customer->getAddress().street != street;
+    view.filter([street](const std::weak_ptr<class Customer>& customer) {
+        return customer.lock()->getAddress().street != street;
     });
 }
 
 void Customer::filterHouseNumber(CustomerView &view) {
     std::cout << "Enter house number: ";
     unsigned int houseNumber = input<unsigned int>();
-    view.filter([houseNumber](const std::shared_ptr<class Customer>& customer) {
-        return customer->getAddress().houseNumber != houseNumber;
+    view.filter([houseNumber](const std::weak_ptr<class Customer>& customer) {
+        return customer.lock()->getAddress().houseNumber != houseNumber;
     });
 }
 
 void Customer::filterPostcode(CustomerView &view) {
     std::cout << "Enter postcode: ";
     unsigned int postcode = input<unsigned int>();
-    view.filter([postcode](const std::shared_ptr<class Customer>& customer) {
-        return customer->getAddress().postcode != postcode;
+    view.filter([postcode](const std::weak_ptr<class Customer>& customer) {
+        return customer.lock()->getAddress().postcode != postcode;
     });
 }
 

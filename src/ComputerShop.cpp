@@ -31,10 +31,10 @@ void ComputerShop::addCustomer(const std::shared_ptr<Customer>& customer) {
 void ComputerShop::createCustomer() {
     switch (selectCustomerType()) {
         case PARTICULIER:
-            my_customers.push_back(Customer::create(lastCustomerID++));
+            my_customers.push_back(Customer::Create(lastCustomerID++));
             break;
         case BEDRIJF:
-            my_customers.push_back(std::static_pointer_cast<Customer>(Company::create(lastComponentID++)));
+            my_customers.push_back(std::static_pointer_cast<Customer>(Company::Create(lastComponentID++)));
             break;
         case UNKNOWN: // should never happen
             throw std::runtime_error("Unknown customer type");
@@ -73,19 +73,19 @@ std::weak_ptr<Customer> ComputerShop::searchCustomer() {
     CustomerView view(my_customers);
     bool found = false;
     int index;
-    std::shared_ptr<Customer> customer = nullptr;
+    std::weak_ptr<Customer> customer;
 
     // filter customers until one is selected
     while (!found) {
         // print customers in view
         Company::printTopRow(true);
         for (auto [i, c]: Enumerate(view)) {
-            c->printRow((int) i);
+            c.lock()->printRow((int) i);
             std::cout << std::endl;
         }
 
         // add filter for customer type or select customer or reset filter
-        std::cout << "Add filter (a), reset filter (r), create customer (c), select customer (index of customer): ";
+        std::cout << "Add filter (a), reset filter (r), Create customer (c), select customer (index of customer): ";
         std::string input;
         std::getline(std::cin, input);
         if ((view.getType() == CustomerType_t::PARTICULIER ||  view.getType() == CustomerType_t::UNKNOWN) && input == "a") // add filter for particulier
@@ -94,7 +94,7 @@ std::weak_ptr<Customer> ComputerShop::searchCustomer() {
             Company::selectFilter(view);
         else if (input == "r") { // reset filter
             view = CustomerView(my_customers);
-        } else if (input == "c") { // create customer
+        } else if (input == "c") { // Create customer
             createCustomer();
             view = CustomerView(my_customers);
         } else { // check if input is valid index for customer

@@ -24,7 +24,7 @@ public:
     void printRow(int index) const final;
     void update() final;
 
-    static std::shared_ptr<Company> create(unsigned int customerID);
+    static std::shared_ptr<Company> Create(unsigned int customerID);
 
     static void selectFilter(class CustomerView& view);
 

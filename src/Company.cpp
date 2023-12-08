@@ -65,7 +65,7 @@ void Company::update() {
     }
 }
 
-std::shared_ptr<Company> Company::create(unsigned int customerID) {
+std::shared_ptr<Company> Company::Create(unsigned int customerID) {
     Name_t name;
     Address_t address;
     float vat, discount;
@@ -153,8 +153,8 @@ void Company::filterVat(CustomerView &view) {
     float vat;
     std::cout << "Enter vat: ";
     vat = input<float>();
-    view.filter([vat](const std::shared_ptr<class Customer>& customer) {
-        return std::static_pointer_cast<Company>(customer)->getVat() != vat;
+    view.filter([vat](const std::weak_ptr<class Customer>& customer) {
+        return std::static_pointer_cast<Company>(customer.lock())->getVat() != vat;
     });
 }
 
@@ -162,7 +162,7 @@ void Company::filterDiscount(CustomerView &view) {
     float discount;
     std::cout << "Enter discount: ";
     discount = input<float>();
-    view.filter([discount](const std::shared_ptr<class Customer>& customer) {
-        return std::static_pointer_cast<Company>(customer)->getDiscount() != discount;
+    view.filter([discount](const std::weak_ptr<class Customer>& customer) {
+        return std::static_pointer_cast<Company>(customer.lock())->getDiscount() != discount;
     });
 }

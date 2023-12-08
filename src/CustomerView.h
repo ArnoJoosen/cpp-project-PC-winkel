@@ -11,12 +11,12 @@
 
 class CustomerView {
 public:
-    using value_type = std::shared_ptr<class Customer>;
-    using const_iterator = std::vector<std::shared_ptr<class Customer>>::const_iterator;
+    using value_type = std::weak_ptr<class Customer>;
+    using const_iterator = std::vector<std::weak_ptr<class Customer>>::const_iterator;
 
     CustomerView(const std::vector<std::shared_ptr<class Customer>>& customers, CustomerType_t type = CustomerType_t::UNKNOWN);
 
-    void filter(const std::function<bool(const std::shared_ptr<class Customer>&)> &filter);
+    void filter(const std::function<bool(const std::weak_ptr<class Customer>&)> &filter);
     void setType(CustomerType_t type);
 
     [[nodiscard]] inline const_iterator begin() const { return my_customers.begin(); }
@@ -26,10 +26,10 @@ public:
     [[nodiscard]] inline bool empty() const { return my_customers.empty(); }
     inline CustomerType_t getType() { return my_type; }
 
-    inline std::shared_ptr<Customer> operator[](int index) { return my_customers[index]; }
+    inline std::weak_ptr<Customer> operator[](int index) { return my_customers[index]; }
 
 private:
-    std::vector<std::shared_ptr<class Customer>> my_customers;
+    std::vector<std::weak_ptr<class Customer>> my_customers;
     CustomerType_t my_type;
 };
 
