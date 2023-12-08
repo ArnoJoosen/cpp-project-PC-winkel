@@ -21,7 +21,7 @@
 ComputerShop::ComputerShop(std::string name, Address_t address) : my_name(name), my_address(address) {}
 
 void ComputerShop::addComponent(const std::shared_ptr<ComponentBase>& component) {
-    my_components.push_back(component);
+    my_components.insert({component->getType(), component});
 }
 
 void ComputerShop::addCustomer(const std::shared_ptr<Customer>& customer) {
@@ -44,25 +44,25 @@ void ComputerShop::createCustomer() {
 void ComputerShop::createComponent() {
     switch (selectComponentType()) {
         case ComponentType_t::CASE:
-            my_components.push_back(std::static_pointer_cast<ComponentBase>(Case::Create(lastComponentID++)));
+            my_components.insert({ComponentType_t::CASE, std::static_pointer_cast<ComponentBase>(Case::Create(lastComponentID++))});
             break;
         case ComponentType_t::CPU:
-            my_components.push_back(std::static_pointer_cast<ComponentBase>(CPU::Create(lastComponentID++)));
+            my_components.insert({ComponentType_t::CPU, std::static_pointer_cast<ComponentBase>(CPU::Create(lastComponentID++))});
             break;
         case ComponentType_t::GPU:
-            my_components.push_back(std::static_pointer_cast<ComponentBase>(GPU::Create(lastComponentID++)));
+            my_components.insert({ComponentType_t::GPU, std::static_pointer_cast<ComponentBase>(GPU::Create(lastComponentID++))});
             break;
         case ComponentType_t::STORAGE:
-            my_components.push_back(std::static_pointer_cast<ComponentBase>(Storage::Create(lastComponentID++)));
+            my_components.insert({ComponentType_t::STORAGE, std::static_pointer_cast<ComponentBase>(Storage::Create(lastComponentID++))});
             break;
         case ComponentType_t::MOTHERBOARD:
-            my_components.push_back(std::static_pointer_cast<ComponentBase>(Motherboard::Create(lastComponentID++)));
+            my_components.insert({ComponentType_t::MOTHERBOARD, std::static_pointer_cast<ComponentBase>(Motherboard::Create(lastComponentID++))});
             break;
         case ComponentType_t::PSU:
-            my_components.push_back(std::static_pointer_cast<ComponentBase>(PowerSupply::Create(lastComponentID++)));
+            my_components.insert({ComponentType_t::PSU, std::static_pointer_cast<ComponentBase>(PowerSupply::Create(lastComponentID++))});
             break;
         case ComponentType_t::RAM:
-            my_components.push_back(std::static_pointer_cast<ComponentBase>(Memory::Create(lastComponentID++)));
+            my_components.insert({ComponentType_t::RAM, std::static_pointer_cast<ComponentBase>(Memory::Create(lastComponentID++))});
             break;
         case ComponentType_t::UNKNOWN: // should never happen
             throw std::runtime_error("Unknown component type");
@@ -143,7 +143,7 @@ std::shared_ptr<ComponentBase> ComputerShop::searchComponent(ComponentType_t typ
         else if (view.getType() == ComponentType_t::STORAGE && input == "a") // add filter for storage
             Storage::selectFilter(view);
         else if (input == "r") // reset filter
-            view = ComponentView(my_components);
+            view = ComponentView(my_components, type, computerType);
         else { // check if input is valid index for component
             try {
                 index = std::stoi(input);
@@ -165,7 +165,12 @@ void ComputerShop::removeCustomer(const std::shared_ptr<Customer>& customer) {
 }
 
 void ComputerShop::removeComponent(const std::shared_ptr<ComponentBase>& component) {
-    my_components.erase(std::remove(my_components.begin(), my_components.end(), component), my_components.end());
+    auto range = my_components.equal_range(component->getType());
+    for (auto it = range.first; it != range.second; ++it)
+        if (it->second == component) {
+            my_components.erase(it);
+            break;
+        }
 }
 
 std::shared_ptr<Invoice> ComputerShop::buildSystem(const std::shared_ptr<Customer>& customer) {

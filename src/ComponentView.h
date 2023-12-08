@@ -7,6 +7,7 @@
 #include <vector>
 #include <functional>
 #include <memory>
+#include <map>
 #include "Components/ComponentProperties.h"
 
 class ComponentView {
@@ -14,7 +15,7 @@ public:
     using value_type = std::shared_ptr<class ComponentBase>;
     using const_iterator = std::vector<std::shared_ptr<class ComponentBase>>::const_iterator;
 
-    ComponentView(const std::vector<std::shared_ptr<class ComponentBase>>& components,
+    ComponentView(const std::multimap<ComponentType_t, std::shared_ptr<class ComponentBase>>& components,
             ComponentType_t type = ComponentType_t::UNKNOWN,
             ComputerType_t computerType = ComputerType_t::UNKNOWN);
 

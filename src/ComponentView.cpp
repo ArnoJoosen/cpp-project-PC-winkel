@@ -12,18 +12,23 @@
 #include "Components/Storage.h"
 #include "Enumerate.hpp"
 
-ComponentView::ComponentView(const std::vector<std::shared_ptr<ComponentBase>> &components,
-                             ComponentType_t type, ComputerType_t computerType) : my_components(components), my_type(type) {
-    if (type != ComponentType_t::UNKNOWN) {
-        filter([type](const std::shared_ptr<ComponentBase>& component) {
-            return component->getType() != type;
-        });
-    }
-    if (computerType != ComputerType_t::UNKNOWN) {
+ComponentView::ComponentView(const std::multimap<ComponentType_t, std::shared_ptr<ComponentBase>> &components,
+                             ComponentType_t type, ComputerType_t computerType): my_type(type) {
+    if (type != ComponentType_t::UNKNOWN) // if type is not unknown, only get components of that type using lower_bound and upper_bound
+        std::transform(components.lower_bound(type), components.upper_bound(type), std::back_inserter(my_components),
+                       [](const std::pair<ComponentType_t, std::shared_ptr<ComponentBase>>& pair) {
+                           return pair.second;
+                       });
+    else // if type is unknown, get all components
+        std::transform(components.begin(), components.end(), std::back_inserter(my_components),
+                       [](const std::pair<ComponentType_t, std::shared_ptr<ComponentBase>>& pair) {
+                           return pair.second;
+                       });
+    // filter out components that are not compatible with the computer type
+    if (computerType != ComputerType_t::UNKNOWN)
         filter([computerType](const std::shared_ptr<ComponentBase>& component) {
             return component->getComputerType() != computerType;
         });
-    }
 }
 
 void ComponentView::filter(const std::function<bool(const std::shared_ptr<ComponentBase>&)>& filter) {

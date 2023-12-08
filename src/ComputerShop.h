@@ -6,6 +6,7 @@
 #define PC_WINKLE_COMPUTERSHOP_H
 #include <string>
 #include <vector>
+#include <map>
 #include "CapString.hpp"
 #include "Components/ComponentBase.h"
 #include "Customer.h"
@@ -20,7 +21,7 @@ public:
 
     [[nodiscard]] inline CapString<MAX_SHOP_NAME_LENGTH> getName() const { return my_name; }
     [[nodiscard]] inline Address_t getAddress() const { return my_address; }
-    [[nodiscard]] inline std::vector<std::shared_ptr<ComponentBase>> getComponents() const { return my_components; }
+    [[nodiscard]] inline std::multimap<ComponentType_t, std::shared_ptr<ComponentBase>> getComponents() const { return my_components; }
     [[nodiscard]] inline std::vector<std::shared_ptr<Customer>> getCustomers() const { return my_customers; }
 
     inline void setName(const std::string& name) { my_name = name; }
@@ -41,7 +42,7 @@ public:
 private:
     CapString<MAX_SHOP_NAME_LENGTH> my_name;
     Address_t my_address;
-    std::vector<std::shared_ptr<ComponentBase>> my_components;
+    std::multimap<ComponentType_t, std::shared_ptr<ComponentBase>> my_components;
     std::vector<std::shared_ptr<Customer>> my_customers;
     unsigned int lastComponentID = 0;
     unsigned int lastCustomerID = 0;
