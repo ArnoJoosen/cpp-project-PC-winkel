@@ -214,3 +214,16 @@ std::shared_ptr<Invoice> ComputerShop::buildSystem(const std::weak_ptr<Customer>
     // print invoice
     invoice->print();
 }
+
+void ComputerShop::serialize(const std::string &pwd) const {
+    // serialize components
+    
+    // serialize customers
+}
+
+void ComputerShop::deserialize(const std::string &pwd) {
+    // deserialize components
+
+    // deserialize customers
+
+}

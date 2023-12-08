@@ -39,6 +39,10 @@ public:
     void removeComponent(const std::weak_ptr<ComponentBase>& component);
     std::shared_ptr<Invoice> buildSystem(const std::weak_ptr<Customer>& customer);
 
+    // serialization
+    void serialize(const std::string& pwd) const;
+    void deserialize(const std::string& pwd);
+
 private:
     CapString<MAX_SHOP_NAME_LENGTH> my_name;
     Address_t my_address;
