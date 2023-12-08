@@ -129,15 +129,15 @@ void Memory::selectFilter(ComponentView &view) {
 void Memory::filterSize(ComponentView &view) {
     std::cout << "Enter size: ";
     unsigned int size = input<unsigned int>();
-    view.filter([&size](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<Memory>(component)->my_size != size;
+    view.filter([&size](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Memory>(component.lock())->my_size != size;
     });
 }
 
 void Memory::filterClockSpeed(ComponentView &view) {
     std::cout << "Enter clock speed: ";
     float clockSpeed = input<float>();
-    view.filter([&clockSpeed](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<Memory>(component)->my_clockSpeed != clockSpeed;
+    view.filter([&clockSpeed](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Memory>(component.lock())->my_clockSpeed != clockSpeed;
     });
 }

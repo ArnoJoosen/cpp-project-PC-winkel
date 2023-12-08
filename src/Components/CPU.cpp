@@ -147,16 +147,16 @@ void CPU::selectFilter(ComponentView &view) {
 void CPU::filterClockSpeed(ComponentView &view) {
     std::cout << "Enter clock speed: ";
     float clockSpeed = input<float>();
-    view.filter([&clockSpeed](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<CPU>(component)->my_clockSpeed != clockSpeed;
+    view.filter([&clockSpeed](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<CPU>(component.lock())->my_clockSpeed != clockSpeed;
     });
 }
 
 void CPU::filterCoreCount(ComponentView &view) {
     std::cout << "Enter core count: ";
     int coreCount = input<int>();
-    view.filter([&coreCount](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<CPU>(component)->my_coreCount != coreCount;
+    view.filter([&coreCount](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<CPU>(component.lock())->my_coreCount != coreCount;
     });
 }
 
@@ -164,7 +164,7 @@ void CPU::filterSocket(ComponentView &view) {
     std::cout << "Enter socket: ";
     std::string socket;
     std::getline(std::cin, socket);
-    view.filter([&socket](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<CPU>(component)->my_socket != socket;
+    view.filter([&socket](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<CPU>(component.lock())->my_socket != socket;
     });
 }

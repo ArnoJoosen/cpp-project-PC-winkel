@@ -33,11 +33,11 @@ public:
     // console input
     void createCustomer();
     void createComponent();
-    std::shared_ptr<Customer> searchCustomer();
-    std::shared_ptr<ComponentBase> searchComponent(ComponentType_t type = ComponentType_t::UNKNOWN, ComputerType_t computerType = ComputerType_t::UNKNOWN);
-    void removeCustomer(const std::shared_ptr<Customer>& customer);
-    void removeComponent(const std::shared_ptr<ComponentBase>& component);
-    std::shared_ptr<Invoice> buildSystem(const std::shared_ptr<Customer>& customer);
+    std::weak_ptr<Customer> searchCustomer();
+    std::weak_ptr<ComponentBase> searchComponent(ComponentType_t type = ComponentType_t::UNKNOWN, ComputerType_t computerType = ComputerType_t::UNKNOWN);
+    void removeCustomer(const std::weak_ptr<Customer>& customer);
+    void removeComponent(const std::weak_ptr<ComponentBase>& component);
+    std::shared_ptr<Invoice> buildSystem(const std::weak_ptr<Customer>& customer);
 
 private:
     CapString<MAX_SHOP_NAME_LENGTH> my_name;

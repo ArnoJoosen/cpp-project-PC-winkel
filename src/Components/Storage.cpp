@@ -145,16 +145,16 @@ void Storage::selectFilter(ComponentView &view) {
 void Storage::filterSpeed(ComponentView &view) {
     std::cout << "Enter speed: ";
     float speed = input<float>();
-    view.filter([&speed](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<Storage>(component)->my_speed != speed;
+    view.filter([&speed](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Storage>(component.lock())->my_speed != speed;
     });
 }
 
 void Storage::filterSize(ComponentView &view) {
     std::cout << "Enter size: ";
     unsigned int size = input<unsigned int>();
-    view.filter([&size](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<Storage>(component)->my_size != size;
+    view.filter([&size](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Storage>(component.lock())->my_size != size;
     });
 }
 
@@ -162,7 +162,7 @@ void Storage::filterSlot(ComponentView &view) {
     std::cout << "Enter slot: ";
     std::string slot;
     std::getline(std::cin, slot);
-    view.filter([&slot](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<Storage>(component)->my_slot != slot;
+    view.filter([&slot](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Storage>(component.lock())->my_slot != slot;
     });
 }

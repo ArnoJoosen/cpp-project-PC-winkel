@@ -132,8 +132,8 @@ void PowerSupply::selectFilter(ComponentView &view) {
 void PowerSupply::filterPower(ComponentView &view) {
     std::cout << "Enter power: ";
     float power = input<float>();
-    view.filter([&power](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<PowerSupply>(component)->my_power != power;
+    view.filter([&power](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<PowerSupply>(component.lock())->my_power != power;
     });
 }
 
@@ -141,7 +141,7 @@ void PowerSupply::filterCertification(ComponentView &view) {
     std::cout << "Enter certification: ";
     std::string certification;
     std::getline(std::cin, certification);
-    view.filter([&certification](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<PowerSupply>(component)->my_certification != certification;
+    view.filter([&certification](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<PowerSupply>(component.lock())->my_certification != certification;
     });
 }

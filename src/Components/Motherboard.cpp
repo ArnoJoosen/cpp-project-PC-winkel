@@ -147,8 +147,8 @@ void Motherboard::filterSocket(ComponentView &view) {
     std::string socket;
     std::cout << "Enter socket: ";
     std::getline(std::cin, socket);
-    view.filter([&socket](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<Motherboard>(component)->my_socket != socket;
+    view.filter([&socket](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Motherboard>(component.lock())->my_socket != socket;
     });
 }
 
@@ -156,8 +156,8 @@ void Motherboard::filterFormFactor(ComponentView &view) {
     std::string formFactor;
     std::cout << "Enter form factor: ";
     std::getline(std::cin, formFactor);
-    view.filter([&formFactor](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<Motherboard>(component)->my_formFactor != formFactor;
+    view.filter([&formFactor](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Motherboard>(component.lock())->my_formFactor != formFactor;
     });
 }
 
@@ -165,7 +165,7 @@ void Motherboard::filterMaxMemorySlots(ComponentView &view) {
     unsigned int maxMemorySlots;
     std::cout << "Enter max memory slots: ";
     maxMemorySlots = input<unsigned int>();
-    view.filter([&maxMemorySlots](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<Motherboard>(component)->my_maxMemorySlots != maxMemorySlots;
+    view.filter([&maxMemorySlots](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Motherboard>(component.lock())->my_maxMemorySlots != maxMemorySlots;
     });
 }

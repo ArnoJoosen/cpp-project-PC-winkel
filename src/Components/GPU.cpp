@@ -130,15 +130,15 @@ void GPU::selectFilter(ComponentView &view) {
 void GPU::filterPower(ComponentView &view) {
     std::cout << "Enter power: ";
     float power = input<float>();
-    view.filter([&power](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<GPU>(component)->my_power != power;
+    view.filter([&power](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<GPU>(component.lock())->my_power != power;
     });
 }
 
 void GPU::filterBusSpeed(ComponentView &view) {
     std::cout << "Enter bus speed: ";
     float busSpeed = input<float>();
-    view.filter([&busSpeed](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<GPU>(component)->my_busSpeed != busSpeed;
+    view.filter([&busSpeed](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<GPU>(component.lock())->my_busSpeed != busSpeed;
     });
 }

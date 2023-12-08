@@ -26,19 +26,19 @@ ComponentView::ComponentView(const std::multimap<ComponentType_t, std::shared_pt
                        });
     // filter out components that are not compatible with the computer type
     if (computerType != ComputerType_t::UNKNOWN)
-        filter([computerType](const std::shared_ptr<ComponentBase>& component) {
-            return component->getComputerType() != computerType;
+        filter([computerType](const std::weak_ptr<ComponentBase>& component) {
+            return component.lock()->getComputerType() != computerType;
         });
 }
 
-void ComponentView::filter(const std::function<bool(const std::shared_ptr<ComponentBase>&)>& filter) {
+void ComponentView::filter(const std::function<bool(const std::weak_ptr<ComponentBase>&)>& filter) {
     my_components.erase(std::remove_if(my_components.begin(), my_components.end(), filter), my_components.end());
 }
 
 void ComponentView::setType(ComponentType_t type) {
     my_type = type;
-    filter([type](const std::shared_ptr<ComponentBase>& component) {
-        return component->getType() != type;
+    filter([type](const std::weak_ptr<ComponentBase>& component) {
+        return component.lock()->getType() != type;
     });
 }
 
@@ -72,9 +72,9 @@ void ComponentView::printView() {
 
     for (auto [i, c] : Enumerate(my_components)) {
         if (my_type == ComponentType_t::UNKNOWN)
-            c->printBase((int)i);
+            c.lock()->printBase((int)i);
         else
-            c->printRow((int)i);
+            c.lock()->printRow((int)i);
         std::cout << std::endl;
     }
 }

@@ -150,8 +150,8 @@ void Case::filterColor(ComponentView &view) {
     std::string color;
     std::cout << "Enter color: ";
     std::getline(std::cin, color);
-    view.filter([&color](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<Case>(component)->my_color != color;
+    view.filter([&color](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Case>(component.lock())->my_color != color;
     });
 }
 
@@ -159,8 +159,8 @@ void Case::filterMotherboardSize(ComponentView &view) {
     std::string MotherboardSize;
     std::cout << "Enter MotherboardSize: ";
     std::getline(std::cin, MotherboardSize);
-    view.filter([&MotherboardSize](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<Case>(component)->MotherboardSize != MotherboardSize;
+    view.filter([&MotherboardSize](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Case>(component.lock())->MotherboardSize != MotherboardSize;
     });
 }
 
@@ -168,7 +168,7 @@ void Case::filterMaterial(ComponentView &view) {
     std::string material;
     std::cout << "Enter material: ";
     std::getline(std::cin, material);
-    view.filter([&material](const std::shared_ptr<ComponentBase>& component) {
-        return std::dynamic_pointer_cast<Case>(component)->my_material != material;
+    view.filter([&material](const std::weak_ptr<ComponentBase>& component) {
+        return std::dynamic_pointer_cast<Case>(component.lock())->my_material != material;
     });
 }

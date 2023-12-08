@@ -18,7 +18,7 @@ int main(int argc, char** argv){
                 shop.createCustomer();
                 break;
             case Action_t::UpdateCustomer:
-                shop.searchCustomer()->update();
+                shop.searchCustomer().lock()->update();
                 break;
             case Action_t::RemoveCustomer:
                 shop.removeCustomer(shop.searchCustomer());
@@ -36,7 +36,7 @@ int main(int argc, char** argv){
                 shop.removeComponent(shop.searchComponent());
                 break;
             case Action_t::UpdateComponent:
-                shop.searchComponent()->update();
+                shop.searchComponent().lock()->update();
                 break;
             case Action_t::SearchInvoice:
                 // TODO: implement

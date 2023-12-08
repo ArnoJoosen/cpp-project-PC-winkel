@@ -69,7 +69,7 @@ void ComputerShop::createComponent() {
     }
 }
 
-std::shared_ptr<Customer> ComputerShop::searchCustomer() {
+std::weak_ptr<Customer> ComputerShop::searchCustomer() {
     CustomerView view(my_customers);
     bool found = false;
     int index;
@@ -113,11 +113,11 @@ std::shared_ptr<Customer> ComputerShop::searchCustomer() {
     return customer;
 }
 
-std::shared_ptr<ComponentBase> ComputerShop::searchComponent(ComponentType_t type, ComputerType_t computerType) {
+std::weak_ptr<ComponentBase> ComputerShop::searchComponent(ComponentType_t type, ComputerType_t computerType) {
     ComponentView view(my_components, type, computerType);
     bool found = false;
     int index;
-    std::shared_ptr<ComponentBase> component = nullptr;
+    std::weak_ptr<ComponentBase> component;
     while(!found) {
         // print components in view
         view.printView();
@@ -160,39 +160,48 @@ std::shared_ptr<ComponentBase> ComputerShop::searchComponent(ComponentType_t typ
     return component;
 }
 
-void ComputerShop::removeCustomer(const std::shared_ptr<Customer>& customer) {
-    my_customers.erase(std::remove(my_customers.begin(), my_customers.end(), customer), my_customers.end());
+void ComputerShop::removeCustomer(const std::weak_ptr<Customer>& customer) {
+
+    auto c = customer.lock();
+    if (c != nullptr)
+        throw std::runtime_error("Customer does not exist"); // should never happen
+
+    my_customers.erase(std::remove(my_customers.begin(), my_customers.end(), c), my_customers.end());
 }
 
-void ComputerShop::removeComponent(const std::shared_ptr<ComponentBase>& component) {
-    auto range = my_components.equal_range(component->getType());
+void ComputerShop::removeComponent(const std::weak_ptr<ComponentBase>& component) {
+    auto c = component.lock();
+    if (c != nullptr)
+        throw std::runtime_error("Component does not exist"); // should never happen
+
+    auto range = my_components.equal_range(c->getType());
     for (auto it = range.first; it != range.second; ++it)
-        if (it->second == component) {
+        if (it->second == c) {
             my_components.erase(it);
             break;
         }
 }
 
-std::shared_ptr<Invoice> ComputerShop::buildSystem(const std::shared_ptr<Customer>& customer) {
+std::shared_ptr<Invoice> ComputerShop::buildSystem(const std::weak_ptr<Customer>& customer) {
     std::shared_ptr<Invoice> invoice = std::make_shared<Invoice>(1, customer); // TODO invoiceID
     // select system type
     ComputerType_t systemType = selectComputerType();
 
     // select components
     // select CPU
-    invoice->addComponents(std::static_pointer_cast<CPU>(searchComponent(ComponentType_t::CPU, systemType)));
+    invoice->addComponents(searchComponent(ComponentType_t::CPU, systemType));
     // select Motherboard
-    invoice->addComponents(std::static_pointer_cast<Motherboard>(searchComponent(ComponentType_t::MOTHERBOARD, systemType)));
+    invoice->addComponents(searchComponent(ComponentType_t::MOTHERBOARD, systemType));
     // select RAM
-    invoice->addComponents(std::static_pointer_cast<Memory>(searchComponent(ComponentType_t::RAM, systemType)));
+    invoice->addComponents(searchComponent(ComponentType_t::RAM, systemType));
     // select GPU
-    invoice->addComponents(std::static_pointer_cast<GPU>(searchComponent(ComponentType_t::GPU, systemType)));
+    invoice->addComponents(searchComponent(ComponentType_t::GPU, systemType));
     // select Storage
-    invoice->addComponents(std::static_pointer_cast<Storage>(searchComponent(ComponentType_t::STORAGE, systemType)));
+    invoice->addComponents(searchComponent(ComponentType_t::STORAGE, systemType));
     // select PSU
-    invoice->addComponents(std::static_pointer_cast<PowerSupply>(searchComponent(ComponentType_t::PSU, systemType)));
+    invoice->addComponents(searchComponent(ComponentType_t::PSU, systemType));
     // select Case
-    invoice->addComponents(std::static_pointer_cast<Case>(searchComponent(ComponentType_t::CASE, systemType)));
+    invoice->addComponents(searchComponent(ComponentType_t::CASE, systemType));
 
     // additional components
     while (yesNoQuestion("Do you want to add additional components?"))

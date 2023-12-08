@@ -142,8 +142,8 @@ void ComponentBase::filterManufacturer(ComponentView &view) {
     std::cout << "Enter manufacturer: ";
     std::string manufacturer;
     std::getline(std::cin, manufacturer);
-    view.filter([&manufacturer](const std::shared_ptr<ComponentBase>& component) {
-        return component->my_manufacturer != manufacturer;
+    view.filter([&manufacturer](const std::weak_ptr<ComponentBase>& component) {
+        return component.lock()->my_manufacturer != manufacturer;
     });
 }
 
@@ -151,8 +151,8 @@ void ComponentBase::filterName(ComponentView &view) {
     std::cout << "Enter name: ";
     std::string name;
     std::getline(std::cin, name);
-    view.filter([&name](const std::shared_ptr<ComponentBase>& component) {
-        return component->my_name != name;
+    view.filter([&name](const std::weak_ptr<ComponentBase>& component) {
+        return component.lock()->my_name != name;
     });
 }
 
@@ -161,8 +161,8 @@ void ComponentBase::filterPrice(ComponentView &view) {
     float price;
     std::cout << "Enter price: ";
     price = input<float>();
-    view.filter([&price](const std::shared_ptr<ComponentBase>& component) {
-        return component->my_price != price;
+    view.filter([&price](const std::weak_ptr<ComponentBase>& component) {
+        return component.lock()->my_price != price;
     });
 }
 
@@ -170,8 +170,8 @@ void ComponentBase::filterPriceHigher(ComponentView &view) {
     float price;
     std::cout << "Enter price: ";
     price = input<float>();
-    view.filter([&price](const std::shared_ptr<ComponentBase>& component) {
-        return component->my_price <= price;
+    view.filter([&price](const std::weak_ptr<ComponentBase>& component) {
+        return component.lock()->my_price <= price;
     });
 }
 
@@ -179,8 +179,8 @@ void ComponentBase::filterPriceLower(ComponentView &view) {
     float price;
     std::cout << "Enter price: ";
     price = input<float>();
-    view.filter([&price](const std::shared_ptr<ComponentBase>& component) {
-        return component->my_price >= price;
+    view.filter([&price](const std::weak_ptr<ComponentBase>& component) {
+        return component.lock()->my_price >= price;
     });
 }
 
@@ -189,15 +189,15 @@ void ComponentBase::filterStock(ComponentView &view) {
     unsigned int stock;
     std::cout << "Enter stock: ";
     stock = input<unsigned int>();
-    view.filter([&stock](const std::shared_ptr<ComponentBase>& component) {
-        return component->my_stock != stock;
+    view.filter([&stock](const std::weak_ptr<ComponentBase>& component) {
+        return component.lock()->my_stock != stock;
     });
 }
 
 void ComponentBase::filterComputerType(ComponentView &view) {
     std::cout << "Enter computer type: ";
     ComputerType_t computerType = selectComputerType();
-    view.filter([&computerType](const std::shared_ptr<ComponentBase>& component) {
-        return component->my_computerType != computerType;
+    view.filter([&computerType](const std::weak_ptr<ComponentBase>& component) {
+        return component.lock()->my_computerType != computerType;
     });
 }
