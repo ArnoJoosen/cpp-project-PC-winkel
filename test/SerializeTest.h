@@ -15,6 +15,7 @@
 #include "Components/Motherboard.h"
 #include "Components/PowerSupply.h"
 #include "Components/Storage.h"
+#include "Company.h"
 
 class serialize : public ::testing::Test {
 public:
@@ -22,6 +23,7 @@ public:
 
 protected:
     void SetUp() override {
+        // components
         case1 = std::make_shared<Case>(
                 "Cooler Master",
                 "MasterBox MB520",
@@ -41,7 +43,7 @@ protected:
                 10,
                 ComponentType_t::CPU,
                 ComputerType_t::DESKTOP,
-                1,
+                2,
                 3.6,
                 8,
                 "LGA1151"
@@ -54,7 +56,7 @@ protected:
                 10,
                 ComponentType_t::CPU,
                 ComputerType_t::DESKTOP,
-                2,
+                3,
                 3.7,
                 6,
                 "LGA1151"
@@ -67,7 +69,7 @@ protected:
                 10,
                 ComponentType_t::GPU,
                 ComputerType_t::DESKTOP,
-                1,
+                4,
                 3,
                 1.5
         );
@@ -79,7 +81,7 @@ protected:
                 10,
                 ComponentType_t::RAM,
                 ComputerType_t::DESKTOP,
-                1,
+                5,
                 16,
                 3200
         );
@@ -91,7 +93,7 @@ protected:
                 10,
                 ComponentType_t::MOTHERBOARD,
                 ComputerType_t::DESKTOP,
-                1,
+                6,
                 "LGA1151",
                 "ATX",
                 4
@@ -104,7 +106,7 @@ protected:
                 10,
                 ComponentType_t::PSU,
                 ComputerType_t::DESKTOP,
-                1,
+                7,
                 750,
                 "80+ Gold"
         );
@@ -116,7 +118,7 @@ protected:
                 10,
                 ComponentType_t::STORAGE,
                 ComputerType_t::DESKTOP,
-                1,
+                8,
                 500.5,
                 500,
                 "M.2"
@@ -130,8 +132,36 @@ protected:
         shop.serializeComponentType(pwd, ComponentType_t::MOTHERBOARD);
         shop.serializeComponentType(pwd, ComponentType_t::PSU);
         shop.serializeComponentType(pwd, ComponentType_t::STORAGE);
+
+        // customer
+        customer1 = std::make_shared<Customer>(
+                Name_t{"Arno", "Joosen"},
+                Address_t{"Kerkstraat", "Zwolle", 8011, 1},
+                1,
+                CustomerType_t::PARTICULIER
+        );
+        shop.addCustomer(customer1);
+        customer2 = std::make_shared<Customer>(
+                Name_t{"Mram", "Pos"},
+                Address_t{"Achterstraat", "Luttenberg", 8105, 1},
+                2,
+                CustomerType_t::PARTICULIER
+        );
+        shop.addCustomer(customer2);
+        company1 = std::make_shared<Company>(
+                Name_t{"Bos", "Bos"},
+                Address_t{"Luttenbergstraat", "Bosberg", 9000, 1},
+                3,
+                5.2,
+                1.2,
+                5
+        );
+        shop.addCustomer(company1);
+        shop.serializeCustomerType(pwd, CustomerType_t::PARTICULIER);
+        shop.serializeCustomerType(pwd, CustomerType_t::BEDRIJF);
     }
     std::string pwd = ".";
+    // components
     std::shared_ptr<Case> case1;
     std::shared_ptr<CPU> cpu1;
     std::shared_ptr<CPU> cpu2;
@@ -140,6 +170,12 @@ protected:
     std::shared_ptr<Motherboard> motherboard1;
     std::shared_ptr<PowerSupply> powerSupply1;
     std::shared_ptr<Storage> storage1;
+    // customer
+    std::shared_ptr<Customer> customer1;
+    std::shared_ptr<Customer> customer2;
+    std::shared_ptr<Company> company1;
+
+    // shop
     ComputerShop shop;
 };
 
@@ -281,6 +317,50 @@ TEST_F(serialize, serializeStorage) {
     file7.close();
 }
 
+TEST_F(serialize, serializeCustomerTest) {
+    Customer customer({}, {}, 0, CustomerType_t::UNKNOWN);
+    std::ifstream file{pwd + "/Particulier.bin", std::ios::binary | std::ios::in};
+    ASSERT_TRUE(file.is_open()) << "Could not open file Customer.bin";
+    file.read(reinterpret_cast<char*>(&customer), sizeof(customer));
+    ASSERT_EQ(customer.getCustomerID(), customer1->getCustomerID());
+    ASSERT_EQ(customer.getName().firstName, customer1->getName().firstName);
+    ASSERT_EQ(customer.getName().lastName, customer1->getName().lastName);
+    ASSERT_EQ(customer.getAddress().street, customer1->getAddress().street);
+    ASSERT_EQ(customer.getAddress().city, customer1->getAddress().city);
+    ASSERT_EQ(customer.getAddress().houseNumber, customer1->getAddress().houseNumber);
+    ASSERT_EQ(customer.getAddress().postcode, customer1->getAddress().postcode);
+    ASSERT_EQ(customer.getType(), customer1->getType());
+
+    file.read(reinterpret_cast<char*>(&customer), sizeof(customer));
+    ASSERT_EQ(customer.getCustomerID(), customer2->getCustomerID());
+    ASSERT_EQ(customer.getName().firstName, customer2->getName().firstName);
+    ASSERT_EQ(customer.getName().lastName, customer2->getName().lastName);
+    ASSERT_EQ(customer.getAddress().street, customer2->getAddress().street);
+    ASSERT_EQ(customer.getAddress().city, customer2->getAddress().city);
+    ASSERT_EQ(customer.getAddress().houseNumber, customer2->getAddress().houseNumber);
+    ASSERT_EQ(customer.getAddress().postcode, customer2->getAddress().postcode);
+    ASSERT_EQ(customer.getType(), customer2->getType());
+    file.close();
+}
+
+TEST_F(serialize, serializeCompanyTest) {
+    Company company({}, {}, 0, 0, 0, 0);
+    std::ifstream file{pwd + "/Bedrijf.bin", std::ios::binary | std::ios::in};
+    ASSERT_TRUE(file.is_open()) << "Could not open file Company.bin";
+    file.read(reinterpret_cast<char*>(&company), sizeof(company));
+    ASSERT_EQ(company.getCustomerID(), company1->getCustomerID());
+    ASSERT_EQ(company.getName().firstName, company1->getName().firstName);
+    ASSERT_EQ(company.getName().lastName, company1->getName().lastName);
+    ASSERT_EQ(company.getAddress().street, company1->getAddress().street);
+    ASSERT_EQ(company.getAddress().city, company1->getAddress().city);
+    ASSERT_EQ(company.getAddress().houseNumber, company1->getAddress().houseNumber);
+    ASSERT_EQ(company.getAddress().postcode, company1->getAddress().postcode);
+    ASSERT_EQ(company.getType(), company1->getType());
+    ASSERT_EQ(company.getDiscount(), company1->getDiscount());
+    ASSERT_EQ(company.getVat(), company1->getVat());
+    ASSERT_EQ(company.getYearlyBuy(), company1->getYearlyBuy());
+    file.close();
+}
 
 
 

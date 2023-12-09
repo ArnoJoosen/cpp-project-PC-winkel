@@ -18,7 +18,7 @@
 
 class ComputerShop {
 public:
-    ComputerShop(std::string name, Address_t address);
+    ComputerShop(const std::string& name, Address_t address);
 
     [[nodiscard]] inline CapString<MAX_SHOP_NAME_LENGTH> getName() const { return my_name; }
     [[nodiscard]] inline Address_t getAddress() const { return my_address; }
@@ -53,7 +53,7 @@ public:
         if (!file.is_open())
             return; // no components of this type are serialized
         // get size of component
-        std::streamsize size = getTypeSize(type);
+        std::streamsize size = getComponentTypeSize(type);
         // read components
         while (file) {
             std::shared_ptr<T> componentCase = std::make_shared<T>();
@@ -62,11 +62,29 @@ public:
         }
         file.close();
     }
-    void deserializeCustomerType(const std::string& pwd, CustomerType_t type); // pwd = phat to working directory
+
+    // pwd = phat to working directory
+    template<class T>
+    void deserializeCustomerType(const std::string& pwd, CustomerType_t type){
+        // open file
+        std::ifstream file{pwd + "/" + customerTypeToString(type) + ".bin", std::ios::binary | std::ios::in};
+        if (!file.is_open())
+            return; // no components of this type are serialized
+        // get size of component
+        std::streamsize size = getCustomerTypeSize(type);
+        // read components
+        while (file) {
+            std::shared_ptr<T> customerCase = std::make_shared<T>();
+            file.read(reinterpret_cast<char*>(customerCase.get()), size);
+            addCustomer(customerCase);
+        }
+        file.close();
+    }
     void deserialize(const std::string& pwd); // pwd = phat to working directory
 
 private:
-    static std::streamsize getTypeSize(ComponentType_t type);
+    static std::streamsize getComponentTypeSize(ComponentType_t type);
+    static std::streamsize getCustomerTypeSize(CustomerType_t type);
 
     CapString<MAX_SHOP_NAME_LENGTH> my_name;
     Address_t my_address;

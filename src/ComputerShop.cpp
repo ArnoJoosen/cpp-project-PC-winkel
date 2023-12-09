@@ -18,7 +18,7 @@
 #include "Input.h"
 
 
-ComputerShop::ComputerShop(std::string name, Address_t address) : my_name(name), my_address(address) {}
+ComputerShop::ComputerShop(const std::string& name, Address_t address) : my_name(name), my_address(address) {}
 
 void ComputerShop::addComponent(const std::shared_ptr<ComponentBase>& component) {
     my_components.insert({component->getType(), component});
@@ -213,6 +213,7 @@ std::shared_ptr<Invoice> ComputerShop::buildSystem(const std::weak_ptr<Customer>
     // TODO if business customer: update yearlybuy
     // print invoice
     invoice->print();
+    return nullptr;
 }
 
 void ComputerShop::serializeComponentType(const std::string &pwd, ComponentType_t type) const {
@@ -221,7 +222,7 @@ void ComputerShop::serializeComponentType(const std::string &pwd, ComponentType_
     if (!file.is_open())
         throw std::runtime_error("Could not open file");
     // get size of component
-    std::streamsize size = getTypeSize(type);
+    std::streamsize size = getComponentTypeSize(type);
     // write components
     for (auto c = my_components.lower_bound(type); c != my_components.upper_bound(type); ++c) {
         ComponentBase* component = c->second.get();
@@ -231,17 +232,26 @@ void ComputerShop::serializeComponentType(const std::string &pwd, ComponentType_
 }
 
 void ComputerShop::serializeCustomerType(const std::string &pwd, CustomerType_t type) const {
-
+    // open file
+    std::ofstream file{pwd + "/" + customerTypeToString(type) + ".bin", std::ios::binary | std::ios::out};
+    if (!file.is_open())
+        throw std::runtime_error("Could not open file");
+    // get size of component
+    std::streamsize size = getCustomerTypeSize(type);
+    // write components
+    for (const auto& c: my_customers) {
+        if (c->getType() == type) {
+            Customer *customer = c.get();
+            file.write(reinterpret_cast<const char *>(customer), size);
+        }
+    }
+    file.close();
 }
 
 void ComputerShop::shopSerialize(const std::string &pwd) const {
     // shopSerialize components
     
     // shopSerialize customers
-}
-
-void ComputerShop::deserializeCustomerType(const std::string &pwd, CustomerType_t type) {
-
 }
 
 void ComputerShop::deserialize(const std::string &pwd) {
@@ -251,7 +261,7 @@ void ComputerShop::deserialize(const std::string &pwd) {
 
 }
 
-std::streamsize ComputerShop::getTypeSize(ComponentType_t type) {
+std::streamsize ComputerShop::getComponentTypeSize(ComponentType_t type) {
     switch (type) {
         case ComponentType_t::CASE:
             return sizeof(Case);
@@ -269,5 +279,16 @@ std::streamsize ComputerShop::getTypeSize(ComponentType_t type) {
             return sizeof(Memory);
         case ComponentType_t::UNKNOWN: // should never happen
             throw std::runtime_error("Unknown component type");
+    }
+}
+
+std::streamsize ComputerShop::getCustomerTypeSize(CustomerType_t type) {
+    switch (type) {
+        case CustomerType_t::PARTICULIER:
+            return sizeof(Customer);
+        case CustomerType_t::BEDRIJF:
+            return sizeof(Company);
+        case CustomerType_t::UNKNOWN: // should never happen
+            throw std::runtime_error("Unknown customer type");
     }
 }
