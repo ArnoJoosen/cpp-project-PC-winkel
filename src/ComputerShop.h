@@ -40,7 +40,7 @@ public:
     void removeComponent(const std::weak_ptr<ComponentBase>& component);
     void updateCustomer(const std::weak_ptr<Customer>& customer);
     void updateComponent(const std::weak_ptr<ComponentBase>& component);
-    std::shared_ptr<Invoice> buildSystem(const std::weak_ptr<Customer>& customer);
+    Invoice buildSystem(const std::weak_ptr<Customer>& customer);
 
     // serialization
     void serializeComponentType(ComponentType_t type) const ;

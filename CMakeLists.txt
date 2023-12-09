@@ -15,7 +15,9 @@ file(GLOB_RECURSE SRC
 add_executable(PC_Winkle ${SRC}
         src/Input.cpp
         src/CustomerProperties.cpp
-        src/Enumerate.hpp)
+        src/Enumerate.hpp
+        src/FileSystem.h
+        src/FileSystem.cpp)
 target_include_directories(PC_Winkle PRIVATE src)
 
 # test

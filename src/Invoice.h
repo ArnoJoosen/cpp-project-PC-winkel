@@ -25,6 +25,9 @@ public:
     void calculatePrice();
     void print() const;
 
+    void serialize(const std::string& pwd) const;
+    // TODO static Invoice deserialize(const std::string& pwd);
+
 private:
     unsigned int my_invoiceID;
     std::weak_ptr<Customer> my_customer;

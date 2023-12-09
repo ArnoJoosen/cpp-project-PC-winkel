@@ -219,39 +219,39 @@ void ComputerShop::updateComponent(const std::weak_ptr<ComponentBase> &component
     serializeComponentType(component.lock()->getType());
 }
 
-std::shared_ptr<Invoice> ComputerShop::buildSystem(const std::weak_ptr<Customer>& customer) {
-    std::shared_ptr<Invoice> invoice = std::make_shared<Invoice>(1, customer); // TODO invoiceID
+Invoice ComputerShop::buildSystem(const std::weak_ptr<Customer>& customer) {
+    Invoice invoice(1, customer);
     // select system type
     ComputerType_t systemType = selectComputerType();
 
     try {
         // select components
         // select CPU
-        invoice->addComponents(searchComponent(ComponentType_t::CPU, systemType));
+        invoice.addComponents(searchComponent(ComponentType_t::CPU, systemType));
         // select Motherboard
-        invoice->addComponents(searchComponent(ComponentType_t::MOTHERBOARD, systemType));
+        invoice.addComponents(searchComponent(ComponentType_t::MOTHERBOARD, systemType));
         // select RAM
-        invoice->addComponents(searchComponent(ComponentType_t::RAM, systemType));
+        invoice.addComponents(searchComponent(ComponentType_t::RAM, systemType));
         // select GPU
-        invoice->addComponents(searchComponent(ComponentType_t::GPU, systemType));
+        invoice.addComponents(searchComponent(ComponentType_t::GPU, systemType));
         // select Storage
-        invoice->addComponents(searchComponent(ComponentType_t::STORAGE, systemType));
+        invoice.addComponents(searchComponent(ComponentType_t::STORAGE, systemType));
         // select PSU
-        invoice->addComponents(searchComponent(ComponentType_t::PSU, systemType));
+        invoice.addComponents(searchComponent(ComponentType_t::PSU, systemType));
         // select Case
-        invoice->addComponents(searchComponent(ComponentType_t::CASE, systemType));
+        invoice.addComponents(searchComponent(ComponentType_t::CASE, systemType));
 
         // additional components
         while (yesNoQuestion("Do you want to add additional components?"))
-            invoice->addComponents(searchComponent(ComponentType_t::UNKNOWN, systemType));
+            invoice.addComponents(searchComponent(ComponentType_t::UNKNOWN, systemType));
     } catch (std::runtime_error& e) {
         std::cout << e.what() << std::endl;
-        return nullptr;
+        throw std::runtime_error("Could not build system");
     }
 
-    invoice->calculatePrice();
-    invoice->print();
-    return nullptr;
+    invoice.calculatePrice();
+    invoice.print();
+    return invoice;
 }
 
 void ComputerShop::serializeComponentType(ComponentType_t type) const {
