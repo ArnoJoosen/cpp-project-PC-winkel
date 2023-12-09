@@ -79,7 +79,6 @@ void CPU::printRow(int index) const {
 
 void CPU::update() {
     ComponentBase::update();
-    ComponentBase::update();
     std::string temp;
 
     std::cout << "Current clock speed: " << my_clockSpeed << std::endl;

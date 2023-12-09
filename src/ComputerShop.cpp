@@ -249,11 +249,7 @@ std::shared_ptr<Invoice> ComputerShop::buildSystem(const std::weak_ptr<Customer>
         return nullptr;
     }
 
-
-    // TODO calculate price bast on components and customer type
-    // TODO update stock
-    // TODO if business customer: update yearlybuy
-    // print invoice
+    invoice->calculatePrice();
     invoice->print();
     return nullptr;
 }

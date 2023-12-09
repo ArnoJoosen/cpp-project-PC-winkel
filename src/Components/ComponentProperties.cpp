@@ -75,10 +75,7 @@ ComputerType_t selectComputerType(){
               << "\t2. Laptop\n" << std::endl;
     do {
         std::cout << "Enter choice: ";
-        int choice;
-        std::cin >> choice;
-        std::cin.clear();
-        switch (choice) {
+        switch (inputRange(1, 2)) {
             case 1:
                 return ComputerType_t::DESKTOP;
             case 2:

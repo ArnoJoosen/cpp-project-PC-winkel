@@ -9,7 +9,7 @@
 #include <memory>
 #include "ComponentBase.h"
 #include "ComponentView.h"
-#define MAX_CERTIFICATION_LENGTH 10
+#define MAX_CERTIFICATION_LENGTH 20
 
 class PowerSupply : public ComponentBase {
 public:
