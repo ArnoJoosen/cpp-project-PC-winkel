@@ -317,7 +317,7 @@ void ComputerShop::load() {
     deserializeComponentType<PowerSupply>(ComponentType_t::PSU);
     deserializeComponentType<Storage>(ComponentType_t::STORAGE);
     // load shop data
-    serializeShop();
+    deserializeShop();
 }
 
 std::streamsize ComputerShop::getComponentTypeSize(ComponentType_t type) {
