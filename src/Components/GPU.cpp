@@ -75,12 +75,12 @@ void GPU::printRow(int index) const {
 void GPU::update() {
     ComponentBase::update();
     std::cout << "Current power: " << my_power << std::endl;
-    if (changeQuestion("Change power?")) {
+    if (yesNoQuestion("Change power?")) {
         std::cout << "Enter new power: ";
         my_power = input<float>();
     }
     std::cout << "Current bus speed: " << my_busSpeed << std::endl;
-    if (changeQuestion("Change bus speed?")) {
+    if (yesNoQuestion("Change bus speed?")) {
         std::cout << "Enter new bus speed: ";
         my_busSpeed = input<float>();
     }

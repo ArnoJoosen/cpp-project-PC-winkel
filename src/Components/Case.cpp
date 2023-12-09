@@ -55,19 +55,19 @@ void Case::update() {
     ComponentBase::update();
     std::string temp;
     std::cout << "Current color: " << my_color.c_str() << std::endl;
-    if (changeQuestion("Change color? ")) {
+    if (yesNoQuestion("Change color? ")) {
         std::cout << "Enter new color: ";
         std::getline(std::cin, temp);
         my_color = temp;
     }
     std::cout << "Current MotherboardSize: " << MotherboardSize.c_str() << std::endl;
-    if (changeQuestion("Change MotherboardSize? ")) {
+    if (yesNoQuestion("Change MotherboardSize? ")) {
         std::cout << "Enter new MotherboardSize: ";
         std::getline(std::cin, temp);
         MotherboardSize = temp;
     }
     std::cout << "Current material: " << my_material.c_str() << std::endl;
-    if (changeQuestion("Change material? ")) {
+    if (yesNoQuestion("Change material? ")) {
         std::cout << "Enter new material: ";
         std::getline(std::cin, temp);
         my_material = temp;

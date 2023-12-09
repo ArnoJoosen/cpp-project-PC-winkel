@@ -55,41 +55,41 @@ void Customer::update() {
     std::string temp;
     // ask for changes first name and change if needed
     std::cout << "Current first name: " << my_name.firstName.c_str() << std::endl;
-    if (changeQuestion("Change first name? ")) {
+    if (yesNoQuestion("Change first name? ")) {
         std::cout << "Enter first name: ";
         std::getline(std::cin, temp);
         my_name.firstName = temp;
     }
     // ask for changes last name and change if needed
     std::cout << "Current last name: " << my_name.lastName.c_str() << std::endl;
-    if (changeQuestion("Change last name? ")) {
+    if (yesNoQuestion("Change last name? ")) {
         std::cout << "Enter last name: ";
         std::getline(std::cin, temp);
         my_name.lastName = temp;
     }
     // ask for changes city and change if needed
     std::cout << "Current city: " << my_address.city.c_str() << std::endl;
-    if (changeQuestion("Change city? ")) {
+    if (yesNoQuestion("Change city? ")) {
         std::cout << "Enter city: ";
         std::getline(std::cin, temp);
         my_address.city = temp;
     }
     // ask for changes street and change if needed
     std::cout << "Current street: " << my_address.street.c_str() << std::endl;
-    if (changeQuestion("Change street? ")) {
+    if (yesNoQuestion("Change street? ")) {
         std::cout << "Enter street: ";
         std::getline(std::cin, temp);
         my_address.street = temp;
     }
     // ask for changes house number and change if needed
     std::cout << "Current house number: " << my_address.houseNumber << std::endl;
-    if (changeQuestion("Change house number? ")) {
+    if (yesNoQuestion("Change house number? ")) {
         std::cout << "Enter house number: ";
         my_address.houseNumber = input<unsigned int>();
     }
     // ask for changes postcode and change if needed
     std::cout << "Current postcode: " << my_address.postcode << std::endl;
-    if (changeQuestion("Change postcode? ")) {
+    if (yesNoQuestion("Change postcode? ")) {
         std::cout << "Enter postcode: ";
         my_address.postcode = input<unsigned int>();
     }
@@ -215,19 +215,4 @@ void Customer::filterPostcode(CustomerView &view) {
     view.filter([postcode](const std::weak_ptr<class Customer>& customer) {
         return customer.lock()->getAddress().postcode != postcode;
     });
-}
-
-bool Customer::changeQuestion(const char *question) const  {
-    std::cout << question << "y or n: " << std::endl;
-    std::string input;
-    do {
-        std::getline(std::cin, input);
-        if (input == "y")
-            return true;
-        else if (input == "n")
-            return false;
-        else
-            std::cout << "Invalid input. Try again: ";
-    } while (input != "n");
-    return false;
 }

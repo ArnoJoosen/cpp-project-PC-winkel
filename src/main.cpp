@@ -4,8 +4,60 @@
 #include "Menus.h"
 #include "ComputerShop.h"
 
+#if defined(_WIN32)
+#include <windows.h>
+bool createDirectory(const std::string& dirPath) {
+    if (CreateDirectory(dirPath.c_str(), NULL) == 0) {
+        return false;
+    }
+    return true;
+}
+bool directoryExists(const std::string& dirPath) {
+    struct stat info;
+
+    if (stat(dirPath.c_str(), &info) != 0) {
+        return false;
+    } else if (info.st_mode & S_IFDIR) {
+        return true;
+    } else {
+        return false;
+    }
+}
+#elif defined(__unix__)
+#include <sys/types.h>
+#include <sys/stat.h>
+bool createDirectory(const std::string& dirPath) {
+    if (mkdir(dirPath.c_str(), 0777) == -1) {
+        return false;
+    }
+    return true;
+}
+bool directoryExists(const std::string& dirPath) {
+    struct stat info;
+
+    if (stat(dirPath.c_str(), &info) != 0) {
+        return false;
+    } else if (info.st_mode & S_IFDIR) {
+        return true;
+    } else {
+        return false;
+    }
+}
+#endif
+
 int main(int argc, char** argv){
-    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, "./data");
+
+    // create data dir if it exists and load data
+    if (!directoryExists("./data")) {
+        if (!createDirectory("./data"))
+            throw std::runtime_error("Could not create data directory");
+    }
+    else {
+        shop.load();
+    }
+
+    // main loop
     AccessLevel_t accessLevel = login();
     Action_t action;
     do {
@@ -18,7 +70,7 @@ int main(int argc, char** argv){
                 shop.createCustomer();
                 break;
             case Action_t::UpdateCustomer:
-                shop.searchCustomer().lock()->update();
+                shop.updateCustomer(shop.searchCustomer().lock());
                 break;
             case Action_t::RemoveCustomer:
                 shop.removeCustomer(shop.searchCustomer());
@@ -36,7 +88,7 @@ int main(int argc, char** argv){
                 shop.removeComponent(shop.searchComponent());
                 break;
             case Action_t::UpdateComponent:
-                shop.searchComponent().lock()->update();
+                shop.updateComponent(shop.searchComponent().lock());
                 break;
             case Action_t::SearchInvoice:
                 // TODO: implement

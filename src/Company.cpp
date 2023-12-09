@@ -55,13 +55,13 @@ void Company::update() {
 
     // Ask for changes vat and change if needed
     std::cout << "Current vat: " << my_vat << std::endl;
-    if (changeQuestion("Change vat? ")) {
+    if (yesNoQuestion("Change vat? ")) {
         std::cout << "Enter vat: ";
         my_vat = input<float>();
     }
     // Ask for changes discount and change if needed
     std::cout << "Current discount: " << my_discount << std::endl;
-    if (changeQuestion("Change discount? ")) {
+    if (yesNoQuestion("Change discount? ")) {
         std::cout << "Enter discount: ";
         my_discount = input<float>();
     }

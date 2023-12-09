@@ -5,7 +5,7 @@
 #include "CustomerView.h"
 #include "Customer.h"
 
-CustomerView::CustomerView(const std::vector<std::shared_ptr<class Customer>> &customers, CustomerType_t type) : my_type(type) {
+CustomerView::CustomerView(const std::vector<std::shared_ptr<class Customer>> &customers, CustomerType_t type) : my_type(type), my_customers(customers.begin(), customers.end()) {
     if (type != CustomerType_t::UNKNOWN) {
         filter([type](const std::weak_ptr<class Customer>& customer) {
             return customer.lock()->getType() != type;

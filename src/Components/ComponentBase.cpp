@@ -10,9 +10,7 @@
 ComponentBase::ComponentBase(std::string manufacturer, std::string name, float price, unsigned int stock,
                              ComponentType_t type, ComputerType_t computerType, unsigned int componentID) :
                              my_manufacturer(manufacturer), my_name(name), my_price(price),
-                             my_stock(stock), my_type(type), my_computerType(computerType), my_componentID(componentID) {
-
-}
+                             my_stock(stock), my_type(type), my_computerType(computerType), my_componentID(componentID) {}
 
 void ComponentBase::printHeader(bool indexed) {
     // Print index column
@@ -53,21 +51,21 @@ void ComponentBase::printBase(int index) const {
 void ComponentBase::update() {
     std::string temp;
     std::cout << "Current Manufacturer: " << my_manufacturer.c_str() << std::endl;
-    if (changeQuestion("Change manufacturer? ")) {
+    if (yesNoQuestion("Change manufacturer? ")) {
         std::cout << "Enter new manufacturer: ";
         std::getline(std::cin, temp);
         my_manufacturer = temp;
     }
 
     std::cout << "Current name: " << my_name.c_str() << std::endl;
-    if (changeQuestion("Change name? ")) {
+    if (yesNoQuestion("Change name? ")) {
         std::cout << "Enter new name: ";
         std::getline(std::cin, temp);
         my_name = temp;
     }
 
     std::cout << "Current price: " << my_price << std::endl;
-    if (changeQuestion("Change price? ")) {
+    if (yesNoQuestion("Change price? ")) {
         std::cout << "Enter new price:";
         float price;
         do {
@@ -79,25 +77,10 @@ void ComponentBase::update() {
     }
 
     std::cout << "Current stock: " << my_stock << std::endl;
-    if (changeQuestion("Change stock? ")) {
+    if (yesNoQuestion("Change stock? ")) {
         std::cout << "Enter new stock: ";
         my_stock = input<unsigned int>();
     }
-}
-
-bool ComponentBase::changeQuestion(const char *question) const {
-    std::cout << question << " y or n: " << std::endl;
-    std::string input;
-    do {
-        std::getline(std::cin, input);
-        if (input == "y")
-            return true;
-        else if (input == "n")
-            return false;
-        else
-            std::cout << "Invalid input. Try again: ";
-    } while (input != "n");
-    return false;
 }
 
 void ComponentBase::selectFilter(ComponentView &view) {

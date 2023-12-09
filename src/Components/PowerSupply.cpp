@@ -77,12 +77,12 @@ void PowerSupply::update() {
     std::string temp;
     ComponentBase::update();
     std::cout << "current power: " << my_power << std::endl;
-    if (changeQuestion("Change power?")) {
+    if (yesNoQuestion("Change power?")) {
         std::cout << "Enter new power: ";
         my_power = input<float>();
     }
     std::cout << "current certification: " << my_certification.c_str() << std::endl;
-    if (changeQuestion("Change certification?")) {
+    if (yesNoQuestion("Change certification?")) {
         std::cout << "Enter new certification: ";
         std::getline(std::cin, temp);
         my_certification = temp;

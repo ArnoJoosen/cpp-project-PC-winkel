@@ -83,17 +83,17 @@ void CPU::update() {
     std::string temp;
 
     std::cout << "Current clock speed: " << my_clockSpeed << std::endl;
-    if (changeQuestion("Change clock speed? ")) {
+    if (yesNoQuestion("Change clock speed? ")) {
         std::cout << "Enter new clock speed: ";
         my_clockSpeed = input<float>();
     }
     std::cout << "Current core count: " << my_coreCount << std::endl;
-    if (changeQuestion("Change core count? ")) {
+    if (yesNoQuestion("Change core count? ")) {
         std::cout << "Enter new core count: ";
         my_coreCount = input<int>();
     }
     std::cout << "Current socket: " << my_socket.c_str() << std::endl;
-    if (changeQuestion("Change socket? ")) {
+    if (yesNoQuestion("Change socket? ")) {
         std::cout << "Enter new socket: ";
         std::getline(std::cin, temp);
         my_socket = temp;

@@ -18,7 +18,7 @@
 
 class ComputerShop {
 public:
-    ComputerShop(const std::string& name, Address_t address);
+    ComputerShop(const std::string& name, Address_t address, std::string workingDirectory);
 
     [[nodiscard]] inline CapString<MAX_SHOP_NAME_LENGTH> getName() const { return my_name; }
     [[nodiscard]] inline Address_t getAddress() const { return my_address; }
@@ -38,36 +38,37 @@ public:
     std::weak_ptr<ComponentBase> searchComponent(ComponentType_t type = ComponentType_t::UNKNOWN, ComputerType_t computerType = ComputerType_t::UNKNOWN);
     void removeCustomer(const std::weak_ptr<Customer>& customer);
     void removeComponent(const std::weak_ptr<ComponentBase>& component);
+    void updateCustomer(const std::weak_ptr<Customer>& customer);
+    void updateComponent(const std::weak_ptr<ComponentBase>& component);
     std::shared_ptr<Invoice> buildSystem(const std::weak_ptr<Customer>& customer);
 
     // serialization
-    void serializeComponentType(const std::string& pwd, ComponentType_t type) const ; // pwd = phat to working directory
-    void serializeCustomerType(const std::string& pwd, CustomerType_t type) const; // pwd = phat to working directory
-    void shopSerialize(const std::string& pwd) const; // pwd = phat to working directory
+    void serializeComponentType(ComponentType_t type) const ;
+    void serializeCustomerType(CustomerType_t type) const;
+    void shopSerialize() const;
 
-    // pwd = phat to working directory
     template<class T>
-    void deserializeComponentType(const std::string &pwd, ComponentType_t type) {
+    void deserializeComponentType(ComponentType_t type) {
         // open file
-        std::ifstream file{pwd + "/" + componentTypeToString(type) + ".bin", std::ios::binary | std::ios::in};
+        std::ifstream file{my_workingDirectory + "/" + componentTypeToString(type) + ".bin", std::ios::binary | std::ios::in};
         if (!file.is_open())
             return; // no components of this type are serialized
         // get size of component
         std::streamsize size = getComponentTypeSize(type);
         // read components
         while (file) {
-            std::shared_ptr<T> componentCase = std::make_shared<T>();
+            auto componentCase = std::make_shared<T>();
             file.read(reinterpret_cast<char*>(componentCase.get()), size);
-            addComponent(componentCase);
+            if (!file.eof())
+                addComponent(componentCase);
         }
         file.close();
     }
 
-    // pwd = phat to working directory
     template<class T>
-    void deserializeCustomerType(const std::string& pwd, CustomerType_t type){
+    void deserializeCustomerType(CustomerType_t type){
         // open file
-        std::ifstream file{pwd + "/" + customerTypeToString(type) + ".bin", std::ios::binary | std::ios::in};
+        std::ifstream file{my_workingDirectory + "/" + customerTypeToString(type) + ".bin", std::ios::binary | std::ios::in};
         if (!file.is_open())
             return; // no components of this type are serialized
         // get size of component
@@ -76,11 +77,13 @@ public:
         while (file) {
             std::shared_ptr<T> customerCase = std::make_shared<T>();
             file.read(reinterpret_cast<char*>(customerCase.get()), size);
-            addCustomer(customerCase);
+            if (!file.eof())
+                addCustomer(customerCase);
         }
         file.close();
     }
-    void deserialize(const std::string& pwd); // pwd = phat to working directory
+    void deserializeShop();
+    void load(); // load all data from working directory
 
 private:
     static std::streamsize getComponentTypeSize(ComponentType_t type);
@@ -92,6 +95,7 @@ private:
     std::vector<std::shared_ptr<Customer>> my_customers;
     unsigned int lastComponentID = 0;
     unsigned int lastCustomerID = 0;
+    std::string my_workingDirectory = "./data";
 };
 
 #endif //PC_WINKLE_COMPUTERSHOP_H

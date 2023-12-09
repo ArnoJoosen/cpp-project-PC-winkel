@@ -81,19 +81,19 @@ void Motherboard::update() {
     ComponentBase::update();
     std::string temp;
     std::cout << "Current socket: " << my_socket.c_str() << std::endl;
-    if (changeQuestion("Change socket?")) {
+    if (yesNoQuestion("Change socket?")) {
         std::cout << "Enter new socket: ";
         std::getline(std::cin, temp);
         my_socket = temp;
     }
     std::cout << "Current form factor: " << my_formFactor.c_str() << std::endl;
-    if (changeQuestion("Change form factor?")) {
+    if (yesNoQuestion("Change form factor?")) {
         std::cout << "Enter new form factor: ";
         std::getline(std::cin, temp);
         my_formFactor = temp;
     }
     std::cout << "Current max memory slots: " << my_maxMemorySlots << std::endl;
-    if (changeQuestion("Change max memory slots?")) {
+    if (yesNoQuestion("Change max memory slots?")) {
         std::cout << "Enter new max memory slots: ";
         my_maxMemorySlots = input<unsigned int>();
     }

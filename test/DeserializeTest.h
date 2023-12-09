@@ -20,7 +20,7 @@ class deserialize : public ::testing::Test {
 protected:
     void SetUp() override {
         // components
-        ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
+        ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, pwd);
         case1 = std::make_shared<Case>(
                 "Cooler Master",
                 "MasterBox MB520",
@@ -122,13 +122,13 @@ protected:
         );
         shop.addComponent(storage1);
 
-        shop.serializeComponentType(pwd, ComponentType_t::CPU);
-        shop.serializeComponentType(pwd, ComponentType_t::CASE);
-        shop.serializeComponentType(pwd, ComponentType_t::GPU);
-        shop.serializeComponentType(pwd, ComponentType_t::RAM);
-        shop.serializeComponentType(pwd, ComponentType_t::MOTHERBOARD);
-        shop.serializeComponentType(pwd, ComponentType_t::PSU);
-        shop.serializeComponentType(pwd, ComponentType_t::STORAGE);
+        shop.serializeComponentType(ComponentType_t::CPU);
+        shop.serializeComponentType(ComponentType_t::CASE);
+        shop.serializeComponentType(ComponentType_t::GPU);
+        shop.serializeComponentType(ComponentType_t::RAM);
+        shop.serializeComponentType(ComponentType_t::MOTHERBOARD);
+        shop.serializeComponentType(ComponentType_t::PSU);
+        shop.serializeComponentType(ComponentType_t::STORAGE);
 
         // customers
         // customer
@@ -155,10 +155,10 @@ protected:
                 5
         );
         shop.addCustomer(company1);
-        shop.serializeCustomerType(pwd, CustomerType_t::PARTICULIER);
-        shop.serializeCustomerType(pwd, CustomerType_t::BEDRIJF);
+        shop.serializeCustomerType(CustomerType_t::PARTICULIER);
+        shop.serializeCustomerType(CustomerType_t::BEDRIJF);
     }
-    std::string pwd = ".";
+    std::string pwd = "./test_deserialized";
 
     // components
     std::shared_ptr<Case> case1;
@@ -178,8 +178,8 @@ protected:
 };
 
 TEST_F(deserialize, deserializeCPU) {
-    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
-    shop.deserializeComponentType<CPU>(pwd, ComponentType_t::CPU);
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, pwd);
+    shop.deserializeComponentType<CPU>(ComponentType_t::CPU);
     auto components = shop.getComponents();
     auto it = components.begin();
 
@@ -212,8 +212,8 @@ TEST_F(deserialize, deserializeCPU) {
 }
 
 TEST_F(deserialize, deserializeCase) {
-    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
-    shop.deserializeComponentType<Case>(pwd, ComponentType_t::CASE);
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, pwd);
+    shop.deserializeComponentType<Case>(ComponentType_t::CASE);
     auto components = shop.getComponents();
     auto it = components.begin();
 
@@ -232,8 +232,8 @@ TEST_F(deserialize, deserializeCase) {
 }
 
 TEST_F(deserialize, deserializeGPU) {
-    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
-    shop.deserializeComponentType<GPU>(pwd, ComponentType_t::GPU);
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, pwd);
+    shop.deserializeComponentType<GPU>(ComponentType_t::GPU);
     auto components = shop.getComponents();
     auto it = components.begin();
 
@@ -251,8 +251,8 @@ TEST_F(deserialize, deserializeGPU) {
 }
 
 TEST_F(deserialize, deserializeMemory) {
-    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
-    shop.deserializeComponentType<Memory>(pwd, ComponentType_t::RAM);
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, pwd);
+    shop.deserializeComponentType<Memory>(ComponentType_t::RAM);
     auto components = shop.getComponents();
     auto it = components.begin();
 
@@ -270,8 +270,8 @@ TEST_F(deserialize, deserializeMemory) {
 }
 
 TEST_F(deserialize, deserializeMotherboard) {
-    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
-    shop.deserializeComponentType<Motherboard>(pwd, ComponentType_t::MOTHERBOARD);
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, pwd);
+    shop.deserializeComponentType<Motherboard>(ComponentType_t::MOTHERBOARD);
     auto components = shop.getComponents();
     auto it = components.begin();
 
@@ -290,8 +290,8 @@ TEST_F(deserialize, deserializeMotherboard) {
 }
 
 TEST_F(deserialize, deserializePowerSupply) {
-    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
-    shop.deserializeComponentType<PowerSupply>(pwd, ComponentType_t::PSU);
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, pwd);
+    shop.deserializeComponentType<PowerSupply>(ComponentType_t::PSU);
     auto components = shop.getComponents();
     auto it = components.begin();
 
@@ -309,8 +309,8 @@ TEST_F(deserialize, deserializePowerSupply) {
 }
 
 TEST_F(deserialize, deserializeStorage) {
-    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
-    shop.deserializeComponentType<Storage>(pwd, ComponentType_t::STORAGE);
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, pwd);
+    shop.deserializeComponentType<Storage>(ComponentType_t::STORAGE);
     auto components = shop.getComponents();
     auto it = components.begin();
 
@@ -329,8 +329,8 @@ TEST_F(deserialize, deserializeStorage) {
 }
 
 TEST_F(deserialize, deserializeCustomer) {
-    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
-    shop.deserializeCustomerType<Customer>(pwd, CustomerType_t::PARTICULIER);
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, pwd);
+    shop.deserializeCustomerType<Customer>(CustomerType_t::PARTICULIER);
     auto customers = shop.getCustomers();
     auto it = customers.begin();
 
@@ -359,8 +359,8 @@ TEST_F(deserialize, deserializeCustomer) {
 }
 
 TEST_F(deserialize, deserializeCompany) {
-    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
-    shop.deserializeCustomerType<Company>(pwd, CustomerType_t::BEDRIJF);
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, pwd);
+    shop.deserializeCustomerType<Company>(CustomerType_t::BEDRIJF);
     auto customers = shop.getCustomers();
     auto it = customers.begin();
 

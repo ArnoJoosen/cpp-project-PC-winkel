@@ -47,8 +47,6 @@ public:
 
 protected:
 
-    bool changeQuestion(const char* question) const;
-
     static void filterManufacturer(class ComponentView& view);
     static void filterName(class ComponentView& view);
     static void filterPrice(class ComponentView& view);

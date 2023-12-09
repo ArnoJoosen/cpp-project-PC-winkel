@@ -19,7 +19,7 @@
 
 class serialize : public ::testing::Test {
 public:
-    serialize() : shop("ComputerShop1", {"bb", "aa", 15, 1651}) {}
+    serialize() : shop("ComputerShop1", {"bb", "aa", 15, 1651}, "./test_serialized") {}
 
 protected:
     void SetUp() override {
@@ -125,13 +125,13 @@ protected:
         );
         shop.addComponent(storage1);
 
-        shop.serializeComponentType(pwd, ComponentType_t::CPU);
-        shop.serializeComponentType(pwd, ComponentType_t::CASE);
-        shop.serializeComponentType(pwd, ComponentType_t::GPU);
-        shop.serializeComponentType(pwd, ComponentType_t::RAM);
-        shop.serializeComponentType(pwd, ComponentType_t::MOTHERBOARD);
-        shop.serializeComponentType(pwd, ComponentType_t::PSU);
-        shop.serializeComponentType(pwd, ComponentType_t::STORAGE);
+        shop.serializeComponentType(ComponentType_t::CPU);
+        shop.serializeComponentType(ComponentType_t::CASE);
+        shop.serializeComponentType(ComponentType_t::GPU);
+        shop.serializeComponentType(ComponentType_t::RAM);
+        shop.serializeComponentType(ComponentType_t::MOTHERBOARD);
+        shop.serializeComponentType(ComponentType_t::PSU);
+        shop.serializeComponentType(ComponentType_t::STORAGE);
 
         // customer
         customer1 = std::make_shared<Customer>(
@@ -157,10 +157,9 @@ protected:
                 5
         );
         shop.addCustomer(company1);
-        shop.serializeCustomerType(pwd, CustomerType_t::PARTICULIER);
-        shop.serializeCustomerType(pwd, CustomerType_t::BEDRIJF);
+        shop.serializeCustomerType(CustomerType_t::PARTICULIER);
+        shop.serializeCustomerType(CustomerType_t::BEDRIJF);
     }
-    std::string pwd = ".";
     // components
     std::shared_ptr<Case> case1;
     std::shared_ptr<CPU> cpu1;
@@ -177,6 +176,7 @@ protected:
 
     // shop
     ComputerShop shop;
+    const std::string pwd = "./test_serialized";
 };
 
 TEST_F(serialize, serializeCPUTest){

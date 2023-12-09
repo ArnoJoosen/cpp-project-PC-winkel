@@ -83,17 +83,17 @@ void Storage::update() {
     ComponentBase::update();
     std::string temp;
     std::cout << "current speed: " << my_speed << std::endl;
-    if (changeQuestion("Change speed?")) {
+    if (yesNoQuestion("Change speed?")) {
         std::cout << "Enter new speed: ";
         my_speed = input<float>();
     }
     std::cout << "current size: " << my_size << std::endl;
-    if (changeQuestion("Change size?")) {
+    if (yesNoQuestion("Change size?")) {
         std::cout << "Enter new size: ";
         my_size = input<unsigned int>();
     }
     std::cout << "current slot: " << my_slot.c_str() << std::endl;
-    if (changeQuestion("Change slot?")) {
+    if (yesNoQuestion("Change slot?")) {
         std::cout << "Enter new slot: ";
         std::getline(std::cin, temp);
         my_slot = temp;

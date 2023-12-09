@@ -74,12 +74,12 @@ void Memory::printRow(int index) const {
 void Memory::update() {
     ComponentBase::update();
     std::cout << "Current size: " << my_size << std::endl;
-    if (changeQuestion("Change size?")) {
+    if (yesNoQuestion("Change size?")) {
         std::cout << "Enter new size: ";
         my_size = input<unsigned int>();
     }
     std::cout << "Current clock speed: " << my_clockSpeed << std::endl;
-    if (changeQuestion("Change clock speed?")) {
+    if (yesNoQuestion("Change clock speed?")) {
         std::cout << "Enter new clock speed: ";
         my_clockSpeed = input<float>();
     }
