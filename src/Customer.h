@@ -10,6 +10,7 @@
 
 class Customer {
 public:
+    Customer();
     Customer(Name_t name, Address_t address, unsigned int customerID, CustomerType_t type);
 
     [[nodiscard]] inline Name_t getName() const { return my_name; }

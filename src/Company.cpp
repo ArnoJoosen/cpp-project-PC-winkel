@@ -9,6 +9,8 @@
 #include "Input.h"
 #include "CustomerView.h"
 
+Company::Company() : Customer(Name_t(), Address_t(), 0, CustomerType_t::BEDRIJF), my_vat(0), my_discount(0), my_yearlyBuy(0) {}
+
 Company::Company(Name_t name, Address_t address, unsigned int customerID, float vat, float discount,
                  unsigned int yearlyBuy) : Customer(std::move(name), std::move(address), customerID, CustomerType_t::BEDRIJF),
                                            my_vat(vat), my_discount(discount), my_yearlyBuy(yearlyBuy) {}

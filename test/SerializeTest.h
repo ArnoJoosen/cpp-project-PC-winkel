@@ -363,5 +363,4 @@ TEST_F(serialize, serializeCompanyTest) {
 }
 
 
-
 #endif //PC_WINKLE_SERIALIZETEST_H

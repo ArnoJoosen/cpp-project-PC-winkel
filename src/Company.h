@@ -9,7 +9,7 @@
 
 class Company : public Customer {
 public:
-
+    Company();
     Company(Name_t name, Address_t address, unsigned int customerID, float vat, float discount, unsigned int yearlyBuy);
 
     [[nodiscard]] inline float getVat() const { return my_vat; }

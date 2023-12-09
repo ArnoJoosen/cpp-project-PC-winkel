@@ -9,6 +9,8 @@
 #include "Input.h"
 #include "CustomerView.h"
 
+Customer::Customer() : my_name(), my_address(), my_customerID(0), my_type(CustomerType_t::PARTICULIER) {}
+
 Customer::Customer(Name_t name, Address_t address, unsigned int customerID, CustomerType_t type)
 : my_name(std::move(name)),
 my_address(std::move(address)),

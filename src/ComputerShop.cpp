@@ -31,10 +31,10 @@ void ComputerShop::addCustomer(const std::shared_ptr<Customer>& customer) {
 void ComputerShop::createCustomer() {
     switch (selectCustomerType()) {
         case PARTICULIER:
-            my_customers.push_back(Customer::Create(lastCustomerID++));
+            addCustomer(Customer::Create(lastCustomerID++));
             break;
         case BEDRIJF:
-            my_customers.push_back(std::static_pointer_cast<Customer>(Company::Create(lastComponentID++)));
+            addCustomer(std::static_pointer_cast<Customer>(Company::Create(lastComponentID++)));
             break;
         case UNKNOWN: // should never happen
             throw std::runtime_error("Unknown customer type");

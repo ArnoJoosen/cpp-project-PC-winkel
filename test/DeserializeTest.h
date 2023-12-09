@@ -19,6 +19,7 @@
 class deserialize : public ::testing::Test {
 protected:
     void SetUp() override {
+        // components
         ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
         case1 = std::make_shared<Case>(
                 "Cooler Master",
@@ -128,8 +129,38 @@ protected:
         shop.serializeComponentType(pwd, ComponentType_t::MOTHERBOARD);
         shop.serializeComponentType(pwd, ComponentType_t::PSU);
         shop.serializeComponentType(pwd, ComponentType_t::STORAGE);
+
+        // customers
+        // customer
+        customer1 = std::make_shared<Customer>(
+                Name_t{"Arno", "Joosen"},
+                Address_t{"Kerkstraat", "Zwolle", 8011, 1},
+                1,
+                CustomerType_t::PARTICULIER
+        );
+        shop.addCustomer(customer1);
+        customer2 = std::make_shared<Customer>(
+                Name_t{"Mram", "Pos"},
+                Address_t{"Achterstraat", "Luttenberg", 8105, 1},
+                2,
+                CustomerType_t::PARTICULIER
+        );
+        shop.addCustomer(customer2);
+        company1 = std::make_shared<Company>(
+                Name_t{"Bos", "Bos"},
+                Address_t{"Luttenbergstraat", "Bosberg", 9000, 1},
+                3,
+                5.2,
+                1.2,
+                5
+        );
+        shop.addCustomer(company1);
+        shop.serializeCustomerType(pwd, CustomerType_t::PARTICULIER);
+        shop.serializeCustomerType(pwd, CustomerType_t::BEDRIJF);
     }
     std::string pwd = ".";
+
+    // components
     std::shared_ptr<Case> case1;
     std::shared_ptr<CPU> cpu1;
     std::shared_ptr<CPU> cpu2;
@@ -138,6 +169,12 @@ protected:
     std::shared_ptr<Motherboard> motherboard1;
     std::shared_ptr<PowerSupply> powerSupply1;
     std::shared_ptr<Storage> storage1;
+
+    // customers
+    // customer
+    std::shared_ptr<Customer> customer1;
+    std::shared_ptr<Customer> customer2;
+    std::shared_ptr<Company> company1;
 };
 
 TEST_F(deserialize, deserializeCPU) {
@@ -289,6 +326,56 @@ TEST_F(deserialize, deserializeStorage) {
     ASSERT_EQ(c1->getSize(), storage1->getSize());
     ASSERT_EQ(c1->getSpeed(), storage1->getSpeed());
     ASSERT_EQ(c1->getSlot(), storage1->getSlot());
+}
+
+TEST_F(deserialize, deserializeCustomer) {
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
+    shop.deserializeCustomerType<Customer>(pwd, CustomerType_t::PARTICULIER);
+    auto customers = shop.getCustomers();
+    auto it = customers.begin();
+
+    // test first Customer
+    auto c1 = std::dynamic_pointer_cast<Customer>(*it);
+    ASSERT_EQ(c1->getName().firstName, customer1->getName().firstName);
+    ASSERT_EQ(c1->getName().lastName, customer1->getName().lastName);
+    ASSERT_EQ(c1->getAddress().street, customer1->getAddress().street);
+    ASSERT_EQ(c1->getAddress().city, customer1->getAddress().city);
+    ASSERT_EQ(c1->getAddress().postcode, customer1->getAddress().postcode);
+    ASSERT_EQ(c1->getAddress().houseNumber, customer1->getAddress().houseNumber);
+    ASSERT_EQ(c1->getCustomerID(), customer1->getCustomerID());
+    ASSERT_EQ(c1->getType(), customer1->getType());
+
+    // test second Customer
+    it++;
+    auto c2 = std::dynamic_pointer_cast<Customer>(*it);
+    ASSERT_EQ(c2->getName().firstName, customer2->getName().firstName);
+    ASSERT_EQ(c2->getName().lastName, customer2->getName().lastName);
+    ASSERT_EQ(c2->getAddress().street, customer2->getAddress().street);
+    ASSERT_EQ(c2->getAddress().city, customer2->getAddress().city);
+    ASSERT_EQ(c2->getAddress().postcode, customer2->getAddress().postcode);
+    ASSERT_EQ(c2->getAddress().houseNumber, customer2->getAddress().houseNumber);
+    ASSERT_EQ(c2->getCustomerID(), customer2->getCustomerID());
+    ASSERT_EQ(c2->getType(), customer2->getType());
+}
+
+TEST_F(deserialize, deserializeCompany) {
+    ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651});
+    shop.deserializeCustomerType<Company>(pwd, CustomerType_t::BEDRIJF);
+    auto customers = shop.getCustomers();
+    auto it = customers.begin();
+
+    // test first Company
+    auto c1 = std::dynamic_pointer_cast<Company>(*it);
+    ASSERT_EQ(c1->getName().firstName, company1->getName().firstName);
+    ASSERT_EQ(c1->getName().lastName, company1->getName().lastName);
+    ASSERT_EQ(c1->getAddress().street, company1->getAddress().street);
+    ASSERT_EQ(c1->getAddress().city, company1->getAddress().city);
+    ASSERT_EQ(c1->getAddress().postcode, company1->getAddress().postcode);
+    ASSERT_EQ(c1->getAddress().houseNumber, company1->getAddress().houseNumber);
+    ASSERT_EQ(c1->getCustomerID(), company1->getCustomerID());
+    ASSERT_EQ(c1->getType(), company1->getType());
+    ASSERT_EQ(c1->getDiscount(), company1->getDiscount());
+    ASSERT_EQ(c1->getVat(), company1->getVat());
 }
 
 
