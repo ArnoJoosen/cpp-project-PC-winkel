@@ -64,31 +64,55 @@ int main(int argc, char** argv){
         action = chooseAction(accessLevel);
         switch (action) {
             case Action_t::SearchCustomer:
-                shop.searchCustomer();
+                try {
+                    shop.searchCustomer();
+                } catch (const std::exception& e) {
+                    std::cout << e.what() << std::endl;
+                }
                 break;
             case Action_t::AddCustomer:
                 shop.createCustomer();
                 break;
             case Action_t::UpdateCustomer:
-                shop.updateCustomer(shop.searchCustomer().lock());
+                try {
+                    shop.updateCustomer(shop.searchCustomer());
+                } catch (const std::exception& e) {
+                    std::cout << e.what() << std::endl;
+                }
                 break;
             case Action_t::RemoveCustomer:
-                shop.removeCustomer(shop.searchCustomer());
+                try {
+                    shop.removeCustomer(shop.searchCustomer());
+                } catch (const std::exception& e) {
+                    std::cout << e.what() << std::endl;
+                }
                 break;
             case Action_t::BuildSystem:
                 shop.buildSystem(shop.searchCustomer());
                 break;
             case Action_t::SearchComponent:
-                shop.searchComponent();
+                try {
+                    shop.searchComponent();
+                } catch (const std::exception& e) {
+                    std::cout << e.what() << std::endl;
+                }
                 break;
             case Action_t::AddComponent:
                 shop.createComponent();
                 break;
             case Action_t::RemoveComponent:
-                shop.removeComponent(shop.searchComponent());
+                try {
+                    shop.removeComponent(shop.searchComponent());
+                } catch (const std::exception& e) {
+                    std::cout << e.what() << std::endl;
+                }
                 break;
             case Action_t::UpdateComponent:
-                shop.updateComponent(shop.searchComponent().lock());
+                try {
+                    shop.updateComponent(shop.searchComponent());
+                } catch (const std::exception& e) {
+                    std::cout << e.what() << std::endl;
+                }
                 break;
             case Action_t::SearchInvoice:
                 // TODO: implement

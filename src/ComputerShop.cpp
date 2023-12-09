@@ -34,10 +34,12 @@ void ComputerShop::createCustomer() {
         case PARTICULIER:
             addCustomer(Customer::Create(lastCustomerID++));
             serializeCustomerType(CustomerType_t::PARTICULIER);
+            serializeShop();
             break;
         case BEDRIJF:
             addCustomer(std::static_pointer_cast<Customer>(Company::Create(lastComponentID++)));
             serializeCustomerType(CustomerType_t::BEDRIJF);
+            serializeShop();
             break;
         case UNKNOWN: // should never happen
             throw std::runtime_error("Unknown customer type");
@@ -49,30 +51,37 @@ void ComputerShop::createComponent() {
         case ComponentType_t::CASE:
             my_components.insert({ComponentType_t::CASE, std::static_pointer_cast<ComponentBase>(Case::Create(lastComponentID++))});
             serializeComponentType(ComponentType_t::CASE);
+            serializeShop();
             break;
         case ComponentType_t::CPU:
             my_components.insert({ComponentType_t::CPU, std::static_pointer_cast<ComponentBase>(CPU::Create(lastComponentID++))});
             serializeComponentType(ComponentType_t::CPU);
+            serializeShop();
             break;
         case ComponentType_t::GPU:
             my_components.insert({ComponentType_t::GPU, std::static_pointer_cast<ComponentBase>(GPU::Create(lastComponentID++))});
             serializeComponentType(ComponentType_t::GPU);
+            serializeShop();
             break;
         case ComponentType_t::STORAGE:
             my_components.insert({ComponentType_t::STORAGE, std::static_pointer_cast<ComponentBase>(Storage::Create(lastComponentID++))});
             serializeComponentType(ComponentType_t::STORAGE);
+            serializeShop();
             break;
         case ComponentType_t::MOTHERBOARD:
             my_components.insert({ComponentType_t::MOTHERBOARD, std::static_pointer_cast<ComponentBase>(Motherboard::Create(lastComponentID++))});
             serializeComponentType(ComponentType_t::MOTHERBOARD);
+            serializeShop();
             break;
         case ComponentType_t::PSU:
             my_components.insert({ComponentType_t::PSU, std::static_pointer_cast<ComponentBase>(PowerSupply::Create(lastComponentID++))});
             serializeComponentType(ComponentType_t::PSU);
+            serializeShop();
             break;
         case ComponentType_t::RAM:
             my_components.insert({ComponentType_t::RAM, std::static_pointer_cast<ComponentBase>(Memory::Create(lastComponentID++))});
             serializeComponentType(ComponentType_t::RAM);
+            serializeShop();
             break;
         case ComponentType_t::UNKNOWN: // should never happen
             throw std::runtime_error("Unknown component type");
@@ -81,6 +90,8 @@ void ComputerShop::createComponent() {
 
 std::weak_ptr<Customer> ComputerShop::searchCustomer() {
     CustomerView view(my_customers);
+    if (view.size() == 0)
+        throw std::runtime_error("No customers found");
     bool found = false;
     int index;
     std::weak_ptr<Customer> customer;
@@ -125,6 +136,9 @@ std::weak_ptr<Customer> ComputerShop::searchCustomer() {
 
 std::weak_ptr<ComponentBase> ComputerShop::searchComponent(ComponentType_t type, ComputerType_t computerType) {
     ComponentView view(my_components, type, computerType);
+    if (view.size() == 0)
+        throw std::runtime_error("No components found");
+
     bool found = false;
     int index;
     std::weak_ptr<ComponentBase> component;
@@ -173,7 +187,7 @@ std::weak_ptr<ComponentBase> ComputerShop::searchComponent(ComponentType_t type,
 void ComputerShop::removeCustomer(const std::weak_ptr<Customer>& customer) {
     CustomerType_t type = customer.lock()->getType();
     auto c = customer.lock();
-    if (c != nullptr)
+    if (c == nullptr)
         throw std::runtime_error("Customer does not exist"); // should never happen
 
     my_customers.erase(std::remove(my_customers.begin(), my_customers.end(), c), my_customers.end());
@@ -210,25 +224,30 @@ std::shared_ptr<Invoice> ComputerShop::buildSystem(const std::weak_ptr<Customer>
     // select system type
     ComputerType_t systemType = selectComputerType();
 
-    // select components
-    // select CPU
-    invoice->addComponents(searchComponent(ComponentType_t::CPU, systemType));
-    // select Motherboard
-    invoice->addComponents(searchComponent(ComponentType_t::MOTHERBOARD, systemType));
-    // select RAM
-    invoice->addComponents(searchComponent(ComponentType_t::RAM, systemType));
-    // select GPU
-    invoice->addComponents(searchComponent(ComponentType_t::GPU, systemType));
-    // select Storage
-    invoice->addComponents(searchComponent(ComponentType_t::STORAGE, systemType));
-    // select PSU
-    invoice->addComponents(searchComponent(ComponentType_t::PSU, systemType));
-    // select Case
-    invoice->addComponents(searchComponent(ComponentType_t::CASE, systemType));
+    try {
+        // select components
+        // select CPU
+        invoice->addComponents(searchComponent(ComponentType_t::CPU, systemType));
+        // select Motherboard
+        invoice->addComponents(searchComponent(ComponentType_t::MOTHERBOARD, systemType));
+        // select RAM
+        invoice->addComponents(searchComponent(ComponentType_t::RAM, systemType));
+        // select GPU
+        invoice->addComponents(searchComponent(ComponentType_t::GPU, systemType));
+        // select Storage
+        invoice->addComponents(searchComponent(ComponentType_t::STORAGE, systemType));
+        // select PSU
+        invoice->addComponents(searchComponent(ComponentType_t::PSU, systemType));
+        // select Case
+        invoice->addComponents(searchComponent(ComponentType_t::CASE, systemType));
 
-    // additional components
-    while (yesNoQuestion("Do you want to add additional components?"))
-        invoice->addComponents(searchComponent(ComponentType_t::UNKNOWN, systemType));
+        // additional components
+        while (yesNoQuestion("Do you want to add additional components?"))
+            invoice->addComponents(searchComponent(ComponentType_t::UNKNOWN, systemType));
+    } catch (std::runtime_error& e) {
+        std::cout << e.what() << std::endl;
+        return nullptr;
+    }
 
 
     // TODO calculate price bast on components and customer type
@@ -271,12 +290,22 @@ void ComputerShop::serializeCustomerType(CustomerType_t type) const {
     file.close();
 }
 
-void ComputerShop::shopSerialize() const {
-
+void ComputerShop::serializeShop() const {
+    std::ofstream file{my_workingDirectory + "/shop.bin", std::ios::binary};
+    if (!file.is_open())
+        throw std::runtime_error("Could not open file");
+    file.write((char*)(&lastComponentID), sizeof(lastComponentID));
+    file.write((char*)(&lastCustomerID), sizeof(lastCustomerID));
+    file.close();
 }
 
 void ComputerShop::deserializeShop() {
-
+    std::ifstream file{my_workingDirectory + "/shop.bin", std::ios::binary};
+    if (!file.is_open())
+        return; // no shop data is serialized
+    file.read((char*)(&lastComponentID), sizeof(lastComponentID));
+    file.read((char*)(&lastCustomerID), sizeof(lastCustomerID));
+    file.close();
 }
 
 void ComputerShop::load() {
@@ -291,6 +320,8 @@ void ComputerShop::load() {
     deserializeComponentType<Motherboard>(ComponentType_t::MOTHERBOARD);
     deserializeComponentType<PowerSupply>(ComponentType_t::PSU);
     deserializeComponentType<Storage>(ComponentType_t::STORAGE);
+    // load shop data
+    serializeShop();
 }
 
 std::streamsize ComputerShop::getComponentTypeSize(ComponentType_t type) {

@@ -45,7 +45,7 @@ public:
     // serialization
     void serializeComponentType(ComponentType_t type) const ;
     void serializeCustomerType(CustomerType_t type) const;
-    void shopSerialize() const;
+    void serializeShop() const;
 
     template<class T>
     void deserializeComponentType(ComponentType_t type) {
