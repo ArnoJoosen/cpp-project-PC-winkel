@@ -9,9 +9,12 @@
 #include <memory>
 #include "ComponentView.h"
 #include "ComponentBase.h"
+#define MAX_SLOT_STORAGE_LENGTH 20
 
 class Storage : public ComponentBase {
 public:
+
+    Storage();
 
     Storage(std::string manufacturer,
             std::string name,
@@ -26,11 +29,11 @@ public:
 
     [[nodiscard]] inline float getSpeed() const { return my_speed; }
     [[nodiscard]] inline unsigned int getSize() const { return my_size; }
-    [[nodiscard]] inline std::string getSlot() const { return my_slot; }
+    [[nodiscard]] inline CapString<MAX_SLOT_STORAGE_LENGTH> getSlot() const { return my_slot; }
 
     inline void setSpeed(float speed) { my_speed = speed; }
     inline void setSize(unsigned int size) { my_size = size; }
-    inline void setSlot(std::string slot) { my_slot = std::move(slot); }
+    inline void setSlot(const std::string& slot) { my_slot = slot; }
 
     static void printHeader(bool indexed = false);
     void printRow(int index) const final;
@@ -46,7 +49,7 @@ private:
 
     float my_speed;
     unsigned int my_size;
-    std::string my_slot;
+    CapString<MAX_SLOT_STORAGE_LENGTH> my_slot;
 };
 
 #endif //PC_WINKLE_STORAGE_H

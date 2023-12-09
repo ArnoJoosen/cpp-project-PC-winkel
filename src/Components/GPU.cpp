@@ -8,6 +8,8 @@
 #include <iostream>
 #include <iomanip>
 
+GPU::GPU() : ComponentBase("", "", 0, 0, ComponentType_t::GPU, ComputerType_t::DESKTOP, 0), my_power(0), my_busSpeed(0) {}
+
 GPU::GPU(std::string manufacturer, std::string name, float price, unsigned int stock, ComponentType_t type,
          ComputerType_t computerType, unsigned int componentID, float power, float busSpeed) :
          ComponentBase(manufacturer, name, price, stock, type, computerType, componentID),

@@ -10,6 +10,9 @@
 
 class Memory : public ComponentBase {
 public:
+
+    Memory();
+
     Memory(std::string manufacturer,
            std::string name,
            float price,

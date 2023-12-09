@@ -7,6 +7,9 @@
 #include <iomanip>
 #include "Input.h"
 
+PowerSupply::PowerSupply() : ComponentBase("", "", 0, 0, ComponentType_t::PSU, ComputerType_t::DESKTOP, 0),
+                             my_power(0), my_certification("") {}
+
 PowerSupply::PowerSupply(std::string manufacturer, std::string name, float price, unsigned int stock,
                          ComponentType_t type, ComputerType_t computerType, unsigned int componentID, float power,
                          std::string certification) : ComponentBase(std::move(manufacturer), std::move(name), price,

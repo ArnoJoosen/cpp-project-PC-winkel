@@ -10,6 +10,9 @@
 
 class GPU : public ComponentBase {
 public:
+
+    GPU();
+
     GPU(std::string manufacturer,
         std::string name,
         float price,

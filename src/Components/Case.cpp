@@ -8,6 +8,10 @@
 #include <iomanip>
 #include "ComponentView.h"
 
+
+Case::Case() : ComponentBase("", "", 0, 0, ComponentType_t::CASE, ComputerType_t::DESKTOP, 0), my_color(""),
+               MotherboardSize(""), my_material("") {}
+
 Case::Case(std::string manufacturer, std::string name, float price, unsigned int stock, ComputerType_t computerType,
            unsigned int componentID, const std::string& color, const std::string& MotherboardSize,
            const std::string& material) : ComponentBase(std::move(manufacturer), std::move(name), price, stock, ComponentType_t::CASE,

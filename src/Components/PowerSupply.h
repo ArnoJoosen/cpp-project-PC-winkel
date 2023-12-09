@@ -13,6 +13,9 @@
 
 class PowerSupply : public ComponentBase {
 public:
+
+    PowerSupply();
+
     PowerSupply(std::string manufacturer,
                 std::string name,
                 float price,

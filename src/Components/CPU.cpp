@@ -7,6 +7,9 @@
 #include <iomanip>
 #include "Input.h"
 
+CPU::CPU() : ComponentBase("", "", 0, 0, ComponentType_t::CPU, ComputerType_t::DESKTOP, 0), my_clockSpeed(0),
+             my_coreCount(0), my_socket("") {}
+
 CPU::CPU(std::string manufacturer, std::string name, float price, unsigned int stock, ComponentType_t type,
          ComputerType_t computerType, unsigned int componentID, float clockSpeed, int coreCount, std::string socket) :
         ComponentBase(std::move(manufacturer), std::move(name), price, stock, type, computerType, componentID),

@@ -12,6 +12,8 @@
 
 class CPU : public ComponentBase {
 public:
+    CPU();
+
     CPU(std::string manufacturer,
         std::string name,
         float price,

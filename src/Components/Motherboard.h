@@ -13,6 +13,9 @@
 
 class Motherboard : public ComponentBase {
 public:
+
+    Motherboard();
+
     Motherboard(std::string manufacturer,
                 std::string name,
                 float price,
@@ -45,9 +48,9 @@ private:
     static void filterFormFactor(ComponentView &view);
     static void filterMaxMemorySlots(ComponentView &view);
 
+    unsigned int my_maxMemorySlots;
     CapString<MAX_SOCKET_LENGTH> my_socket;
     CapString<MAX_SOCKET_LENGTH> my_formFactor;
-    unsigned int my_maxMemorySlots;
 };
 
 

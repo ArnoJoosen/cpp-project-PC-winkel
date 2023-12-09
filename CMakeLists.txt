@@ -29,7 +29,9 @@ if (ENABLE_TEST)
         list(REMOVE_ITEM test_SRCS "${MAIN_FILE_ABSOLUTE}")
 
         find_package(GTest REQUIRED)
-        add_executable(test test/test.cpp ${test_SRCS})
+        add_executable(test test/test.cpp ${test_SRCS}
+                test/SerializeTest.h
+                test/DeserializeTest.h)
         target_include_directories(test PRIVATE test src)
         target_link_libraries(test GTest::GTest GTest::Main)
 endif ()

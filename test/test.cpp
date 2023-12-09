@@ -4,6 +4,8 @@
 #include <gtest/gtest.h>
 #include "CapStringTest.h"
 #include "MenuTest.h"
+#include "SerializeTest.h"
+#include "DeserializeTest.h"
 
 
 int main(int argc, char **argv) {

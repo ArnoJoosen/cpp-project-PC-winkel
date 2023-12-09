@@ -7,6 +7,9 @@
 #include <iomanip>
 #include "Input.h"
 
+Motherboard::Motherboard() : ComponentBase("", "", 0, 0, ComponentType_t::MOTHERBOARD, ComputerType_t::DESKTOP, 0),
+                             my_socket(""), my_formFactor(""), my_maxMemorySlots(0) {}
+
 Motherboard::Motherboard(std::string manufacturer, std::string name, float price, unsigned int stock,
                          ComponentType_t type, ComputerType_t computerType, unsigned int componentID,
                          std::string socket, std::string formFactor, unsigned int maxMemorySlots) :

@@ -7,11 +7,14 @@
 #include <iomanip>
 #include "Input.h"
 
+Storage::Storage() : ComponentBase("", "", 0, 0, ComponentType_t::STORAGE, ComputerType_t::DESKTOP, 0),
+                     my_speed(0), my_size(0), my_slot("") {}
+
 Storage::Storage(std::string manufacturer, std::string name, float price, unsigned int stock, ComponentType_t type,
                  ComputerType_t computerType, unsigned int componentID, float speed, unsigned int size,
                  std::string slot) :
                  ComponentBase(std::move(manufacturer), std::move(name), price, stock, type, computerType, componentID),
-                 my_speed(speed), my_size(size), my_slot(std::move(slot)) {
+                 my_speed(speed), my_size(size), my_slot(slot) {
 
 }
 
@@ -73,11 +76,12 @@ void Storage::printRow(int index) const {
     ComponentBase::printBase(index);
     std::cout   << std::setw(10) << my_speed << " | "
                 << std::setw(10) << my_size << " | "
-                << std::setw(15) << my_slot << " | ";
+                << std::setw(15) << my_slot.c_str() << " | ";
 }
 
 void Storage::update() {
     ComponentBase::update();
+    std::string temp;
     std::cout << "current speed: " << my_speed << std::endl;
     if (changeQuestion("Change speed?")) {
         std::cout << "Enter new speed: ";
@@ -88,10 +92,11 @@ void Storage::update() {
         std::cout << "Enter new size: ";
         my_size = input<unsigned int>();
     }
-    std::cout << "current slot: " << my_slot << std::endl;
+    std::cout << "current slot: " << my_slot.c_str() << std::endl;
     if (changeQuestion("Change slot?")) {
         std::cout << "Enter new slot: ";
-        std::getline(std::cin, my_slot);
+        std::getline(std::cin, temp);
+        my_slot = temp;
     }
 }
 

@@ -215,10 +215,33 @@ std::shared_ptr<Invoice> ComputerShop::buildSystem(const std::weak_ptr<Customer>
     invoice->print();
 }
 
-void ComputerShop::serialize(const std::string &pwd) const {
-    // serialize components
+void ComputerShop::serializeComponentType(const std::string &pwd, ComponentType_t type) const {
+    // open file
+    std::ofstream file{pwd + "/" + componentTypeToString(type) + ".bin", std::ios::binary | std::ios::out};
+    if (!file.is_open())
+        throw std::runtime_error("Could not open file");
+    // get size of component
+    std::streamsize size = getTypeSize(type);
+    // write components
+    for (auto c = my_components.lower_bound(type); c != my_components.upper_bound(type); ++c) {
+        ComponentBase* component = c->second.get();
+        file.write(reinterpret_cast<const char *>(component), size);
+    }
+    file.close();
+}
+
+void ComputerShop::serializeCustomerType(const std::string &pwd, CustomerType_t type) const {
+
+}
+
+void ComputerShop::shopSerialize(const std::string &pwd) const {
+    // shopSerialize components
     
-    // serialize customers
+    // shopSerialize customers
+}
+
+void ComputerShop::deserializeCustomerType(const std::string &pwd, CustomerType_t type) {
+
 }
 
 void ComputerShop::deserialize(const std::string &pwd) {
@@ -226,4 +249,25 @@ void ComputerShop::deserialize(const std::string &pwd) {
 
     // deserialize customers
 
+}
+
+std::streamsize ComputerShop::getTypeSize(ComponentType_t type) {
+    switch (type) {
+        case ComponentType_t::CASE:
+            return sizeof(Case);
+        case ComponentType_t::CPU:
+            return sizeof(CPU);
+        case ComponentType_t::GPU:
+            return sizeof(GPU);
+        case ComponentType_t::STORAGE:
+            return sizeof(Storage);
+        case ComponentType_t::MOTHERBOARD:
+            return sizeof(Motherboard);
+        case ComponentType_t::PSU:
+            return sizeof(PowerSupply);
+        case ComponentType_t::RAM:
+            return sizeof(Memory);
+        case ComponentType_t::UNKNOWN: // should never happen
+            throw std::runtime_error("Unknown component type");
+    }
 }

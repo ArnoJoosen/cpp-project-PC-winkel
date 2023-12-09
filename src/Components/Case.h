@@ -10,12 +10,14 @@
 #include <memory>
 #include "ComponentView.h"
 
-#define MAX_COLOR_LENGTH 10
-#define MAX_MOTHERBOARD_SIZE_LENGTH 10
-#define MAX_MATERIAL_LENGTH 10
+#define MAX_COLOR_LENGTH 16
+#define MAX_MOTHERBOARD_SIZE_LENGTH 16
+#define MAX_MATERIAL_LENGTH 16
 
 class Case : public ComponentBase {
 public:
+
+    Case();
 
     Case(std::string manufacturer,
          std::string name,
@@ -49,9 +51,9 @@ private:
     static void filterMotherboardSize(class ComponentView& view);
     static void filterMaterial(class ComponentView& view);
 
-    CapString<MAX_COLOR_LENGTH> my_color;
-    CapString<MAX_MOTHERBOARD_SIZE_LENGTH> MotherboardSize;
     CapString<MAX_MATERIAL_LENGTH> my_material;
+    CapString<MAX_MOTHERBOARD_SIZE_LENGTH> MotherboardSize;
+    CapString<MAX_COLOR_LENGTH> my_color;
 };
 
 

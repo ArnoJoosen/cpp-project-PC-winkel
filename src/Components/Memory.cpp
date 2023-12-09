@@ -7,6 +7,8 @@
 #include <iomanip>
 #include "Input.h"
 
+Memory::Memory() : ComponentBase("", "", 0, 0, ComponentType_t::RAM, ComputerType_t::DESKTOP, 0), my_size(0), my_clockSpeed(0) {}
+
 Memory::Memory(std::string manufacturer, std::string name, float price, unsigned int stock, ComponentType_t type,
                ComputerType_t computerType, unsigned int componentID, unsigned int size, float clockSpeed) :
                ComponentBase(std::move(manufacturer), std::move(name), price, stock, type, computerType, componentID),

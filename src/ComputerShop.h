@@ -13,6 +13,7 @@
 #include "types.h"
 #include <memory>
 #include "Invoice.h"
+#include <fstream>
 #define MAX_SHOP_NAME_LENGTH 50
 
 class ComputerShop {
@@ -40,10 +41,33 @@ public:
     std::shared_ptr<Invoice> buildSystem(const std::weak_ptr<Customer>& customer);
 
     // serialization
-    void serialize(const std::string& pwd) const;
-    void deserialize(const std::string& pwd);
+    void serializeComponentType(const std::string& pwd, ComponentType_t type) const ; // pwd = phat to working directory
+    void serializeCustomerType(const std::string& pwd, CustomerType_t type) const; // pwd = phat to working directory
+    void shopSerialize(const std::string& pwd) const; // pwd = phat to working directory
+
+    // pwd = phat to working directory
+    template<class T>
+    void deserializeComponentType(const std::string &pwd, ComponentType_t type) {
+        // open file
+        std::ifstream file{pwd + "/" + componentTypeToString(type) + ".bin", std::ios::binary | std::ios::in};
+        if (!file.is_open())
+            return; // no components of this type are serialized
+        // get size of component
+        std::streamsize size = getTypeSize(type);
+        // read components
+        while (file) {
+            std::shared_ptr<T> componentCase = std::make_shared<T>();
+            file.read(reinterpret_cast<char*>(componentCase.get()), size);
+            addComponent(componentCase);
+        }
+        file.close();
+    }
+    void deserializeCustomerType(const std::string& pwd, CustomerType_t type); // pwd = phat to working directory
+    void deserialize(const std::string& pwd); // pwd = phat to working directory
 
 private:
+    static std::streamsize getTypeSize(ComponentType_t type);
+
     CapString<MAX_SHOP_NAME_LENGTH> my_name;
     Address_t my_address;
     std::multimap<ComponentType_t, std::shared_ptr<ComponentBase>> my_components;
