@@ -11,6 +11,7 @@
 #include "Components/PowerSupply.h"
 #include "Components/Storage.h"
 #include "Enumerate.hpp"
+#include <algorithm>
 
 ComponentView::ComponentView(const std::multimap<ComponentType_t, std::shared_ptr<ComponentBase>> &components,
                              ComponentType_t type, ComputerType_t computerType): my_type(type) {
