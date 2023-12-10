@@ -11,11 +11,9 @@ CPU::CPU() : ComponentBase("", "", 0, 0, ComponentType_t::CPU, ComputerType_t::D
              my_coreCount(0), my_socket("") {}
 
 CPU::CPU(std::string manufacturer, std::string name, float price, unsigned int stock, ComponentType_t type,
-         ComputerType_t computerType, unsigned int componentID, float clockSpeed, int coreCount, std::string socket) :
+         ComputerType_t computerType, unsigned int componentID, float clockSpeed, unsigned int coreCount, std::string socket) :
         ComponentBase(std::move(manufacturer), std::move(name), price, stock, type, computerType, componentID),
-        my_clockSpeed(clockSpeed), my_coreCount(coreCount), my_socket(std::move(socket)){
-
-}
+        my_clockSpeed(clockSpeed), my_coreCount(coreCount), my_socket(socket){}
 
 std::shared_ptr<CPU> CPU::Create(unsigned int componentID) {
     std::string manufacturer;
@@ -24,7 +22,7 @@ std::shared_ptr<CPU> CPU::Create(unsigned int componentID) {
     unsigned int stock;
     ComputerType_t type;
     float clockSpeed;
-    int coreCount;
+    unsigned int coreCount;
     std::string socket;
 
     std::cout << "Enter manufacturer: ";
@@ -38,7 +36,7 @@ std::shared_ptr<CPU> CPU::Create(unsigned int componentID) {
     std::cout << "Enter clock speed: ";
     clockSpeed = input<float>();
     std::cout << "Enter core count: ";
-    coreCount = input<int>();
+    coreCount = input<unsigned int>();
     std::cout << "Enter socket: ";
     std::getline(std::cin, socket);
     type = selectComputerType();
