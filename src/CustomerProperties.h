@@ -6,6 +6,8 @@
 #define PC_WINKLE_CUSTOMERPROPERTIES_H
 #include <string>
 
+#define MAX_CUSTOMERTYPE_SIZE 11
+
 enum CustomerType_t {
     UNKNOWN = 0,
     PARTICULIER = 1,

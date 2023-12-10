@@ -9,10 +9,14 @@
 #include "Input.h"
 #include "CustomerView.h"
 
-Company::Company() : Customer(Name_t(), Address_t(), 0, CustomerType_t::BEDRIJF), my_vat(0), my_discount(0), my_yearlyBuy(0) {}
+#define ROW_WIDTH (MAX_CUSTOMER_ID_SIZE+MAX_NAME_LENGTH+MAX_LAST_NAME_LENGTH+MAX_CITY_NAME_LENGTH+ \
+                    MAX_STREET_NAME_LENGTH+MAX_HOUSE_NUMBER_SIZE+MAX_POSTCODE_SIZE+MAX_CUSTOMERTYPE_SIZE+MAX_VAT_SIZE+\
+                    MAX_DISCOUNT_SIZE+MAX_YEARLY_BUY_SIZE+35)
 
-Company::Company(Name_t name, Address_t address, unsigned int customerID, float vat, float discount,
-                 unsigned int yearlyBuy) : Customer(std::move(name), std::move(address), customerID, CustomerType_t::BEDRIJF),
+Company::Company() : Customer(Name_t(), Address_t(), 0, CustomerType_t::BEDRIJF), my_vat(""), my_discount(0), my_yearlyBuy(0) {}
+
+Company::Company(Name_t name, Address_t address, unsigned int customerID, const std::string& vat, float discount,
+                 float yearlyBuy) : Customer(std::move(name), std::move(address), customerID, CustomerType_t::BEDRIJF),
                                            my_vat(vat), my_discount(discount), my_yearlyBuy(yearlyBuy) {}
 
 void Company::printTopRow(bool indexed) {
@@ -21,43 +25,45 @@ void Company::printTopRow(bool indexed) {
 
     // Print the rest of the columns
     std::cout << std::left
-              << std::setw(5) << "ID" << " | "
+              << std::setw(MAX_CUSTOMER_ID_SIZE) << "ID" << " | "
               << std::setw(MAX_NAME_LENGTH) << "First name" << " | "
               << std::setw(MAX_LAST_NAME_LENGTH) << "Last name" << " | "
               << std::setw(MAX_CITY_NAME_LENGTH) << "City" << " | "
               << std::setw(MAX_STREET_NAME_LENGTH) << "Street" << " | "
-              << std::setw(10) << "House num" << " | "
-              << std::setw(10) << "Postcode" <<  " | "
-              << std::setw(11) << "Type" << " | "
-              << std::setw(3) << "VAT" << " | "
-              << std::setw(3) << "DIS" << " | "
-              << std::setw(4) << "YEAR" << " | " << std::endl;
+              << std::setw(MAX_HOUSE_NUMBER_SIZE) << "House num" << " | "
+              << std::setw(MAX_POSTCODE_SIZE) << "Postcode" <<  " | "
+              << std::setw(MAX_CUSTOMERTYPE_SIZE) << "Type" << " | "
+              << std::setw(MAX_VAT_SIZE) << "VAT" << " | "
+              << std::setw(MAX_DISCOUNT_SIZE) << "Discount" << " | "
+              << std::setw(MAX_YEARLY_BUY_SIZE) << "Yearly buy" << " | " << std::endl;
 
     // Print horizontal line
     if (indexed)
-        std::cout << std::string(5+MAX_NAME_LENGTH+MAX_LAST_NAME_LENGTH+MAX_CITY_NAME_LENGTH+MAX_STREET_NAME_LENGTH+10+10+11+24, '-') << std::endl;
+        std::cout << std::string(5+ROW_WIDTH, '-') << std::endl;
     else
-        std::cout << std::string(5+MAX_NAME_LENGTH+MAX_LAST_NAME_LENGTH+MAX_CITY_NAME_LENGTH+MAX_STREET_NAME_LENGTH+10+10+11+24, '-') << std::endl;
+        std::cout << std::string(ROW_WIDTH, '-') << std::endl;
 }
 
 void Company::printRow(int index) const {
     // print customer data
     Customer::printRow(index);
     // print company data
-    std::cout << std::setw(3) << my_vat << " | "
-              << std::setw(3) << my_discount << " | "
-              << std::setw(4) << my_yearlyBuy << " | " << std::endl;
+    std::cout << std::setw(MAX_VAT_SIZE) << my_vat.c_str() << " | "
+              << std::setw(MAX_DISCOUNT_SIZE) << my_discount << " | "
+              << std::setw(MAX_YEARLY_BUY_SIZE) << my_yearlyBuy << " | ";
 }
 
 void Company::update() {
     // Update customer data
     Customer::update();
+    std::string temp;
 
     // Ask for changes vat and change if needed
-    std::cout << "Current vat: " << my_vat << std::endl;
+    std::cout << "Current vat: " << my_vat.c_str() << std::endl;
     if (yesNoQuestion("Change vat? ")) {
         std::cout << "Enter vat: ";
-        my_vat = input<float>();
+        std::getline(std::cin, temp);
+        my_vat = temp;
     }
     // Ask for changes discount and change if needed
     std::cout << "Current discount: " << my_discount << std::endl;
@@ -70,7 +76,8 @@ void Company::update() {
 std::shared_ptr<Company> Company::Create(unsigned int customerID) {
     Name_t name;
     Address_t address;
-    float vat, discount;
+    std::string vat;
+    float discount;
     std::string strTemp;
 
     // Ask for first name
@@ -102,8 +109,8 @@ std::shared_ptr<Company> Company::Create(unsigned int customerID) {
     address.postcode = input<unsigned int>();
 
     // Ask for vat
-    std::cout << "Enter var: ";
-    vat = input<float>();
+    std::cout << "Enter vat: ";
+    std::getline(std::cin, vat);
 
     // Ask for discount
     std::cout << "Enter discount: ";
@@ -152,9 +159,9 @@ void Company::selectFilter(CustomerView &view) {
 }
 
 void Company::filterVat(CustomerView &view) {
-    float vat;
+    std::string vat;
     std::cout << "Enter vat: ";
-    vat = input<float>();
+    getline(std::cin, vat);
     view.filter([vat](const std::weak_ptr<class Customer>& customer) {
         return std::static_pointer_cast<Company>(customer.lock())->getVat() != vat;
     });

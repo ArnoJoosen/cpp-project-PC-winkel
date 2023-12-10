@@ -25,14 +25,13 @@ public:
     void calculatePrice();
     void print() const;
 
-    void serialize(const std::string& pwd) const;
-    // TODO static Invoice deserialize(const std::string& pwd);
+    void save(const std::string& pwd) const;
 
 private:
     unsigned int my_invoiceID;
     std::weak_ptr<Customer> my_customer;
     std::vector<std::weak_ptr<ComponentBase>> my_components;
-    float totalPrice;
+    float totalPrice = 0;
 };
 
 #endif //PC_WINKLE_INVOICE_H

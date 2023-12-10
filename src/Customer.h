@@ -7,6 +7,9 @@
 #include <memory>
 #include "CustomerProperties.h"
 #include "types.h"
+#define MAX_CUSTOMER_ID_SIZE 5
+#define MAX_HOUSE_NUMBER_SIZE 10
+#define MAX_POSTCODE_SIZE 10
 
 class Customer {
 public:

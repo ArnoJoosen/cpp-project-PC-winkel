@@ -9,6 +9,9 @@
 #include "Input.h"
 #include "CustomerView.h"
 
+#define ROW_WIDTH (MAX_CUSTOMER_ID_SIZE+MAX_NAME_LENGTH+MAX_LAST_NAME_LENGTH+MAX_CITY_NAME_LENGTH+ \
+                    MAX_STREET_NAME_LENGTH+MAX_HOUSE_NUMBER_SIZE+MAX_POSTCODE_SIZE+MAX_CUSTOMERTYPE_SIZE+35)
+
 Customer::Customer() : my_name(), my_address(), my_customerID(0), my_type(CustomerType_t::PARTICULIER) {}
 
 Customer::Customer(Name_t name, Address_t address, unsigned int customerID, CustomerType_t type)
@@ -22,33 +25,33 @@ void Customer::printTopRow(bool indexed) {
         std::cout << std::setw(5) << "index" << " | ";
     // print column names
     std::cout << std::left
-              << std::setw(5) << "ID" << " | "
+              << std::setw(MAX_CUSTOMER_ID_SIZE) << "ID" << " | "
               << std::setw(MAX_NAME_LENGTH) << "First name" << " | "
               << std::setw(MAX_LAST_NAME_LENGTH) << "Last name" << " | "
               << std::setw(MAX_CITY_NAME_LENGTH) << "City" << " | "
               << std::setw(MAX_STREET_NAME_LENGTH) << "Street" << " | "
-              << std::setw(10) << "House num" << " | "
-              << std::setw(10) << "Postcode" <<  " | "
-              << std::setw(11) << "Type" << " | " << std::endl;
+              << std::setw(MAX_HOUSE_NUMBER_SIZE) << "House num" << " | "
+              << std::setw(MAX_POSTCODE_SIZE) << "Postcode" <<  " | "
+              << std::setw(MAX_CUSTOMERTYPE_SIZE) << "Type" << " | " << std::endl;
     // print horizontal line
     if (indexed)
-        std::cout << std::string(5+MAX_NAME_LENGTH+MAX_LAST_NAME_LENGTH+MAX_CITY_NAME_LENGTH+MAX_STREET_NAME_LENGTH+10+10+11+24, '-') << std::endl;
+        std::cout << std::string(5+ROW_WIDTH, '-') << std::endl;
     else
-        std::cout << std::string(5+MAX_NAME_LENGTH+MAX_LAST_NAME_LENGTH+MAX_CITY_NAME_LENGTH+MAX_STREET_NAME_LENGTH+10+10+11+24, '-') << std::endl;
+        std::cout << std::string(ROW_WIDTH, '-') << std::endl;
 }
 
 void Customer::printRow(int index) const {
     if (index != -1) // -1 means no index column
         std::cout << std::setw(5) << index << " | ";
     // print customer data
-    std::cout << std::setw(5) << my_customerID << " | "
+    std::cout << std::setw(MAX_CUSTOMER_ID_SIZE) << my_customerID << " | "
               << std::setw(MAX_NAME_LENGTH) << my_name.firstName.c_str() << " | "
               << std::setw(MAX_LAST_NAME_LENGTH) << my_name.lastName.c_str() << " | "
               << std::setw(MAX_CITY_NAME_LENGTH) << my_address.city.c_str() << " | "
               << std::setw(MAX_CITY_NAME_LENGTH) << my_address.street.c_str() << " | "
-              << std::setw(10) << my_address.houseNumber << " | "
-              << std::setw(10) << my_address.postcode << " | "
-              << std::setw(11) << customerTypeToString(my_type) << " | ";
+              << std::setw(MAX_HOUSE_NUMBER_SIZE) << my_address.houseNumber << " | "
+              << std::setw(MAX_POSTCODE_SIZE) << my_address.postcode << " | "
+              << std::setw(MAX_CUSTOMERTYPE_SIZE) << customerTypeToString(my_type) << " | ";
 }
 
 void Customer::update() {

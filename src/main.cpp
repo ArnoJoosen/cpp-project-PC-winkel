@@ -54,7 +54,11 @@ int main(int argc, char** argv){
                 }
                 break;
             case Action_t::BuildSystem:
-                shop.buildSystem(shop.searchCustomer()).serialize("./invoices");
+                try {
+                    shop.buildSystem(shop.searchCustomer()).save("./invoices");
+                } catch (const std::exception& e) {
+                    std::cout << e.what() << std::endl;
+                }
                 break;
             case Action_t::SearchComponent:
                 try {

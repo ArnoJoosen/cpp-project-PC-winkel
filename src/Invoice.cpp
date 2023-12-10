@@ -13,16 +13,17 @@ Invoice::Invoice(unsigned int invoiceID, const std::weak_ptr<Customer>& customer
 void Invoice::calculatePrice() {
     totalPrice = 0;
     for (const auto& component : my_components) {
-        if (auto component_ptr = component.lock()) // check if component still exists
+        if (auto component_ptr = component.lock()) { // check if component still exists
             totalPrice += component_ptr->getPrice();
-        else
+            component_ptr->setStock(component_ptr->getStock()-1);
+        } else
             std::cout << "Component no longer exists" << std::endl;
     }
     if (auto customer_ptr = my_customer.lock()) {
         if (customer_ptr->getType() == CustomerType_t::BEDRIJF) {
             auto company_ptr = std::static_pointer_cast<Company>(customer_ptr);
             totalPrice *= (company_ptr->getDiscount()/100);
-            totalPrice *= 1 + (company_ptr->getVat()/100);
+            company_ptr->setYearlyBuy(company_ptr->getYearlyBuy() + totalPrice);
         } else {
             totalPrice *= 1.21;
         }
@@ -44,59 +45,27 @@ void Invoice::print() const {
     std::cout << "Total price: " << totalPrice << " €" << std::endl;
 }
 
-void Invoice::serialize(const std::string& pwd) const {
+void Invoice::save(const std::string &pwd) const {
     std::ofstream file(pwd + "/" + std::to_string(my_invoiceID) + ".txt");
     if (!file.is_open()) {
         throw std::runtime_error("Kan het bestand niet openen");
     }
-    file << my_invoiceID << "\n";
+    file << "Factuur: " << my_invoiceID << "\n";
 
-    // write customer ID
-    auto customerID = my_customer.lock()->getCustomerID();
-    file << customerID << "\n";
+    file << "Klant: " << my_customer.lock()->getCustomerID() << my_customer.lock()->getName().firstName.c_str()
+         << " " << my_customer.lock()->getName().lastName.c_str() << "\n";
 
-    file << totalPrice << "\n";
+    file << "Adres: " << my_customer.lock()->getAddress().city.c_str() << ", " << my_customer.lock()->getAddress().street.c_str()
+         << " " << my_customer.lock()->getAddress().houseNumber << " " << my_customer.lock()->getAddress().postcode << "\n";
 
-    // write number of components and their ID's
-    auto numComponents = my_components.size();
-    file << numComponents << "\n";
+    file << "Componenten: " << "\n";
     for (const auto& component : my_components) {
-        auto componentID = component.lock()->getComponentID();
-        file << componentID << "\n";
+        if (auto component_ptr = component.lock()) { // check if component still exists
+            file << "\t" << component_ptr->getName().c_str() << " " << component_ptr->getPrice() << " €" << "\n";
+        }
+        else
+            std::cout << "Component no longer exists" << "\n";
     }
 
-    file.close();
+    file << "Totaal: " << totalPrice << " €" << std::endl;
 }
-
-//TODO Invoice Invoice::deserialize(const std::string& pwd) {
-//    std::ifstream file(pwd + "/" + std::to_string(my_invoiceID) + ".txt");
-//    if (!file.is_open()) {
-//        throw std::runtime_error("Kan het bestand niet openen");
-//    }
-//
-//    auto invoice();
-//    file >> invoice->my_invoiceID;
-//    unsigned int customerID;
-//    file >> customerID;
-//    // TODO
-//    if (customer.lock()->getCustomerID() != customerID) {
-//        throw std::runtime_error("Klant-ID komt niet overeen");
-//    }
-//    file >> invoice->totalPrice;
-//
-//    // Lees het aantal componenten uit het bestand
-//    unsigned int numComponents;
-//    file >> numComponents;
-//
-//    // Lees de component-ID's uit het bestand
-//    for (unsigned int i = 0; i < numComponents; ++i) {
-//        unsigned int componentID;
-//        file >> componentID;
-//        //auto component = getComponentByID(componentID);
-//        invoice->my_components.push_back(component);
-//    }
-//
-//    file.close();
-//
-//    return invoice;
-//}

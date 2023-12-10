@@ -250,6 +250,17 @@ Invoice ComputerShop::buildSystem(const std::weak_ptr<Customer>& customer) {
     }
 
     invoice.calculatePrice();
+    // serialize components stock
+    serializeComponentType(ComponentType_t::CASE);
+    serializeComponentType(ComponentType_t::CPU);
+    serializeComponentType(ComponentType_t::GPU);
+    serializeComponentType(ComponentType_t::RAM);
+    serializeComponentType(ComponentType_t::MOTHERBOARD);
+    serializeComponentType(ComponentType_t::PSU);
+    serializeComponentType(ComponentType_t::STORAGE);
+    // serialize customer data
+    serializeCustomerType(customer.lock()->getType());
+    // print invoice
     invoice.print();
     return invoice;
 }
@@ -339,6 +350,7 @@ std::streamsize ComputerShop::getComponentTypeSize(ComponentType_t type) {
         case ComponentType_t::UNKNOWN: // should never happen
             throw std::runtime_error("Unknown component type");
     }
+    return 0; // should never happen
 }
 
 std::streamsize ComputerShop::getCustomerTypeSize(CustomerType_t type) {
@@ -350,4 +362,5 @@ std::streamsize ComputerShop::getCustomerTypeSize(CustomerType_t type) {
         case CustomerType_t::UNKNOWN: // should never happen
             throw std::runtime_error("Unknown customer type");
     }
+    return 0; // should never happen
 }
