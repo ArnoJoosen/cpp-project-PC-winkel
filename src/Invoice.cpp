@@ -14,6 +14,8 @@ void Invoice::calculatePrice() {
     totalPrice = 0;
     for (const auto& component : my_components) {
         if (auto component_ptr = component.lock()) { // check if component still exists
+            if (component_ptr->getStock() <= 0)
+                throw std::runtime_error("Component no longer in stock");
             totalPrice += component_ptr->getPrice();
             component_ptr->setStock(component_ptr->getStock()-1);
         } else
