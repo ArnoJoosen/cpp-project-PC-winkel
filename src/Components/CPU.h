@@ -9,6 +9,8 @@
 #include "ComponentBase.h"
 #include "ComponentView.h"
 #define MAX_SOCKET_LENGTH 20
+#define MAX_CORE_COUNT_LENGTH 10
+#define MAX_CLOCK_SPEED_LENGTH 12
 
 class CPU : public ComponentBase {
 public:

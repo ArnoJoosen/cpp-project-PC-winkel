@@ -5,6 +5,9 @@
 #ifndef PC_WINKLE_COMPONENTPROPERTIES_H
 #define PC_WINKLE_COMPONENTPROPERTIES_H
 
+#define MAX_COMPONENT_TYPE_LENGTH 12
+#define MAX_COMPUTER_TYPE_LENGTH 15
+
 enum class ComponentType_t {
     CPU = 1,
     GPU = 2,

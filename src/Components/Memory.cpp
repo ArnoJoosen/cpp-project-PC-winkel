@@ -6,6 +6,9 @@
 #include <iostream>
 #include <iomanip>
 #include "Input.h"
+#define ROW_WIDTH (MAX_COMPONENT_ID_LENGTH+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+MAX_PRICE_LENGTH+ \
+                   MAX_STOCK_LENGTH+MAX_COMPONENT_TYPE_LENGTH+MAX_COMPUTER_TYPE_LENGTH+MAX_MEMORY_SIZE_LENGTH+ \
+                   MAX_MEMORY_CLOCK_SPEED_LENGTH+27)
 
 Memory::Memory() : ComponentBase("", "", 0, 0, ComponentType_t::RAM, ComputerType_t::DESKTOP, 0), my_size(0), my_clockSpeed(0) {}
 
@@ -48,27 +51,27 @@ void Memory::printHeader(bool indexed) {
         std::cout << std::setw(5) << "Index" << " | ";
 
     // Print header columns
-    std::cout   << std::setw(10) << "ID" << " | "
+    std::cout   << std::setw(MAX_COMPONENT_ID_LENGTH) << "ID" << " | "
                 << std::setw(MAX_MANUFACTURER_LENGTH) << "Manufacturer" << " | "
                 << std::setw(MAX_COMPONENT_NAME_LENGTH) << "Name" << " | "
-                << std::setw(10) << "Price" << " | "
-                << std::setw(10) << "Stock" << " | "
-                << std::setw(11) << "Type" << " | "
-                << std::setw(15) << "Computer Type" << " | "
-                << std::setw(2) << "Size" << " | "
-                << std::setw(5) << "Clock Speed" << " | " << std::endl;
+                << std::setw(MAX_PRICE_LENGTH) << "Price" << " | "
+                << std::setw(MAX_STOCK_LENGTH) << "Stock" << " | "
+                << std::setw(MAX_COMPONENT_TYPE_LENGTH) << "Type" << " | "
+                << std::setw(MAX_COMPUTER_TYPE_LENGTH) << "Computer Type" << " | "
+                << std::setw(MAX_MEMORY_SIZE_LENGTH) << "Size" << " | "
+                << std::setw(MAX_MEMORY_CLOCK_SPEED_LENGTH) << "Clock Speed" << " | " << std::endl;
 
     // Print horizontal line
     if (indexed)
-        std::cout << std::string(5+10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15+24, '-') << std::endl; // TODO add size and clock speed
+        std::cout << std::string(5+3+ROW_WIDTH, '-') << std::endl;
     else
-        std::cout << std::string(10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15+21, '-') << std::endl; // TODO add size and clock speed
+        std::cout << std::string(ROW_WIDTH, '-') << std::endl;
 }
 
 void Memory::printRow(int index) const {
     ComponentBase::printBase(index);
-    std::cout   << std::setw(2) << my_size << " | "
-                << std::setw(5) << my_clockSpeed << " | ";
+    std::cout   << std::setw(MAX_MEMORY_SIZE_LENGTH) << my_size << " | "
+                << std::setw(MAX_MEMORY_CLOCK_SPEED_LENGTH) << my_clockSpeed << " | ";
 }
 
 void Memory::update() {
