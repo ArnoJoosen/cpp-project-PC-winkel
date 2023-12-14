@@ -65,9 +65,9 @@ void CPU::printHeader(bool indexed) {
 
     // Print horizontal line
     if (indexed)
-        std::cout << std::string(5+3+ROW_WIDTH, '-') << std::endl; // TODO add clock speed and core count
+        std::cout << std::string(5+3+ROW_WIDTH, '-') << std::endl;
     else
-        std::cout << std::string(ROW_WIDTH, '-') << std::endl; // TODO add clock speed and core count
+        std::cout << std::string(ROW_WIDTH, '-') << std::endl;
 }
 
 

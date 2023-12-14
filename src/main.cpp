@@ -84,9 +84,6 @@ int main(int argc, char** argv){
                     std::cout << e.what() << std::endl;
                 }
                 break;
-            case Action_t::SearchInvoice:
-                // TODO: implement
-                break;
             case Action_t::Logout:
                 std::cout << "Logging out..." << std::endl;
                 accessLevel = login();

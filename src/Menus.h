@@ -23,8 +23,6 @@ enum class Action_t{
     RemoveComponent,
     UpdateComponent,
 
-    SearchInvoice,
-
     Logout,
     Exit
 };

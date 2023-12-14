@@ -152,7 +152,7 @@ protected:
                 Name_t{"Bos", "Bos"},
                 Address_t{"Luttenbergstraat", "Bosberg", 9000, 1},
                 3,
-                5.2,
+                "BE123456789B01",
                 1.2,
                 5
         );
@@ -344,7 +344,7 @@ TEST_F(serialize, serializeCustomerTest) {
 }
 
 TEST_F(serialize, serializeCompanyTest) {
-    Company company({}, {}, 0, 0, 0, 0);
+    Company company({}, {}, 0, "", 0, 0);
     std::ifstream file{pwd + "/Bedrijf.bin", std::ios::binary | std::ios::in};
     ASSERT_TRUE(file.is_open()) << "Could not open file Company.bin";
     file.read(reinterpret_cast<char*>(&company), sizeof(company));

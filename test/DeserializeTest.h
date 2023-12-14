@@ -150,7 +150,7 @@ protected:
                 Name_t{"Bos", "Bos"},
                 Address_t{"Luttenbergstraat", "Bosberg", 9000, 1},
                 3,
-                5.2,
+                "BE123456789B01",
                 1.2,
                 5
         );

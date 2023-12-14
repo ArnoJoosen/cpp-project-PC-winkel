@@ -84,37 +84,37 @@ public:
     bool operator==(const CapString<Capacity>& other) const {
         if (strSize != other.strSize)
             return false;
-        return memcmp(data, other.data, strSize) == 0;
+        return strcmp(data, other.data) == 0;
     }
 
     bool operator==(const char* other) const {
         if (strSize != strlen(other))
             return false;
-        return memcmp(data, other, strSize) == 0; // TODO chge to strncmp
+        return strcmp(data, other) == 0;
     }
 
-    bool operator==(std::string other) const {
+    bool operator==(const std::string& other) const {
         if (strSize != other.size())
             return false;
-        return memcmp(data, other.c_str(), other.size()) == 0;
+        return strcmp(data, other.c_str()) == 0;
     }
 
     bool operator!=(const CapString<Capacity>& other) const {
         if (strSize != other.strSize)
             return true;
-        return memcmp(data, other.data, strSize) != 0;
+        return strcmp(data, other.data) != 0;
     }
 
-    bool operator!=(std::string other) const {
+    bool operator!=(const std::string& other) const {
         if (strSize != other.size())
             return true;
-        return memcmp(data, other.c_str(), other.size()) != 0;
+        return strcmp(data, other.c_str()) != 0;
     }
 
     bool operator!=(const char* other) const {
         if (strSize != strlen(other))
             return true;
-        return memcmp(data, other, strSize) != 0;
+        return strcmp(data, other) != 0;
     }
 
 private:

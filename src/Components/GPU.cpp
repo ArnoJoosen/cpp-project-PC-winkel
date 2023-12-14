@@ -64,9 +64,9 @@ void GPU::printHeader(bool indexed) {
 
     // Print horizontal line
     if (indexed)
-        std::cout << std::string(5+3+ROW_WIDTH, '-') << std::endl; // TODO add power and bus speed
+        std::cout << std::string(5+3+ROW_WIDTH, '-') << std::endl;
     else
-        std::cout << std::string(ROW_WIDTH , '-') << std::endl; // TODO add power and bus speed
+        std::cout << std::string(ROW_WIDTH , '-') << std::endl;
 }
 
 void GPU::printRow(int index) const {

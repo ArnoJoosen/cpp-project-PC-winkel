@@ -43,14 +43,12 @@ TEST(ChooseActionTest, ActionEmployee) {
             "4\n"
             "5\n"
             "6\n"
-            "7\n"
     );
     std::cin.rdbuf(simulatedInput.rdbuf());
 
     EXPECT_EQ(chooseAction(AccessLevel_t::Employee), Action_t::SearchCustomer);
     EXPECT_EQ(chooseAction(AccessLevel_t::Employee), Action_t::AddCustomer);
     EXPECT_EQ(chooseAction(AccessLevel_t::Employee), Action_t::UpdateCustomer);
-    EXPECT_EQ(chooseAction(AccessLevel_t::Employee), Action_t::SearchInvoice);
     EXPECT_EQ(chooseAction(AccessLevel_t::Employee), Action_t::BuildSystem);
     EXPECT_EQ(chooseAction(AccessLevel_t::Employee), Action_t::Exit);
     EXPECT_EQ(chooseAction(AccessLevel_t::Employee), Action_t::Logout);
@@ -77,14 +75,12 @@ TEST(ChooseActionTest, ActionOwener) {
             "8\n"
             "9\n"
             "10\n"
-            "11\n"
     );
     std::cin.rdbuf(simulatedInput.rdbuf());
 
     EXPECT_EQ(chooseAction(AccessLevel_t::Owner), Action_t::SearchCustomer);
     EXPECT_EQ(chooseAction(AccessLevel_t::Owner), Action_t::AddCustomer);
     EXPECT_EQ(chooseAction(AccessLevel_t::Owner), Action_t::UpdateCustomer);
-    EXPECT_EQ(chooseAction(AccessLevel_t::Owner), Action_t::SearchInvoice);
     EXPECT_EQ(chooseAction(AccessLevel_t::Owner), Action_t::RemoveCustomer);
     EXPECT_EQ(chooseAction(AccessLevel_t::Owner), Action_t::SearchComponent);
     EXPECT_EQ(chooseAction(AccessLevel_t::Owner), Action_t::AddComponent);

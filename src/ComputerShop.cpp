@@ -16,7 +16,7 @@
 #include "ComponentView.h"
 #include "Enumerate.hpp"
 #include "Input.h"
-
+#include <ctime>
 
 ComputerShop::ComputerShop(const std::string& name, Address_t address, std::string workingDirectory) :
 my_name(name), my_address(address), my_workingDirectory(workingDirectory) {}
@@ -220,7 +220,7 @@ void ComputerShop::updateComponent(const std::weak_ptr<ComponentBase> &component
 }
 
 Invoice ComputerShop::buildSystem(const std::weak_ptr<Customer>& customer) {
-    Invoice invoice(1, customer);
+    Invoice invoice(static_cast<unsigned int>(std::time(nullptr)), customer);
     // select system type
     ComputerType_t systemType = selectComputerType();
 
