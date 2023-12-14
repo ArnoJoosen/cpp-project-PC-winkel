@@ -8,8 +8,9 @@
 #include <memory>
 #include "ComponentView.h"
 #include "ComponentBase.h"
-#define MAX_SOCKET_LENGTH 10
+#define MAX_MB_SOCKET_LENGTH 10
 #define MAX_FORM_FACTOR_LENGTH 15
+#define MAX_MAX_MEMORY_SLOTS_LENGTH 16
 
 class Motherboard : public ComponentBase {
 public:
@@ -27,12 +28,12 @@ public:
                 std::string formFactor,
                 unsigned int maxMemorySlots);
 
-    [[nodiscard]] inline CapString<MAX_SOCKET_LENGTH> getSocket() const { return my_socket; }
-    [[nodiscard]] inline CapString<MAX_SOCKET_LENGTH> getFormFactor() const { return my_formFactor; }
+    [[nodiscard]] inline CapString<MAX_MB_SOCKET_LENGTH> getSocket() const { return my_socket; }
+    [[nodiscard]] inline CapString<MAX_MB_SOCKET_LENGTH> getFormFactor() const { return my_formFactor; }
     [[nodiscard]] inline unsigned int getMaxMemorySlots() const { return my_maxMemorySlots; }
 
-    inline void setSocket(std::string socket) { this->my_socket = std::move(socket); }
-    inline void setFormFactor(std::string formFactor) { this->my_formFactor = std::move(formFactor); }
+    inline void setSocket(const std::string& socket) { this->my_socket = socket; }
+    inline void setFormFactor(const std::string& formFactor) { this->my_formFactor = formFactor; }
     inline void setMaxMemorySlots(unsigned int maxMemorySlots) { this->my_maxMemorySlots = maxMemorySlots; }
 
     static void printHeader(bool indexed);
@@ -49,8 +50,8 @@ private:
     static void filterMaxMemorySlots(ComponentView &view);
 
     unsigned int my_maxMemorySlots;
-    CapString<MAX_SOCKET_LENGTH> my_socket;
-    CapString<MAX_SOCKET_LENGTH> my_formFactor;
+    CapString<MAX_MB_SOCKET_LENGTH> my_socket;
+    CapString<MAX_MB_SOCKET_LENGTH> my_formFactor;
 };
 
 

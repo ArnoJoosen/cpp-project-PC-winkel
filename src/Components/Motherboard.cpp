@@ -6,6 +6,9 @@
 #include <iostream>
 #include <iomanip>
 #include "Input.h"
+#define ROW_WIDTH (MAX_COMPONENT_ID_LENGTH+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+MAX_PRICE_LENGTH+ \
+                   MAX_STOCK_LENGTH+MAX_COMPONENT_TYPE_LENGTH+MAX_COMPUTER_TYPE_LENGTH+MAX_MB_SOCKET_LENGTH+      \
+                   MAX_FORM_FACTOR_LENGTH+MAX_MAX_MEMORY_SLOTS_LENGTH+30)
 
 Motherboard::Motherboard() : ComponentBase("", "", 0, 0, ComponentType_t::MOTHERBOARD, ComputerType_t::DESKTOP, 0),
                              my_socket(""), my_formFactor(""), my_maxMemorySlots(0) {}
@@ -52,29 +55,29 @@ void Motherboard::printHeader(bool indexed) {
         std::cout << std::setw(5) << "Index" << " | ";
 
     // Print header columns
-    std::cout   << std::setw(10) << "ID" << " | "
+    std::cout   << std::setw(MAX_COMPONENT_ID_LENGTH) << "ID" << " | "
                 << std::setw(MAX_MANUFACTURER_LENGTH) << "Manufacturer" << " | "
                 << std::setw(MAX_COMPONENT_NAME_LENGTH) << "Name" << " | "
-                << std::setw(10) << "Price" << " | "
-                << std::setw(10) << "Stock" << " | "
-                << std::setw(11) << "Type" << " | "
-                << std::setw(15) << "Computer Type" << " | "
-                << std::setw(10) << "Socket" << " | "
-                << std::setw(15) << "Form Factor" << " | "
-                << std::setw(15) << "Max Memory Slots" << " | " << std::endl;
+                << std::setw(MAX_PRICE_LENGTH) << "Price" << " | "
+                << std::setw(MAX_STOCK_LENGTH) << "Stock" << " | "
+                << std::setw(MAX_COMPONENT_TYPE_LENGTH) << "Type" << " | "
+                << std::setw(MAX_COMPUTER_TYPE_LENGTH) << "Computer Type" << " | "
+                << std::setw(MAX_MB_SOCKET_LENGTH) << "Socket" << " | "
+                << std::setw(MAX_FORM_FACTOR_LENGTH) << "Form Factor" << " | "
+                << std::setw(MAX_MAX_MEMORY_SLOTS_LENGTH) << "Max Memory Slots" << " | " << std::endl;
 
     // Print horizontal line
     if (indexed)
-        std::cout << std::string(5+10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15+24, '-') << std::endl;
+        std::cout << std::string(5+3+ROW_WIDTH, '-') << std::endl;
     else
-        std::cout << std::string(10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15+21, '-') << std::endl;
+        std::cout << std::string(ROW_WIDTH, '-') << std::endl;
 }
 
 void Motherboard::printRow(int index) const {
     ComponentBase::printBase(index);
-    std::cout   << std::setw(10) << my_socket.c_str() << " | "
-                << std::setw(15) << my_formFactor.c_str() << " | "
-                << std::setw(15) << my_maxMemorySlots << " | ";
+    std::cout   << std::setw(MAX_MB_SOCKET_LENGTH) << my_socket.c_str() << " | "
+                << std::setw(MAX_FORM_FACTOR_LENGTH) << my_formFactor.c_str() << " | "
+                << std::setw(MAX_MAX_MEMORY_SLOTS_LENGTH) << my_maxMemorySlots << " | ";
 }
 
 void Motherboard::update() {

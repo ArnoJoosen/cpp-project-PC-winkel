@@ -11,6 +11,9 @@
 #include "CapString.hpp"
 #define MAX_MANUFACTURER_LENGTH 30
 #define MAX_COMPONENT_NAME_LENGTH 30
+#define MAX_COMPONENT_ID_LENGTH 10
+#define MAX_PRICE_LENGTH 10
+#define MAX_STOCK_LENGTH 10
 
 class ComponentBase {
 public:

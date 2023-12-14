@@ -7,6 +7,10 @@
 #include <iomanip>
 #include "Input.h"
 
+#define ROW_WIDTH (MAX_COMPONENT_ID_LENGTH + MAX_MANUFACTURER_LENGTH + MAX_COMPONENT_NAME_LENGTH + MAX_PRICE_LENGTH + \
+                  MAX_STOCK_LENGTH + MAX_COMPONENT_TYPE_LENGTH + MAX_COMPUTER_TYPE_LENGTH + MAX_STORAGE_SPEED_LENGTH +\
+                  MAX_STORAGE_SIZE_LENGTH + MAX_SLOT_STORAGE_LENGTH + 30)
+
 Storage::Storage() : ComponentBase("", "", 0, 0, ComponentType_t::STORAGE, ComputerType_t::DESKTOP, 0),
                      my_speed(0), my_size(0), my_slot("") {}
 
@@ -54,29 +58,29 @@ void Storage::printHeader(bool indexed) {
         std::cout << std::setw(5) << "Index" << " | ";
 
     // Print header columns
-    std::cout   << std::setw(10) << "ID" << " | "
+    std::cout   << std::setw(MAX_COMPONENT_ID_LENGTH) << "ID" << " | "
                 << std::setw(MAX_MANUFACTURER_LENGTH) << "Manufacturer" << " | "
                 << std::setw(MAX_COMPONENT_NAME_LENGTH) << "Name" << " | "
-                << std::setw(10) << "Price" << " | "
-                << std::setw(10) << "Stock" << " | "
-                << std::setw(11) << "Type" << " | "
-                << std::setw(15) << "Computer Type" << " | "
-                << std::setw(10) << "Speed" << " | "
-                << std::setw(10) << "Size" << " | "
-                << std::setw(15) << "Slot" << " | " << std::endl;
+                << std::setw(MAX_PRICE_LENGTH) << "Price" << " | "
+                << std::setw(MAX_STOCK_LENGTH) << "Stock" << " | "
+                << std::setw(MAX_COMPONENT_TYPE_LENGTH) << "Type" << " | "
+                << std::setw(MAX_COMPUTER_TYPE_LENGTH) << "Computer Type" << " | "
+                << std::setw(MAX_STORAGE_SPEED_LENGTH) << "Speed" << " | "
+                << std::setw(MAX_STORAGE_SIZE_LENGTH) << "Size" << " | "
+                << std::setw(MAX_SLOT_STORAGE_LENGTH) << "Slot" << " | " << std::endl;
 
     // Print horizontal line
     if (indexed)
-        std::cout << std::string(5+10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15, '-') << std::endl; // TODO add speed, size and slot
+        std::cout << std::string(5+3+ROW_WIDTH, '-') << std::endl;
     else
-        std::cout << std::string(10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15, '-') << std::endl; // TODO add speed, size and slot
+        std::cout << std::string(ROW_WIDTH, '-') << std::endl;
 }
 
 void Storage::printRow(int index) const {
     ComponentBase::printBase(index);
-    std::cout   << std::setw(10) << my_speed << " | "
-                << std::setw(10) << my_size << " | "
-                << std::setw(15) << my_slot.c_str() << " | ";
+    std::cout   << std::setw(MAX_STORAGE_SPEED_LENGTH) << my_speed << " | "
+                << std::setw(MAX_STORAGE_SIZE_LENGTH) << my_size << " | "
+                << std::setw(MAX_SLOT_STORAGE_LENGTH) << my_slot.c_str() << " | ";
 }
 
 void Storage::update() {

@@ -7,6 +7,8 @@
 #include "ComponentBase.h"
 #include <memory>
 #include "ComponentView.h"
+#define MAX_MEMORY_SIZE_LENGTH 5
+#define MAX_MEMORY_CLOCK_SPEED_LENGTH 10
 
 class Memory : public ComponentBase {
 public:

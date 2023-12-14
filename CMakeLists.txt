@@ -4,7 +4,7 @@ project(PC_Winkle)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 99)
 
-option(ENABLE_TEST "Enable test" ON)
+option(ENABLE_TEST "Enable test" OFF)
 
 file(GLOB_RECURSE SRC
         src/*.h

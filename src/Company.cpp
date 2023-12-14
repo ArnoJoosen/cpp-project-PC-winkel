@@ -11,7 +11,7 @@
 
 #define ROW_WIDTH (MAX_CUSTOMER_ID_SIZE+MAX_NAME_LENGTH+MAX_LAST_NAME_LENGTH+MAX_CITY_NAME_LENGTH+ \
                     MAX_STREET_NAME_LENGTH+MAX_HOUSE_NUMBER_SIZE+MAX_POSTCODE_SIZE+MAX_CUSTOMERTYPE_SIZE+MAX_VAT_SIZE+\
-                    MAX_DISCOUNT_SIZE+MAX_YEARLY_BUY_SIZE+35)
+                    MAX_DISCOUNT_SIZE+MAX_YEARLY_BUY_SIZE+33)
 
 Company::Company() : Customer(Name_t(), Address_t(), 0, CustomerType_t::BEDRIJF), my_vat(""), my_discount(0), my_yearlyBuy(0) {}
 
@@ -39,7 +39,7 @@ void Company::printTopRow(bool indexed) {
 
     // Print horizontal line
     if (indexed)
-        std::cout << std::string(5+ROW_WIDTH, '-') << std::endl;
+        std::cout << std::string(5+3+ROW_WIDTH, '-') << std::endl;
     else
         std::cout << std::string(ROW_WIDTH, '-') << std::endl;
 }

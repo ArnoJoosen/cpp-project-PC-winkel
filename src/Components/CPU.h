@@ -9,6 +9,8 @@
 #include "ComponentBase.h"
 #include "ComponentView.h"
 #define MAX_SOCKET_LENGTH 20
+#define MAX_CORE_COUNT_LENGTH 10
+#define MAX_CLOCK_SPEED_LENGTH 12
 
 class CPU : public ComponentBase {
 public:
@@ -22,15 +24,15 @@ public:
         ComputerType_t computerType,
         unsigned int componentID,
         float clockSpeed,
-        int coreCount,
+        unsigned int coreCount,
         std::string socket);
 
     [[nodiscard]] inline float getClockSpeed() const { return my_clockSpeed; }
-    [[nodiscard]] inline int getCoreCount() const { return my_coreCount; }
+    [[nodiscard]] inline unsigned int getCoreCount() const { return my_coreCount; }
     [[nodiscard]] inline CapString<MAX_SOCKET_LENGTH> getSocket() const { return my_socket; }
 
     inline void setClockSpeed(float clockSpeed) { this->my_clockSpeed = clockSpeed; }
-    inline void setCoreCount(int coreCount) { this->my_coreCount = coreCount; }
+    inline void setCoreCount(unsigned int coreCount) { this->my_coreCount = coreCount; }
     inline void setSocket(const std::string& socket) { this->my_socket = socket; }
 
     static void printHeader(bool indexed = false);
@@ -48,7 +50,7 @@ private:
     static void filterSocket(ComponentView &view);
 
     float my_clockSpeed;
-    int my_coreCount;
+    unsigned int my_coreCount;
     CapString<MAX_SOCKET_LENGTH> my_socket;
 };
 

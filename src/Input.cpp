@@ -2,6 +2,7 @@
 // Created by arno on 5/12/23.
 //
 #include "Input.h"
+#include <string>
 
 template<typename T>
 T input();

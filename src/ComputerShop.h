@@ -24,9 +24,11 @@ public:
     [[nodiscard]] inline Address_t getAddress() const { return my_address; }
     [[nodiscard]] inline std::multimap<ComponentType_t, std::shared_ptr<ComponentBase>> getComponents() const { return my_components; }
     [[nodiscard]] inline std::vector<std::shared_ptr<Customer>> getCustomers() const { return my_customers; }
+    [[nodiscard]] inline std::string getWorkingDirectory() const { return my_workingDirectory; }
 
     inline void setName(const std::string& name) { my_name = name; }
     inline void setAddress(const Address_t& address) { my_address = address; }
+    inline void setWorkingDirectory(const std::string& workingDirectory) { my_workingDirectory = workingDirectory; }
 
     void addComponent(const std::shared_ptr<ComponentBase>& component);
     void addCustomer(const std::shared_ptr<Customer>& customer);

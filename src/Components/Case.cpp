@@ -7,7 +7,9 @@
 #include <iostream>
 #include <iomanip>
 #include "ComponentView.h"
-
+#define ROW_WIDTH (MAX_COMPONENT_ID_LENGTH + MAX_MANUFACTURER_LENGTH + MAX_COMPONENT_NAME_LENGTH + MAX_PRICE_LENGTH + \
+                  MAX_STOCK_LENGTH + MAX_COMPONENT_TYPE_LENGTH + MAX_COMPUTER_TYPE_LENGTH + MAX_COLOR_LENGTH +        \
+                  MAX_MOTHERBOARD_SIZE_LENGTH+MAX_MATERIAL_LENGTH+30)
 
 Case::Case() : ComponentBase("", "", 0, 0, ComponentType_t::CASE, ComputerType_t::DESKTOP, 0), my_color(""),
                MotherboardSize(""), my_material("") {}
@@ -26,29 +28,29 @@ void Case::printHeader(bool indexed) {
         std::cout << std::setw(5) << "Index" << " | ";
 
     // Print header columns
-    std::cout   << std::setw(10) << "ID" << " | "
+    std::cout   << std::setw(MAX_COMPONENT_ID_LENGTH) << "ID" << " | "
                 << std::setw(MAX_MANUFACTURER_LENGTH) << "Manufacturer" << " | "
                 << std::setw(MAX_COMPONENT_NAME_LENGTH) << "Name" << " | "
-                << std::setw(10) << "Price" << " | "
-                << std::setw(10) << "Stock" << " | "
-                << std::setw(11) << "Type" << " | "
-                << std::setw(15) << "Computer Type" << " | "
-                << std::setw(10) << "Color" << " | "
-                << std::setw(15) << "MotherboardSize" << " | "
-                << std::setw(15) << "Material" << " | " << std::endl;
+                << std::setw(MAX_PRICE_LENGTH) << "Price" << " | "
+                << std::setw(MAX_STOCK_LENGTH) << "Stock" << " | "
+                << std::setw(MAX_COMPONENT_TYPE_LENGTH) << "Type" << " | "
+                << std::setw(MAX_COMPUTER_TYPE_LENGTH) << "Computer Type" << " | "
+                << std::setw(MAX_COLOR_LENGTH) << "Color" << " | "
+                << std::setw(MAX_MOTHERBOARD_SIZE_LENGTH) << "MotherboardSize" << " | "
+                << std::setw(MAX_MATERIAL_LENGTH) << "Material" << " | " << std::endl;
 
     // Print horizontal line
     if (indexed)
-        std::cout << std::string(5+10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15+24, '-') << std::endl; // TODO add clock speed and core count
+        std::cout << std::string(5+3+ROW_WIDTH, '-') << std::endl;
     else
-        std::cout << std::string(10+MAX_MANUFACTURER_LENGTH+MAX_COMPONENT_NAME_LENGTH+10+10+11+15+21, '-') << std::endl; // TODO add clock speed and core count
+        std::cout << std::string(ROW_WIDTH, '-') << std::endl;
 }
 
 void Case::printRow(int index) const {
     ComponentBase::printBase(index);
-    std::cout   << std::setw(10) << my_color.c_str() << " | "
-                << std::setw(15) << MotherboardSize.c_str() << " | "
-                << std::setw(15) << my_material.c_str() << " | ";
+    std::cout   << std::setw(MAX_COLOR_LENGTH) << my_color.c_str() << " | "
+                << std::setw(MAX_MOTHERBOARD_SIZE_LENGTH) << MotherboardSize.c_str() << " | "
+                << std::setw(MAX_MATERIAL_LENGTH) << my_material.c_str() << " | ";
 }
 
 void Case::update() {

@@ -10,6 +10,8 @@
 #include "ComponentView.h"
 #include "ComponentBase.h"
 #define MAX_SLOT_STORAGE_LENGTH 20
+#define MAX_STORAGE_SPEED_LENGTH 10
+#define MAX_STORAGE_SIZE_LENGTH 10
 
 class Storage : public ComponentBase {
 public:

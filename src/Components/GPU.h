@@ -7,6 +7,8 @@
 #include "ComponentBase.h"
 #include <memory>
 #include "ComponentView.h"
+#define MAX_GPU_POWER_LENGTH 5
+#define MAX_GPU_BUS_SPEED_LENGTH 9
 
 class GPU : public ComponentBase {
 public:
