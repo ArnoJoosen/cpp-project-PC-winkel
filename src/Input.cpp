@@ -63,14 +63,14 @@ unsigned int input<unsigned int>() {
 
 int inputRange(int min, int max) {
     int num;
-    while (true) {
+    do {
         num = input<int>();
         if (num < min || num > max) {
             std::cout << "Invalid input" << std::endl;
             continue;
         }
-        return num;
-    }
+    } while (num < min || num > max);
+    return num;
 }
 
 bool yesNoQuestion(const char* question) {
@@ -80,8 +80,6 @@ bool yesNoQuestion(const char* question) {
         std::getline(std::cin, input);
         if (input == "y")
             return true;
-        else if (input == "n")
-            return false;
         else
             std::cout << "Invalid input. Try again: ";
     } while (input != "n");

@@ -29,6 +29,6 @@ enum class Action_t{
 
 AccessLevel_t login();
 
-Action_t chooseAction(AccessLevel_t accessLevel) ;
+Action_t chooseAction(AccessLevel_t accessLevel);
 
 #endif //PC_WINKLE_MENUS_H

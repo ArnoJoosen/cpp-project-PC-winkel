@@ -19,7 +19,7 @@ void Invoice::calculatePrice() {
             totalPrice += component_ptr->getPrice();
             component_ptr->setStock(component_ptr->getStock()-1);
         } else
-            std::cout << "Component no longer exists" << std::endl;
+            std::cout << "Component no longer exists" << '\n';
     }
     if (auto customer_ptr = my_customer.lock()) {
         if (customer_ptr->getType() == CustomerType_t::BEDRIJF) {
@@ -39,12 +39,12 @@ void Invoice::print() const {
     for (const auto& component : my_components) {
         if (auto component_ptr = component.lock()) { // check if component still exists
             component_ptr->printBase();
-            std::cout << std::endl;
+            std::cout << '\n';
         }
         else
-            std::cout << "Component no longer exists" << std::endl;
+            std::cout << "Component no longer exists" << '\n';
     }
-    std::cout << "Total price: " << totalPrice << " €" << std::endl;
+    std::cout << "Total price: " << totalPrice << " €" << '\n';
 }
 
 void Invoice::save(const std::string &pwd) const {
@@ -52,22 +52,22 @@ void Invoice::save(const std::string &pwd) const {
     if (!file.is_open()) {
         throw std::runtime_error("Kan het bestand niet openen");
     }
-    file << "Factuur: " << my_invoiceID << "\n";
+    file << "Factuur: " << my_invoiceID << '\n';
 
     file << "Klant: " << my_customer.lock()->getCustomerID() << my_customer.lock()->getName().firstName.c_str()
-         << " " << my_customer.lock()->getName().lastName.c_str() << "\n";
+         << " " << my_customer.lock()->getName().lastName.c_str() << '\n';
 
     file << "Adres: " << my_customer.lock()->getAddress().city.c_str() << ", " << my_customer.lock()->getAddress().street.c_str()
-         << " " << my_customer.lock()->getAddress().houseNumber << " " << my_customer.lock()->getAddress().postcode << "\n";
+         << " " << my_customer.lock()->getAddress().houseNumber << " " << my_customer.lock()->getAddress().postcode << '\n';
 
-    file << "Componenten: " << "\n";
+    file << "Componenten: " << '\n';
     for (const auto& component : my_components) {
         if (auto component_ptr = component.lock()) { // check if component still exists
-            file << "\t" << component_ptr->getName().c_str() << " " << component_ptr->getPrice() << " €" << "\n";
+            file << "\t" << component_ptr->getName().c_str() << " " << component_ptr->getPrice() << " €" << '\n';
         }
         else
-            std::cout << "Component no longer exists" << "\n";
+            std::cout << "Component no longer exists" << '\n';
     }
 
-    file << "Totaal: " << totalPrice << " €" << std::endl;
+    file << "Totaal: " << totalPrice << " €" << '\n';
 }

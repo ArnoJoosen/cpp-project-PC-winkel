@@ -42,7 +42,6 @@ Action_t chooseAction(AccessLevel_t accessLevel) {
     if (accessLevel == AccessLevel_t::Employee)
         std::cout << "\t 4. Build system" << "\n"
         << "\t 5. Exit" << "\n"
-        << "\t 6. Logout" << "\n"
         << "\t 6. Logout" << std::endl;
 
     while (true) {
@@ -68,7 +67,6 @@ Action_t chooseAction(AccessLevel_t accessLevel) {
                     return Action_t::AddComponent;
                 else {
                     return Action_t::Logout;
-                    continue;
                 }
             case 7:
                 if (accessLevel == AccessLevel_t::Owner)
