@@ -22,6 +22,7 @@ enum class Action_t{
     AddComponent,
     RemoveComponent,
     UpdateComponent,
+    UpdateComponentStock,
 
     Logout,
     Exit

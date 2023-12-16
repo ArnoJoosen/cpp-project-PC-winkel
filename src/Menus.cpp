@@ -35,8 +35,9 @@ Action_t chooseAction(AccessLevel_t accessLevel) {
         << "\t 6. Add component" << "\n"
         << "\t 7. Remove component" << "\n"
         << "\t 8. Update component" << "\n"
-        << "\t 9. Exit" << "\n"
-        << "\t 10. Logout" << std::endl;
+        << "\t 9. Update component stock" << "\n"
+        << "\t 10. Exit" << "\n"
+        << "\t 11. Logout" << std::endl;
 
     // Employee actions
     if (accessLevel == AccessLevel_t::Employee)
@@ -85,13 +86,20 @@ Action_t chooseAction(AccessLevel_t accessLevel) {
                 }
             case 9:
                 if (accessLevel == AccessLevel_t::Owner)
-                    return Action_t::Exit;
+                    return Action_t::UpdateComponentStock;
                 else {
                     std::cout << "Invalid action" << std::endl;
                     continue;
                 }
             case 10:
                 if (accessLevel == AccessLevel_t::Owner)
+                    return Action_t::Exit;
+                else {
+                    std::cout << "Invalid action" << std::endl;
+                    continue;
+                }
+            case 11:
+                if (accessLevel == AccessLevel_t::Employee)
                     return Action_t::Logout;
                 else {
                     std::cout << "Invalid action" << std::endl;

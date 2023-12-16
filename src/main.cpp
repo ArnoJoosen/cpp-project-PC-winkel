@@ -4,6 +4,7 @@
 #include "Menus.h"
 #include "ComputerShop.h"
 #include "FileSystem.h"
+#include "Input.h"
 
 int main(int argc, char** argv){
     ComputerShop shop("ComputerShop1", {"bb", "aa", 15, 1651}, "./data");
@@ -91,6 +92,17 @@ int main(int argc, char** argv){
             case Action_t::Exit:
                 std::cout << "Exiting..." << std::endl;
                 break;
+            case Action_t::UpdateComponentStock:
+                try {
+                    auto c = shop.searchComponent();
+                    std::cout << "Current stock: " << c.lock()->getStock() << std::endl;
+                    std::cout << "New stock: ";
+                    int newStock = input<int>();
+                    c.lock()->setStock(newStock);
+                }
+                catch (const std::exception& e) {
+                    std::cout << e.what() << std::endl;
+                }
         }
     } while (action != Action_t::Exit);
     return 0;
